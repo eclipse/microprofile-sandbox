@@ -2,3 +2,7 @@
 *.iml
 .metadata
 .settings
+target/
+.classpath
+.gitignore
+.project
