@@ -26,44 +26,46 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-/*
- * JBoss, Home of Professional Open Source
- * Copyright 2012, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags.
- * See the copyright.txt in the distribution for a
- * full listing of individual contributors.
- * This copyrighted material is made available to anyone wishing to use,
- * modify, copy, or redistribute it subject to the terms and conditions
- * of the GNU Lesser General Public License, v. 2.1.
- * This program is distributed in the hope that it will be useful, but WITHOUT A
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
- * PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details.
- * You should have received a copy of the GNU Lesser General Public License,
- * v.2.1 along with this distribution; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA  02110-1301, USA.
+package org.eclipse.microprofile.lra.client;
+
+/**
+ * Data object carrying information about instance
+ * of LRA (specified by lra id) and it's status.
  */
-package org.eclipse.microprofile.sra.client.txstatusext;
+public interface LRAInfo {
 
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlType;
+    /**
+     * @return  lra id that lra instance is identified by
+     */
+    String getLraId();
 
-@XmlType
-@XmlEnum(String.class)
-public enum TransactionStatusElement {
-    TransactionRollbackOnly,
-    TransactionRollingBack,
-    TransactionRolledBack,
-    TransactionCommitting,
-    TransactionCommitted,
-    TransactionHeuristicRollback,
-    TransactionHeuristicCommit,
-    TransactionHeuristicHazard,
-    TransactionHeuristicMixed,
-    TransactionPreparing,
-    TransactionPrepared,
-    TransactionActive,
-    TransactionCommittedOnePhase,
-    TransactionReadOnly,
-    TransactionStatusNone
+    /**
+     * @return  lra client id, TODO: what is the purpose of this id?
+     */
+    String getClientId();
+
+    /**
+     * @return  true if lra was succesfully completed, false otherwise
+     */
+    boolean isComplete();
+
+    /**
+     * @return  true if lra was compensated, false otherwise
+     */
+    boolean isCompensated();
+
+    /**
+     * @return  true if recovery is in progress on the lra, false otherwise
+     */
+    boolean isRecovering();
+
+    /**
+     * @return  true if lra is in active state right now, false otherwise
+     */
+    boolean isActive();
+
+    /**
+     * @return  true if lra is top level (not nested), false otherwise
+     */
+    boolean isTopLevel();
 }

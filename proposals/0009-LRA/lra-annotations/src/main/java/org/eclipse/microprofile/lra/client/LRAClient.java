@@ -1,23 +1,30 @@
 /*
- * JBoss, Home of Professional Open Source.
- * Copyright 2017, Red Hat, Inc., and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
+ * Copyright (c) 2007, Eclipse Foundation, Inc. and its licensors.
  *
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
+ * All rights reserved.
  *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ * Neither the name of the Eclipse Foundation, Inc. nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
+ * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package org.eclipse.microprofile.lra.client;
 
@@ -29,7 +36,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-public interface LRAClientAPI {
+public interface LRAClient {
 
     /**
      * Start a new LRA
@@ -56,7 +63,7 @@ public interface LRAClientAPI {
      * @param lraId The unique identifier of the LRA (required)
      * @return the response MAY contain the final status of the LRA as reported by
      * {@link CompensatorStatus#name()}. If the final status is not returned the client can still discover
-     * the final state using the {@link LRAClientAPI#getStatus(URL)} method
+     * the final state using the {@link LRAClient#getStatus(URL)} method
      * @throws GenericLRAException Communication error (the reason is availalbe via the
      * {@link GenericLRAException#getStatusCode()} method
      */
@@ -72,7 +79,7 @@ public interface LRAClientAPI {
      *
      * @return the response MAY contain the final status of the LRA as reported by
      * {@link CompensatorStatus#name()}. If the final status is not returned the client can still discover
-     * the final state using the {@link LRAClientAPI#getStatus(URL)} method
+     * the final state using the {@link LRAClient#getStatus(URL)} method
      * @throws GenericLRAException Communication error (the reason is availalbe via the
      * {@link GenericLRAException#getStatusCode()} method
      */
@@ -80,10 +87,10 @@ public interface LRAClientAPI {
 
     /**
      * Lookup active LRAs
-     * 
+     *
      * @throws GenericLRAException on error
      */
-    List<LRAStatus> getActiveLRAs() throws GenericLRAException;
+    List<LRAInfo> getActiveLRAs() throws GenericLRAException;
 
     /**
      * Returns all LRAs
@@ -93,7 +100,7 @@ public interface LRAClientAPI {
      * @return List<LRA>
      * @throws GenericLRAException on error
      */
-    List<LRAStatus> getAllLRAs() throws GenericLRAException;
+    List<LRAInfo> getAllLRAs() throws GenericLRAException;
 
     /**
      * List recovering Long Running Actions
@@ -104,7 +111,7 @@ public interface LRAClientAPI {
      *
      * @throws GenericLRAException on error
      */
-    List<LRAStatus> getRecoveringLRAs() throws GenericLRAException;
+    List<LRAInfo> getRecoveringLRAs() throws GenericLRAException;
 
     /**
      * Lookup the status of an LRA
@@ -119,8 +126,8 @@ public interface LRAClientAPI {
 
     /**
      * Indicates whether an LRA is active. The same information can be obtained via a call to
-     * {@link LRAClientAPI#getStatus(URL)}.
-     * 
+     * {@link LRAClient#getStatus(URL)}.
+     *
      * @param lraId The unique identifier of the LRA (required)
      * @throws GenericLRAException if the request to the coordinator failed.
      * {@link GenericLRAException#getCause()} and/or {@link GenericLRAException#getStatusCode()}
@@ -130,8 +137,8 @@ public interface LRAClientAPI {
 
     /**
      * Indicates whether an LRA was compensated. The same information can be obtained via a call to
-     * {@link LRAClientAPI#getStatus(URL)}.
-     * 
+     * {@link LRAClient#getStatus(URL)}.
+     *
      * @param lraId The unique identifier of the LRA (required)
      * @throws GenericLRAException if the request to the coordinator failed.
      * {@link GenericLRAException#getCause()} and/or {@link GenericLRAException#getStatusCode()}
@@ -141,8 +148,8 @@ public interface LRAClientAPI {
 
     /**
      * Indicates whether an LRA is complete. The same information can be obtained via a call to
-     * {@link LRAClientAPI#getStatus(URL)}.
-     * 
+     * {@link LRAClient#getStatus(URL)}.
+     *
      * @param lraId The unique identifier of the LRA (required)
      * @throws GenericLRAException if the request to the coordinator failed.
      * {@link GenericLRAException#getCause()} and/or {@link GenericLRAException#getStatusCode()}
@@ -152,7 +159,7 @@ public interface LRAClientAPI {
     /**
      * A participant can join with the LRA at any time prior to the completion of an activity.
      * The participant provides end points on which it will listen for LRA related events.
-     * 
+     *
      * @param lraId   The unique identifier of the LRA (required) to enlist with
      * @param timelimit The time limit (in seconds) that the participant can guarantee that it
      *                can compensate the work performed while the LRA is active.
@@ -174,7 +181,7 @@ public interface LRAClientAPI {
     String joinLRA(URL lraId, Long timelimit, String body, String compensatorData) throws GenericLRAException;
 
     /**
-     * Similar to {@link LRAClientAPI#joinLRA(URL, Long, String, String)} except that the various
+     * Similar to {@link LRAClient#joinLRA(URL, Long, String, String)} except that the various
      * participant URLs are passed in explicitly.
      */
     String joinLRA(URL lraId, Long timelimit,
@@ -183,7 +190,7 @@ public interface LRAClientAPI {
 
     /**
      * Join an LRA passing in a class that will act as the participant.
-     * Similar to {@link LRAClientAPI#joinLRA(URL, Long, String, String)} but the various participant URLs
+     * Similar to {@link LRAClient#joinLRA(URL, Long, String, String)} but the various participant URLs
      * are expressed as CDI annotations on the passed in resource class.
      *
      * @param lraId The unique identifier of the LRA (required)
@@ -220,7 +227,7 @@ public interface LRAClientAPI {
 
     /**
      * A Compensator can resign from the LRA at any time prior to the completion of an activity
-     * 
+     *
      * @param lraId The unique identifier of the LRA (required)
      * @param body  (optional)
      * @throws GenericLRAException if the request to the coordinator failed.
