@@ -4,6 +4,6 @@ This repository is a sandbox for incubating ideas and code examples that will ev
 
 Feel free to experiment with anything and share your code and documents in this repo via pull requests. Open pull requests also allow discussion about particular sections of code or documents so they should be left open for a while to allow the discussion.
 
------
+'''
 
 If you need to accept and merge a pull request, or you feel that an idea is mature and deserves a separate repository, contact one of the https://projects.eclipse.org/projects/technology.microprofile/who[MicroProfile project committers] for guidance. They can be contacted either directly or on the https://groups.google.com/forum/#!forum/microprofile[MicroProfile mailing list].
