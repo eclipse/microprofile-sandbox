@@ -9,7 +9,20 @@ import java.util.concurrent.CompletionStage;
  */
 public interface Envelope<T> {
 
+  /**
+   * The payload for this message.
+   */
   T getPayload();
 
-  CompletionStage<Void> commit();
+  /**
+   * Acknowledge this message.
+   */
+  CompletionStage<Void> ack();
+
+  /**
+   * Get the ACK signal for this message.
+   *
+   * This should be emitted from a processor processing messages.
+   */
+  Ack getAck();
 }

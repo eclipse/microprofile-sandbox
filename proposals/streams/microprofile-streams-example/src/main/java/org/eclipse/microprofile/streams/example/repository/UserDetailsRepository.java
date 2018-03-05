@@ -2,10 +2,15 @@ package org.eclipse.microprofile.streams.example.repository;
 
 import com.datastax.oss.driver.api.core.CqlIdentifier;
 import com.datastax.oss.driver.api.core.CqlSession;
+import com.datastax.oss.driver.api.core.cql.BatchStatement;
+import com.datastax.oss.driver.api.core.cql.BatchType;
+import com.datastax.oss.driver.api.core.cql.DefaultBatchType;
 import com.datastax.oss.driver.api.core.cql.PreparedStatement;
+import com.datastax.oss.protocol.internal.ProtocolConstants;
 import org.eclipse.microprofile.streams.example.models.UserDetails;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 @ApplicationScoped
@@ -37,5 +42,25 @@ public class UserDetailsRepository {
           .setString("email", userDetails.getEmail()))
     ).thenApply(resultSet -> null);
   }
+
+  /**
+   * Inserts many user details using a batch statement.
+   *
+   * This probably doesn't perform any better than doing it one at a time, but in some databases it might.
+   */
+  public CompletionStage<Void> updateManyUserDetails(Iterable<UserDetails> userDetails) {
+    return updateStatement.thenCompose(statement -> {
+          BatchStatement batch = BatchStatement.newInstance(DefaultBatchType.UNLOGGED);
+          for (UserDetails details : userDetails) {
+            batch = batch.add(statement.bind()
+                .setUuid("id", details.getId())
+                .setString("name", details.getName())
+                .setString("email", details.getEmail()));
+          }
+          return session.executeAsync(batch);
+        }).thenApply(resultSet -> null);
+  }
+
+
 
 }

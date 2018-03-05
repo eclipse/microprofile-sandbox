@@ -1,5 +1,7 @@
 package org.eclipse.microprofile.streams.impl;
 
+import akka.Done;
+import akka.NotUsed;
 import akka.actor.*;
 import akka.kafka.ConsumerMessage;
 import akka.kafka.ConsumerSettings;
@@ -7,11 +9,13 @@ import akka.kafka.Subscriptions;
 import akka.kafka.javadsl.Consumer;
 import akka.pattern.Backoff;
 import akka.pattern.BackoffOptions;
+import akka.pattern.PatternsCS;
 import akka.stream.Materializer;
-import akka.stream.javadsl.JavaFlowSupport;
+import akka.stream.javadsl.Sink;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.eclipse.microprofile.streams.Ack;
 import org.eclipse.microprofile.streams.Envelope;
 import scala.concurrent.duration.Duration;
 
@@ -22,8 +26,8 @@ import javax.json.bind.JsonbBuilder;
 import java.io.ByteArrayInputStream;
 import java.util.Map;
 import java.util.concurrent.CompletionStage;
-import java.util.concurrent.Flow;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 /**
  * This starts subscribers.
@@ -46,8 +50,15 @@ public class StreamManager {
     this.materializer = materializer;
   }
 
-  public <T> RunningStream startSubscriber(IngestSubscriber<T> ingestSubscriber, T t) {
+  public <T> RunningStream startStream(StreamDescriptor<? super T> descriptor, T t) {
+    if (descriptor instanceof StreamDescriptor.FlowIncomingDescriptor) {
+      return startStream((StreamDescriptor.FlowIncomingDescriptor<? super T>) descriptor, t);
+    } else {
+      throw new UnsupportedOperationException("Unknown descriptor: " + descriptor);
+    }
+  }
 
+  private <T> RunningStream startStream(StreamDescriptor.FlowIncomingDescriptor<? super T> descriptor, T t) {
     ConsumerSettings<String, Object> consumerSettings =
         ConsumerSettings.create(system,
             // todo allow custom deserializers other than jsonb
@@ -58,7 +69,7 @@ public class StreamManager {
 
               @Override
               public Object deserialize(String s, byte[] bytes) {
-                return jsonb.fromJson(new ByteArrayInputStream(bytes), ingestSubscriber.getMessageType());
+                return jsonb.fromJson(new ByteArrayInputStream(bytes), descriptor.ingressMessageType());
               }
 
               @Override
@@ -73,7 +84,7 @@ public class StreamManager {
             .withProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
     Props streamSupervisor = Props.create(StreamSupervisor.class,
-        () -> new StreamSupervisor<>(materializer, consumerSettings, ingestSubscriber, t));
+        () -> new StreamSupervisor<>(materializer, consumerSettings, descriptor, t));
 
     // todo make exponential backoff parameters configurable
     BackoffOptions options = Backoff.onStop(streamSupervisor, "stream",
@@ -81,40 +92,49 @@ public class StreamManager {
         Duration.create(30, TimeUnit.SECONDS),
         0.2);
 
-    // todo name the actor something sensible
-    ActorRef actor = system.actorOf(options.props());
+    ActorRef actor = system.actorOf(options.props(), descriptor.id());
     return () -> actor.tell(PoisonPill.getInstance(), ActorRef.noSender());
   }
 
   private static class StreamSupervisor<T> extends AbstractActor {
     private final Materializer materializer;
     private final ConsumerSettings<String, Object> consumerSettings;
-    private final IngestSubscriber<T> ingestSubscriber;
+    private final StreamDescriptor.FlowIncomingDescriptor<T> descriptor;
     private final T instance;
     private Consumer.Control control;
+    private Function<Ack, CompletionStage<Void>> ackFunction;
 
     public StreamSupervisor(Materializer materializer, ConsumerSettings<String, Object> consumerSettings,
-        IngestSubscriber<T> ingestSubscriber, T instance) {
+        StreamDescriptor.FlowIncomingDescriptor<T> descriptor, T instance) {
       this.materializer = materializer;
       this.consumerSettings = consumerSettings;
-      this.ingestSubscriber = ingestSubscriber;
+      this.descriptor = descriptor;
       this.instance = instance;
     }
 
     @Override
     public void preStart() throws Exception {
-      Flow.Subscriber<Envelope<Object>> subscriber =
-          (Flow.Subscriber<Envelope<Object>>) ingestSubscriber.subscriber(instance);
+      akka.stream.javadsl.Flow<Envelope<Object>, Ack, Function<Ack, CompletionStage<Void>>> subscriber =
+          (akka.stream.javadsl.Flow) descriptor.ingressFlow(instance);
 
-      control = Consumer.committableSource(consumerSettings, Subscriptions.topics(ingestSubscriber.getTopic()))
-          .<Envelope<Object>>map(KafkaEnvelope::new)
-          .to(JavaFlowSupport.Sink.fromSubscriber(subscriber))
-          .run(materializer);
+      CompletionStage<Done> complete = Consumer.committableSource(consumerSettings, Subscriptions.topics(descriptor.ingressTopic()))
+          .<Envelope<Object>>map(message -> new KafkaEnvelope<>(message, ackFunction))
+          .viaMat(subscriber, (control, ack) -> {
+            this.control = control;
+            this.ackFunction = ack;
+            return NotUsed.getInstance();
+          }).mapAsync(1, ack -> {
+            if (ack instanceof KafkaAck) {
+              return ((KafkaAck) ack).getMessage()
+                  .committableOffset().commitJavadsl().thenApply(d -> Done.getInstance());
+            } else {
+              throw new IllegalArgumentException("Don't know how to handle ack of type " + ack.getClass() +
+                  ". Kafka consumers must only emit acks returned by the passed in Envelope.");
+            }
+          })
+          .runWith(Sink.ignore(), materializer);
 
-      control.isShutdown().whenComplete((done, error) -> {
-        // todo handle error
-        self().tell(PoisonPill.getInstance(), ActorRef.noSender());
-      });
+      PatternsCS.pipe(complete, context().dispatcher()).pipeTo(self(), self());
     }
 
     @Override
@@ -124,26 +144,61 @@ public class StreamManager {
 
     @Override
     public Receive createReceive() {
-      return emptyBehavior();
+      return receiveBuilder()
+          .match(Status.Failure.class, failure -> {
+
+            if (failure.cause() instanceof Exception) {
+              throw (Exception) failure.cause();
+            } else {
+              throw new Exception(failure.cause());
+            }
+
+          }).match(Done.class, done -> {
+
+            context().stop(self());
+
+          }).build();
     }
 
+    private static class KafkaEnvelope<T> implements Envelope<T> {
+      private final ConsumerMessage.CommittableMessage<?, T> message;
+      private final Function<Ack, CompletionStage<Void>> ackFunction;
+
+      public KafkaEnvelope(ConsumerMessage.CommittableMessage<?, T> message,
+          Function<Ack, CompletionStage<Void>> ackFunction) {
+        this.message = message;
+        this.ackFunction = ackFunction;
+      }
+
+      @Override
+      public T getPayload() {
+        return message.record().value();
+      }
+
+      @Override
+      public CompletionStage<Void> ack() {
+        return ackFunction.apply(getAck());
+      }
+
+      @Override
+      public Ack getAck() {
+        return new KafkaAck(message);
+      }
+    }
   }
 
-  private static class KafkaEnvelope<T> implements Envelope<T> {
-    private final ConsumerMessage.CommittableMessage<?, T> message;
+  private static class KafkaAck implements Ack {
 
-    public KafkaEnvelope(ConsumerMessage.CommittableMessage<?, T> message) {
+    private final ConsumerMessage.CommittableMessage<?, ?> message;
+
+    public KafkaAck(ConsumerMessage.CommittableMessage<?, ?> message) {
       this.message = message;
     }
 
-    @Override
-    public T getPayload() {
-      return message.record().value();
-    }
-    @Override
-    public CompletionStage<Void> commit() {
-      return message.committableOffset().commitJavadsl().thenApply(done -> null);
+    public ConsumerMessage.CommittableMessage<?, ?> getMessage() {
+      return message;
     }
   }
+
 
 }
