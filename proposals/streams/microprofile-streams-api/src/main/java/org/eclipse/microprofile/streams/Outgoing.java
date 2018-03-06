@@ -6,14 +6,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Used to signify a subscriber.
+ * Used to signify a publisher.
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Incoming {
-
-  /**
-   * The topic to be ingested.
-   */
+public @interface Outgoing {
   String topic();
 }

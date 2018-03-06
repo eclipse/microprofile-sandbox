@@ -1,6 +1,7 @@
 package org.eclipse.microprofile.streams;
 
 import java.util.concurrent.CompletionStage;
+import java.util.function.Supplier;
 
 /**
  * A message envelope.
@@ -25,4 +26,23 @@ public interface Envelope<T> {
    * This should be emitted from a processor processing messages.
    */
   Ack getAck();
+
+  static <T> Envelope<T> ackableEnvelope(T payload, Supplier<CompletionStage<Void>> ack) {
+    return new Envelope<T>() {
+      @Override
+      public T getPayload() {
+        return payload;
+      }
+
+      @Override
+      public CompletionStage<Void> ack() {
+        return ack.get();
+      }
+
+      @Override
+      public Ack getAck() {
+        return new Ack() {};
+      }
+    };
+  }
 }

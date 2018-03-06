@@ -6,8 +6,10 @@ import akka.stream.javadsl.*;
 import org.eclipse.microprofile.streams.Ack;
 import org.eclipse.microprofile.streams.Envelope;
 import org.eclipse.microprofile.streams.Incoming;
+import org.eclipse.microprofile.streams.Outgoing;
 import org.jboss.weld.util.reflection.Reflections;
 import org.reactivestreams.Processor;
+import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 
 import javax.enterprise.context.spi.CreationalContext;
@@ -15,6 +17,7 @@ import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.*;
 import java.lang.reflect.Type;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Flow;
@@ -44,16 +47,21 @@ public class AkkaKafkaStreamsCdiExtension implements Extension {
   }
 
   private <T> List<StreamDescriptor<? super T>> locateStreams(AnnotatedType<T> type) {
-    List<StreamDescriptor<? super T>> ingests = new ArrayList<>();
+    List<StreamDescriptor<? super T>> streams = new ArrayList<>();
 
-    for (AnnotatedMethod<? super T> method: type.getMethods()) {
+    for (AnnotatedMethod<? super T> method : type.getMethods()) {
       Incoming incoming = method.getAnnotation(Incoming.class);
-      if (incoming != null) {
-        ingests.add(readSubscriberMethod(incoming, method));
+      Outgoing outgoing = method.getAnnotation(Outgoing.class);
+      if (incoming != null && outgoing != null) {
+        // todo handle processor methods
+      } else if (incoming != null) {
+        streams.add(readSubscriberMethod(incoming, method));
+      } else if (outgoing != null) {
+        streams.add(readPublisherMethod(outgoing, method));
       }
     }
 
-    return ingests;
+    return streams;
   }
 
   /**
@@ -199,8 +207,8 @@ public class AkkaKafkaStreamsCdiExtension implements Extension {
         stream = instance ->
             oneToOneAckFlow(
                 akka.stream.javadsl.Flow.<Envelope<M>>create()
-                  .map(Envelope::getPayload)
-                  .viaMat(actualTypedStream.apply(instance), Keep.right())
+                    .map(Envelope::getPayload)
+                    .viaMat(actualTypedStream.apply(instance), Keep.right())
             );
 
       }
@@ -213,20 +221,112 @@ public class AkkaKafkaStreamsCdiExtension implements Extension {
       }
 
       @Override
-      public String ingressTopic() {
+      public String incomingTopic() {
         return incoming.topic();
       }
 
       @Override
-      public Type ingressMessageType() {
+      public Type incomingMessageType() {
         return actualInType;
       }
 
       @Override
-      public akka.stream.javadsl.Flow<Envelope<?>, Ack, Function<Ack, CompletionStage<Void>>> ingressFlow(T instance) throws Exception {
+      public akka.stream.javadsl.Flow<Envelope<?>, Ack, Function<Ack, CompletionStage<Void>>> incomingFlow(T instance) throws Exception {
         return (akka.stream.javadsl.Flow) stream.apply(instance);
       }
     };
+  }
+
+  /**
+   * The M type variable is a lie because that type is completely unknown at the point of invocation of this method,
+   * but it does allow us to gain some type-safety below.
+   */
+  private <T, M> StreamDescriptor.OutgoingDescriptor<T> readPublisherMethod(Outgoing outgoing, AnnotatedMethod<T> method) {
+    // Probably shouldn't use Weld reflections utilities here... but for a PoC maybe it's ok.
+
+    String methodName = method.getJavaMember().getName();
+    Type rawReturnType = Reflections.getRawType(method.getBaseType());
+
+    akka.japi.Function<T, Source<?, ?>> rawStream;
+    Type outType;
+
+    if (rawReturnType.equals(Flow.Publisher.class)) {
+      Type[] publisherTypes = getReturnTypeArguments(method);
+      rawStream = instance -> JavaFlowSupport.Source.fromPublisher((Flow.Publisher) method.getJavaMember().invoke(instance));
+      outType = publisherTypes[0];
+    } else if (rawReturnType.equals(Publisher.class)) {
+      Type[] publisherTypes = getReturnTypeArguments(method);
+      rawStream = instance -> Source.fromPublisher((Publisher) method.getJavaMember().invoke(instance));
+      outType = publisherTypes[0];
+    } else if (rawReturnType.equals(Source.class)) {
+      Type[] sourceTypes = getReturnTypeArguments(method);
+      rawStream = instance -> (Source) method.getJavaMember().invoke(instance);
+      outType = sourceTypes[0];
+    } else {
+      throw new DefinitionException("Outgoing method " + methodName +
+          " does not return a Publisher or Source");
+    }
+
+    Type actualOutType;
+    akka.japi.Function<T, Source<Envelope<M>, ?>> actualTypedStream;
+
+    if (Reflections.getRawType(outType).equals(Envelope.class)) {
+      Type[] envelopeArguments = getTypeArguments(outType, () -> "Envelopes published by " + methodName);
+      actualOutType = envelopeArguments[0];
+      actualTypedStream = (akka.japi.Function) rawStream;
+    } else {
+      actualOutType = outType;
+      actualTypedStream = instance ->
+          rawStream.apply(instance).map(payload -> new NoopEnvelope<>((M) payload));
+    }
+
+    return new StreamDescriptor.SourceOutgoingDescriptor<T>() {
+      @Override
+      public String id() {
+        return "stream-" + method.getDeclaringType().getJavaClass().getSimpleName() + "-" + methodName;
+      }
+
+      @Override
+      public String outgoingTopic() {
+        return outgoing.topic();
+      }
+
+      @Override
+      public Type outgoingMessageType() {
+        return actualOutType;
+      }
+
+      @Override
+      public Source<Envelope<?>, ?> outgoingSource(T instance) throws Exception {
+        return (Source) actualTypedStream.apply(instance);
+      }
+    };
+  }
+
+  private static class NoopEnvelope<T> implements Envelope<T> {
+    private final T payload;
+
+    public NoopEnvelope(T payload) {
+      this.payload = payload;
+    }
+
+    @Override
+    public T getPayload() {
+      return (T) payload;
+    }
+
+    @Override
+    public CompletionStage<Void> ack() {
+      return CompletableFuture.completedFuture(null);
+    }
+
+    @Override
+    public Ack getAck() {
+      return new NoopAck();
+    }
+
+    private static class NoopAck implements Ack {
+    }
   }
 
   private <T, R> akka.stream.javadsl.Flow<Envelope<T>, Ack, Function<Ack, CompletionStage<Void>>> oneToOneAckFlow(
@@ -260,13 +360,13 @@ public class AkkaKafkaStreamsCdiExtension implements Extension {
 
   private Source<Ack, Function<Ack, CompletionStage<Void>>> createAckSource() {
     return Source.<Ack>queue(8, OverflowStrategy.backpressure())
-      .mapMaterializedValue(sourceQueue -> ack -> sourceQueue.offer(ack).thenApply(result -> {
-        if (result instanceof QueueOfferResult.Failure) {
-          throw new RuntimeException(((QueueOfferResult.Failure) result).cause());
-        } else {
-          return null;
-        }
-      }));
+        .mapMaterializedValue(sourceQueue -> ack -> sourceQueue.offer(ack).thenApply(result -> {
+          if (result instanceof QueueOfferResult.Failure) {
+            throw new RuntimeException(((QueueOfferResult.Failure) result).cause());
+          } else {
+            return null;
+          }
+        }));
   }
 
   private Function<Ack, CompletionStage<Void>> createErrorCommit(String streamName) {
@@ -307,7 +407,7 @@ public class AkkaKafkaStreamsCdiExtension implements Extension {
       try {
         // Start all streams
         descriptors.forEach(ingest ->
-            streams.add(streamManager.startStream(ingest, instance))
+            streams.add(streamManager.startIncomingStream(ingest, instance))
         );
         runningStreams.put(instance, streams);
       } catch (RuntimeException e) {

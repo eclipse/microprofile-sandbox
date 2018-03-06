@@ -1,5 +1,6 @@
 package org.eclipse.microprofile.streams.example.models;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 /**
@@ -10,11 +11,17 @@ public class UserDetails {
   private final UUID id;
   private final String name;
   private final String email;
+  private final LocalDate lastNotified;
 
   public UserDetails(UUID id, String name, String email) {
+    this(id, name, email, null);
+  }
+
+  public UserDetails(UUID id, String name, String email, LocalDate lastNotified) {
     this.id = id;
     this.name = name;
     this.email = email;
+    this.lastNotified = lastNotified;
   }
 
   public UUID getId() {
@@ -27,6 +34,10 @@ public class UserDetails {
 
   public String getEmail() {
     return email;
+  }
+
+  public LocalDate getLastNotified() {
+    return lastNotified;
   }
 
   @Override
