@@ -24,15 +24,11 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>microprofile-streams-example</artifactId>
+    <artifactId>microprofile-streams-chat-example</artifactId>
     <packaging>jar</packaging>
     <version>${project.parent.version}</version>
 
     <dependencies>
-        <dependency>
-            <groupId>com.datastax.oss</groupId>
-            <artifactId>java-driver-core</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.typesafe.akka</groupId>
             <artifactId>akka-stream_2.12</artifactId>
@@ -60,6 +56,43 @@
             <artifactId>microprofile-streams-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-grizzly2-http</artifactId>
+            <version>2.26</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-sse</artifactId>
+            <version>2.26</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-binding</artifactId>
+            <version>2.26</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <version>2.26</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.ext.cdi</groupId>
+            <artifactId>jersey-weld2-se</artifactId>
+            <version>2.26</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+            <version>1.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -72,7 +105,7 @@
                     <arguments>
                         <argument>-classpath</argument>
                         <classpath/>
-                        <argument>org.eclipse.microprofile.streams.example.Main</argument>
+                        <argument>org.eclipse.microprofile.streams.example.chat.Main</argument>
                     </arguments>
                 </configuration>
             </plugin>

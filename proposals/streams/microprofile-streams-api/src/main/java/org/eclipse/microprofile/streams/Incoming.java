@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * Used to signify a subscriber.
  */
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Incoming {
 

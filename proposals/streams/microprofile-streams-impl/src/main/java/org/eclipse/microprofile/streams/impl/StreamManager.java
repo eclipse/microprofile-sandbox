@@ -27,6 +27,7 @@ import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.TimeUnit;
@@ -54,7 +55,7 @@ public class StreamManager {
     this.materializer = materializer;
   }
 
-  public <T> RunningStream startIncomingStream(StreamDescriptor<? super T> descriptor, T t) {
+  public <T> RunningStream startManagedStream(StreamDescriptor<? super T> descriptor, T t) {
     if (descriptor instanceof StreamDescriptor.FlowIncomingDescriptor) {
       return startIncomingStream((StreamDescriptor.FlowIncomingDescriptor<? super T>) descriptor, t);
     } else if (descriptor instanceof StreamDescriptor.SourceOutgoingDescriptor) {
@@ -64,30 +65,20 @@ public class StreamManager {
     }
   }
 
+  public <T> EnvelopedKafkaOutgoingStream<T> createUnmanagedOutgoingStream(Type outgoingType, String topic) {
+    ProducerSettings<String, T> settings = createOutgoingStreamProducerSettings();
+
+    return new EnvelopedKafkaOutgoingStream<>(settings, topic, materializer);
+  }
+
+  public <T> EnvelopedKafkaIncomingStream<T> createUnmanagedIncomingStream(Type incomingType, String topic) {
+    ConsumerSettings<String, T> settings = createIncomingStreamProducerSettings(incomingType);
+
+    return new EnvelopedKafkaIncomingStream<>(settings, topic, materializer);
+  }
+
   private <T> RunningStream startIncomingStream(StreamDescriptor.FlowIncomingDescriptor<? super T> descriptor, T t) {
-    ConsumerSettings<String, Object> consumerSettings =
-        ConsumerSettings.create(system,
-            // todo allow custom deserializers other than jsonb
-            new StringDeserializer(), new Deserializer<>() {
-              @Override
-              public void configure(Map<String, ?> map, boolean b) {
-              }
-
-              @Override
-              public Object deserialize(String s, byte[] bytes) {
-                return jsonb.fromJson(new ByteArrayInputStream(bytes), descriptor.incomingMessageType());
-              }
-
-              @Override
-              public void close() {
-              }
-            })
-            // todo make configurable
-            .withBootstrapServers("localhost:9092")
-            // todo provide via annotation
-            .withGroupId("group1")
-            // todo should also be configurable
-            .withProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+    ConsumerSettings<String, Object> consumerSettings = createIncomingStreamProducerSettings(descriptor.incomingMessageType());
 
     // todo make exponential backoff parameters configurable
     // todo name the right parts of the stream so that error reporting makes sense
@@ -126,17 +117,41 @@ public class StreamManager {
     return killSwitch::shutdown;
   }
 
-  private <T> RunningStream startOutgoingStream(StreamDescriptor.SourceOutgoingDescriptor<? super T> descriptor, T t) {
-    ProducerSettings<String, Object> producerSettings =
-        ProducerSettings.create(system,
+  private <T> ConsumerSettings<String, T> createIncomingStreamProducerSettings(Type messageType) {
+    return ConsumerSettings.create(system,
+        // todo allow custom deserializers other than jsonb
+        new StringDeserializer(), new Deserializer<T>() {
+          @Override
+          public void configure(Map<String, ?> map, boolean b) {
+          }
+
+          @Override
+          public T deserialize(String s, byte[] bytes) {
+            return (T) jsonb.fromJson(new ByteArrayInputStream(bytes), messageType);
+          }
+
+          @Override
+          public void close() {
+          }
+        })
+        // todo make configurable
+        .withBootstrapServers("localhost:9092")
+        // todo provide via annotation
+        .withGroupId("group1")
+        // todo should also be configurable
+        .withProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+  }
+
+  private <T> ProducerSettings<String, T> createOutgoingStreamProducerSettings() {
+      return ProducerSettings.create(system,
             // todo allow custom deserializers other than jsonb
-            new StringSerializer(), new Serializer<>() {
+            new StringSerializer(), new Serializer<T>() {
               @Override
               public void configure(Map<String, ?> map, boolean b) {
               }
 
               @Override
-              public byte[] serialize(String topic, Object data) {
+              public byte[] serialize(String topic, T data) {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 jsonb.toJson(data, baos);
                 return baos.toByteArray();
@@ -148,6 +163,11 @@ public class StreamManager {
             })
             // todo make configurable
             .withBootstrapServers("localhost:9092");
+  }
+
+  private <T> RunningStream startOutgoingStream(StreamDescriptor.SourceOutgoingDescriptor<? super T> descriptor, T t) {
+
+    ProducerSettings<String, Object> producerSettings = createOutgoingStreamProducerSettings();
 
     // todo make exponential backoff parameters configurable
     // todo name the right parts of the stream so that error reporting makes sense
@@ -173,45 +193,6 @@ public class StreamManager {
         .run(materializer);
 
     return killSwitch::shutdown;
-  }
-
-  private static class KafkaEnvelope<T> implements Envelope<T> {
-    private final ConsumerMessage.CommittableMessage<?, T> message;
-    private final Function<Ack, CompletionStage<Void>> ackFunction;
-
-    public KafkaEnvelope(ConsumerMessage.CommittableMessage<?, T> message,
-        Function<Ack, CompletionStage<Void>> ackFunction) {
-      this.message = message;
-      this.ackFunction = ackFunction;
-    }
-
-    @Override
-    public T getPayload() {
-      return message.record().value();
-    }
-
-    @Override
-    public CompletionStage<Void> ack() {
-      return ackFunction.apply(getAck());
-    }
-
-    @Override
-    public Ack getAck() {
-      return new KafkaAck(message);
-    }
-  }
-
-  private static class KafkaAck implements Ack {
-
-    private final ConsumerMessage.CommittableMessage<?, ?> message;
-
-    public KafkaAck(ConsumerMessage.CommittableMessage<?, ?> message) {
-      this.message = message;
-    }
-
-    public ConsumerMessage.CommittableMessage<?, ?> getMessage() {
-      return message;
-    }
   }
 
 }

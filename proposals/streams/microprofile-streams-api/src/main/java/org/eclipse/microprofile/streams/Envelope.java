@@ -1,5 +1,7 @@
 package org.eclipse.microprofile.streams;
 
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.function.Supplier;
 
@@ -17,15 +19,28 @@ public interface Envelope<T> {
 
   /**
    * Acknowledge this message.
+   *
+   * If th
    */
-  CompletionStage<Void> ack();
+  default CompletionStage<Void> ack() {
+    return CompletableFuture.completedFuture(null);
+  }
 
   /**
    * Get the ACK signal for this message.
    *
    * This should be emitted from a processor processing messages.
    */
-  Ack getAck();
+  default Ack getAck() {
+    return Ack.UNCORRELATED;
+  }
+
+  /**
+   * Get the message offset, if the underlying broker supports offset based messaging.
+   */
+  default Optional<Long> offset() {
+    return Optional.empty();
+  }
 
   static <T> Envelope<T> ackableEnvelope(T payload, Supplier<CompletionStage<Void>> ack) {
     return new Envelope<T>() {
@@ -37,11 +52,6 @@ public interface Envelope<T> {
       @Override
       public CompletionStage<Void> ack() {
         return ack.get();
-      }
-
-      @Override
-      public Ack getAck() {
-        return new Ack() {};
       }
     };
   }

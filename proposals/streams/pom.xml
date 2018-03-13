@@ -59,6 +59,7 @@
         <module>microprofile-streams-api</module>
         <module>microprofile-streams-impl</module>
         <module>microprofile-streams-example</module>
+        <module>microprofile-streams-chat-example</module>
     </modules>
 
     <dependencyManagement>

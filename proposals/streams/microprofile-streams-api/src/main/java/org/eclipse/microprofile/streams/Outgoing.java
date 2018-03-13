@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * Used to signify a publisher.
  */
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Outgoing {
   String topic();

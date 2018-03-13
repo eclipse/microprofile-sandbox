@@ -40,6 +40,13 @@ public class AkkaKafkaStreamsCdiExtension implements Extension {
     }
   }
 
+  public <T, X> void processInjections(@Observes ProcessInjectionPoint<T, X> injectionPoint) {
+    Annotated annotated = injectionPoint.getInjectionPoint().getAnnotated();
+    if (annotated.getAnnotation(Incoming.class) != null || annotated.getAnnotation(Outgoing.class) != null) {
+      injectionPoint.configureInjectionPoint().addQualifier(new InjectedStreamQualifier());
+    }
+  }
+
   public void afterBeanDiscovery(@Observes BeforeBeanDiscovery discovery, BeanManager beanManager) {
     // todo what name should these have?
     //discovery.addAnnotatedType(beanManager.createAnnotatedType(ActorSystemProvider.class), ActorSystemProvider.class.getName());
@@ -173,7 +180,7 @@ public class AkkaKafkaStreamsCdiExtension implements Extension {
 
     // Check if an envelope is supplied
     if (Reflections.getRawType(inType).equals(Envelope.class)) {
-      Type[] envelopeArguments = getTypeArguments(inType, () -> "Envelopes accepted by " + methodName);
+      Type[] envelopeArguments = ReflectionUtils.getTypeArguments(inType, () -> "Envelopes accepted by " + methodName);
       actualInType = envelopeArguments[0];
 
       if (outType.equals(Ack.class)) {
@@ -271,7 +278,7 @@ public class AkkaKafkaStreamsCdiExtension implements Extension {
     akka.japi.Function<T, Source<Envelope<M>, ?>> actualTypedStream;
 
     if (Reflections.getRawType(outType).equals(Envelope.class)) {
-      Type[] envelopeArguments = getTypeArguments(outType, () -> "Envelopes published by " + methodName);
+      Type[] envelopeArguments = ReflectionUtils.getTypeArguments(outType, () -> "Envelopes published by " + methodName);
       actualOutType = envelopeArguments[0];
       actualTypedStream = (akka.japi.Function) rawStream;
     } else {
@@ -314,19 +321,6 @@ public class AkkaKafkaStreamsCdiExtension implements Extension {
     public T getPayload() {
       return (T) payload;
     }
-
-    @Override
-    public CompletionStage<Void> ack() {
-      return CompletableFuture.completedFuture(null);
-    }
-
-    @Override
-    public Ack getAck() {
-      return new NoopAck();
-    }
-
-    private static class NoopAck implements Ack {
-    }
   }
 
   private <T, R> akka.stream.javadsl.Flow<Envelope<T>, Ack, Function<Ack, CompletionStage<Void>>> oneToOneAckFlow(
@@ -346,17 +340,10 @@ public class AkkaKafkaStreamsCdiExtension implements Extension {
   }
 
   private Type[] getReturnTypeArguments(AnnotatedMethod<?> method) {
-    return getTypeArguments(method.getBaseType(),
+    return ReflectionUtils.getTypeArguments(method.getBaseType(),
         () -> method.getBaseType().getTypeName() + " returned from " + method.getJavaMember().getName());
   }
 
-  private Type[] getTypeArguments(Type type, Supplier<String> message) {
-    Type[] typeArguments = Reflections.getActualTypeArguments(type);
-    if (typeArguments == null || typeArguments.length == 0) {
-      throw new DefinitionException(message.get() + " is not parameterized.");
-    }
-    return typeArguments;
-  }
 
   private Source<Ack, Function<Ack, CompletionStage<Void>>> createAckSource() {
     return Source.<Ack>queue(8, OverflowStrategy.backpressure())
@@ -407,7 +394,7 @@ public class AkkaKafkaStreamsCdiExtension implements Extension {
       try {
         // Start all streams
         descriptors.forEach(ingest ->
-            streams.add(streamManager.startIncomingStream(ingest, instance))
+            streams.add(streamManager.startManagedStream(ingest, instance))
         );
         runningStreams.put(instance, streams);
       } catch (RuntimeException e) {
