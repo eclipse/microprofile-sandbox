@@ -6,15 +6,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Methods annotated with @Ingest must return a {@link java.util.concurrent.Flow.Subscriber} to consume messages on
- * the methods topic.
+ * Used to signify a publisher.
  */
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Ingest {
-
-  /**
-   * The topic to be ingested.
-   */
+public @interface Outgoing {
   String topic();
 }
