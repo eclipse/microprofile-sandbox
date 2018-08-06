@@ -45,6 +45,68 @@ import java.util.function.Supplier;
  */
 public interface ThreadContext {
     /**
+     * Identifier for all available thread context types that support capture
+     * and propagation to other threads.
+     * 
+     * TODO Must not be used on 'unchanged' context, belongs on that JavaDoc.
+     *
+     * @see ManagedExecutorConfig#context
+     * @see ThreadContextConfig#value
+     */
+    static final String ALL = "All";
+
+    /**
+     * Identifier for application context. Application context controls the
+     * application component that is associated with a thread. It can determine
+     * the thread context class loader as well as the set of resource references
+     * that are available for lookup or resource injection. An empty/default
+     * application context means that the thread is not associated with any
+     * application.
+     *
+     * @see ManagedExecutorConfig#context
+     * @see ThreadContextConfig
+     */
+    static final String APPLICATION = "Application";
+
+    /**
+     * Identifier for CDI context. CDI context controls the availability of CDI
+     * scopes. An empty/default CDI context means that the thread does not have
+     * access to the scope of the session, request, and so forth that created the
+     * contextualized action.
+     *
+     * @see ManagedExecutorConfig#context
+     * @see ThreadContextConfig
+     */
+    static final String CDI = "CDI";
+
+    /**
+     * Identifier for security context. Security context controls the credentials
+     * that are associated with the thread. An empty/default security context
+     * means that the thread is unauthenticated.
+     * 
+     * @see ManagedExecutorConfig#context
+     * @see ThreadContextConfig
+     */
+    static final String SECURITY = "Security";
+
+    /**
+     * Identifier for transaction context. Transaction context controls the
+     * active transaction scope that is associated with the thread.
+     * Implementations are not expected to propagate transaction context across
+     * threads. Instead, the concept of transaction context is provided for its
+     * empty/default context, which means the active transaction on the thread
+     * is suspended such that a new transaction can be started if so desired.
+     * In most cases, the most desirable behavior will be to leave transaction
+     * context unconfigured such that it is defaulted to empty (suspended),
+     * in order to prevent dependent actions and tasks from accidentally
+     * enlisting in transactions that are on the threads where they happen to
+     * run.
+     *
+     * @see ThreadContextConfig#unchanged
+     */
+    static final String TRANSACTION = "Transaction";
+
+    /**
      * <p>Wraps a <code>BiConsumer</code> with context that is captured from the thread that invokes
      * <code>withCurrentContext</code>.</p>
      * 
