@@ -107,12 +107,56 @@ ThreadContext via the `@Inject` annotation, for example:
 The container provides default instances of ManagedExecutor and
 ThreadContext, which are injected above.
 
-It still needs to be discussed how the spec will allow for
-instances other than the default to be configured.
+[[configuration]]
+Configuration
+^^^^^^^^^^^^^
+
+Annotations are provided to configure injected instances other
+than the defaults.
+
+The following is an example of configuring a ManagedExecutor to only
+propagate CDI context plus context CDI depends upon (Application)
+and limit the number of async completion stage actions running at
+any given point in time to 5,
+
+[source,java]
+----
+  @Inject @ManagedExecutorConfig(context=ThreadContext.CDI, maxAsync=5)
+  ManagedExecutor executor;
+----
+
+The following is an example of configuring a ThreadContext to only
+capture and propagate Security context,
+
+[source,java]
+----
+  @Inject @ThreadContextConfig(ThreadContext.SECURITY)
+  ThreadContext threadContext;
+----
 
 [[spi-for-context-providers]]
 SPI for Thread Context Providers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Needs discussion whether the spec will standardize an SPI for
-thread context providers.
+The initial release of EE Concurrency assumed single monolithic
+implementations of all specifications together that could rely on
+vendor-specific internals to achieve context propagation.
+However, in practice, open source implementations of various
+specs are often pieced together into a comprehensive solution.
+
+The thread context provider SPI is defined to bridge the gap,
+allowing any provider of thread context to publish and make
+available the type of thread context it supports, following a
+standard and predictable pattern that can be relied upon by a
+MicroProfile Concurrency implementation, enabling it to
+facilitate the inclusion of any generic thread context alongside
+the spec defined thread context types that it captures and
+propagates.
+
+With this model, the provider of thread context implements the
+org.eclipse.microprofile.concurrent.spi.ThreadContextProvider
+interface and packages it in a way that makes it available to the
+ServiceLoader. ThreadContextProvider identifies the thread context
+type and any prerequisite thread context types that it has,
+and it allows for capturing snapshots of thread context
+as well as for applying empty/default context to threads.
