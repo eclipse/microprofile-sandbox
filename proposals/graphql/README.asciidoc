@@ -20,6 +20,5 @@
 
 include::proposal/src/main/asciidoc/chapters/about.asciidoc[]
 
-https://github.com/phillip-kruger/microprofile-sandbox/blob/master/proposals/proposal/src/main/asciidoc/chapters/about.asciidoc
-
-=== [proposal/src/main/asciidoc/proposal.asciidoc](Original MicroProfile GraphQL Proposal)
+=== Original Proposal
+proposal/src/main/asciidoc/proposal.asciidoc
