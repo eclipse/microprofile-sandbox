@@ -1,0 +1,51 @@
+//
+// Copyright (c) 2019 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+[[feature_list]]
+== Feature list and proposed staged release versions
+
+* Schemas and Types (v1)
+** Object Types and Fields
+** Arguments
+** The Query and Mutation Types
+** Scalar Types
+** Enumeration Types
+** Lists and Non-Null
+** Interfaces
+** Union Types (v2)
+** Input Types
+* Queries (v1)
+** Aliases and Fragments (v1)
+** Variables (v1)
+** Filters (v1)
+*** Conditions (OR & AND) (v2)
+** Directives (v2)
+*** @Include 
+*** @Skip
+* Mutations (v1)
+* Validation (v3)
+* Pagination (v2)
+* Exceptions (v1)
+* Introspection (v1)
+* Subscription (v3)
+* GraphQL client (v2)
+* Integration with other MP APIs (Config, Fault Tolerance, Metrics, JAX-RS, OpenAPI, etc.) 
+* DataLoader (v2)
+* Static documentation, similar to javadoc (v2)
+* Basic HTTP GET/POST-based transport (v1)
+* Alternate transports (v2+)

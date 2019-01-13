@@ -23,11 +23,11 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>microprofile-graphql-spec</artifactId>
+    <artifactId>microprofile-graphql-proposal</artifactId>
     <packaging>pom</packaging>
     
-    <name>MicroProfile GraphQL :: Specification</name>
-    <description>Code-first GraphQL APIs for MicroProfile :: Specification</description>
+    <name>MicroProfile GraphQL :: Proposal</name>
+    <description>Code-first GraphQL APIs for MicroProfile :: Proposal</description>
     
     <build>
         <defaultGoal>clean package</defaultGoal>
@@ -39,7 +39,7 @@
                 
                 <configuration>
                     <sourceDirectory>src/main/asciidoc</sourceDirectory>
-                    <sourceDocumentName>microprofile-graphql.asciidoc</sourceDocumentName>
+                    <sourceDocumentName>proposal.asciidoc</sourceDocumentName>
                     <sourceHighlighter>coderay</sourceHighlighter>
                     <headerFooter>true</headerFooter>
                     <attributes>
@@ -51,4 +51,3 @@
     </build>
 
 </project>
-

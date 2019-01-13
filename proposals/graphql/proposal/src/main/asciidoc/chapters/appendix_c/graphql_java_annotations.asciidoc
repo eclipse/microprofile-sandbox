@@ -16,25 +16,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+[[graphql_java_annotations]]
+=== graphql-java-annotations
 
-= GraphQL for MicroProfile
-:authors: Jean-Francois James, Phillip Krüger, Andy McCright, Jean-Baptiste Roux, Bojan Tomic
-:email: j.andrew.mccright@gmail.com
-:version-label!:
-:sectanchors:
-:doctype: book
-:license: Apache License v2.0
-:source-highlighter: coderay
-:toc: left
-:toclevels: 4
-:sectnumlevels: 4
-ifdef::backend-pdf[]
-:pagenums:
-endif::[]
-
-
-include::license-alv2.asciidoc[]
-
-== Microprofile GraphQL
-
-include::release_notes.asciidoc[]
+[cols="1,1"]
+|===
+|Purpose|This library offers an annotations-based syntax for GraphQL schema definition (@GraphQLField, @GraphQLTypeResolver, @GraphQLUnion, @GraphQLName ...)
+|License|Apache V2
+|Home page|https://github.com/Enigmatis/graphql-java-annotations
+|Documentation|
+|Main package|graphql.annotations
+|Contributors|33
+|Main contributors|YarinVack, Guy Somordinsky
+|Last stable releases|3.0.3 26 Jun 2017
+|Maven coordinates|com.graphql-java + graphql-java-annotations
+|Main dependencies|grapqhl-java 3.0.0 (May 2017)
+|===

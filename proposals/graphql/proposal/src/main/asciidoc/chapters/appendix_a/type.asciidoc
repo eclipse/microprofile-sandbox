@@ -16,25 +16,39 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+[[at_type]]
+=== @Type
 
-= GraphQL for MicroProfile
-:authors: Jean-Francois James, Phillip Krüger, Andy McCright, Jean-Baptiste Roux, Bojan Tomic
-:email: j.andrew.mccright@gmail.com
-:version-label!:
-:sectanchors:
-:doctype: book
-:license: Apache License v2.0
-:source-highlighter: coderay
-:toc: left
-:toclevels: 4
-:sectnumlevels: 4
-ifdef::backend-pdf[]
-:pagenums:
-endif::[]
+Controls the mapping of the annotated Java type to a GraphQL (object) type.
 
+.Parameters
+[cols="1,1"]
+|===
+|*name*|The name for the corresponding type in the GraphQL schema
+|*description*|The description of the corresponding type
+|===
 
-include::license-alv2.asciidoc[]
+.Example
+[source,java,numbered]
+----
+@Type(name = "Starship", description = "A starship from Starwars")
+public class Starship {
+   private String id;
+   private String name;
+   private float length;
 
-== Microprofile GraphQL
+   // Getters, setters ...
+}
+----
 
-include::release_notes.asciidoc[]
+Resulting schema SDL:
+
+[source,json,numbered]
+----
+# A starship from Starwars
+type Starship {
+   id: String
+   name: String
+   length: Float
+}
+----

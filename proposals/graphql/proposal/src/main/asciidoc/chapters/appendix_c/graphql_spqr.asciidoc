@@ -16,25 +16,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+[[graphql_spqr]]
+=== graphql-spqr
 
-= GraphQL for MicroProfile
-:authors: Jean-Francois James, Phillip Krüger, Andy McCright, Jean-Baptiste Roux, Bojan Tomic
-:email: j.andrew.mccright@gmail.com
-:version-label!:
-:sectanchors:
-:doctype: book
-:license: Apache License v2.0
-:source-highlighter: coderay
-:toc: left
-:toclevels: 4
-:sectnumlevels: 4
-ifdef::backend-pdf[]
-:pagenums:
-endif::[]
-
-
-include::license-alv2.asciidoc[]
-
-== Microprofile GraphQL
-
-include::release_notes.asciidoc[]
+[cols="1,1"]
+|===
+|Purpose|GraphQL SPQR is a simple-to-use library for rapid code-first development of GraphQL APIs in Java.
+|License|Apache V2
+|Home page|https://github.com/leangen/GraphQL-SPQR
+|Documentation|
+|Main package|io.leangen.graphql
+|Contributors|9
+|Main contributors|Bojan Tomic, Milos Stojiljkovic
+|Last stable releases|0.9.9 released on 13 Dec 2018
+|Maven coordinates|io.leangen.graphql + spqr
+|Main dependencies|graphql-java 11.0 (Jul 17, 2018), jackson 2.9.7, gson-java8-datatype
+|===

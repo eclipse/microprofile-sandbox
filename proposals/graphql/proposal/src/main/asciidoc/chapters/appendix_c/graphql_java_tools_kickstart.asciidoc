@@ -16,25 +16,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+[[graphql_java_tools_kickstart]]
+=== graphql-java-tools kickstart
 
-= GraphQL for MicroProfile
-:authors: Jean-Francois James, Phillip Krüger, Andy McCright, Jean-Baptiste Roux, Bojan Tomic
-:email: j.andrew.mccright@gmail.com
-:version-label!:
-:sectanchors:
-:doctype: book
-:license: Apache License v2.0
-:source-highlighter: coderay
-:toc: left
-:toclevels: 4
-:sectnumlevels: 4
-ifdef::backend-pdf[]
-:pagenums:
-endif::[]
-
-
-include::license-alv2.asciidoc[]
-
-== Microprofile GraphQL
-
-include::release_notes.asciidoc[]
+[cols="1,1"]
+|===
+|Purpose|Allows to use the GraphQL schema language to build your graphql-java schema. Works extremely well if you already have domain POJOs that hold your data
+|License|MIT
+|Home page|https://github.com/graphql-java-kickstart/graphql-java-tools
+|Documentation|
+|Main package|com.coxautodev.graphql.tools (mostly in Kotlin)
+|Contributors|33
+|Main contributors|Andrew Potter, Michiel Oliemans (Netherlands)
+|Last stable releases|5.4.1 11 on 24 Nov 2018
+|Maven coordinates|com.graphql-java-kickstarter + graphql-java-tools
+|Main dependencies|kotlin 1.3.0, graphql-java 11.0, jackson 2.9.6, guava 26.0, reactive-streams 1.0.2
+|===

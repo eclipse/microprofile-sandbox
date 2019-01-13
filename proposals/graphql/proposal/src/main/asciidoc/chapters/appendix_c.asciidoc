@@ -16,25 +16,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+[[appendix_c]]
+== Appendix C - Details on existing libraries
 
-= GraphQL for MicroProfile
-:authors: Jean-Francois James, Phillip Krüger, Andy McCright, Jean-Baptiste Roux, Bojan Tomic
-:email: j.andrew.mccright@gmail.com
-:version-label!:
-:sectanchors:
-:doctype: book
-:license: Apache License v2.0
-:source-highlighter: coderay
-:toc: left
-:toclevels: 4
-:sectnumlevels: 4
-ifdef::backend-pdf[]
-:pagenums:
-endif::[]
+include::appendix_c/graphql_java.asciidoc[]
 
+include::appendix_c/java_dataloader.asciidoc[]
 
-include::license-alv2.asciidoc[]
+include::appendix_c/graphql_java_servlet_kickstart.asciidoc[]
 
-== Microprofile GraphQL
+include::appendix_c/graphql_java_annotations.asciidoc[]
 
-include::release_notes.asciidoc[]
+include::appendix_c/graphql_java_tools_kickstart.asciidoc[]
+
+include::appendix_c/graphql_spqr.asciidoc[]
+
+include::appendix_c/graphql_jpa.asciidoc[]
+
+include::appendix_c/liveGQL.asciidoc[]
+
+include::appendix_c/graphql_java_client.asciidoc[]

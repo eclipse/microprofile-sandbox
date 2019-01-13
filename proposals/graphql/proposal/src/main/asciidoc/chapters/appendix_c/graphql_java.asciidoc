@@ -16,25 +16,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+[[graphql_java]]
+=== graphql-java
 
-= GraphQL for MicroProfile
-:authors: Jean-Francois James, Phillip Krüger, Andy McCright, Jean-Baptiste Roux, Bojan Tomic
-:email: j.andrew.mccright@gmail.com
-:version-label!:
-:sectanchors:
-:doctype: book
-:license: Apache License v2.0
-:source-highlighter: coderay
-:toc: left
-:toclevels: 4
-:sectnumlevels: 4
-ifdef::backend-pdf[]
-:pagenums:
-endif::[]
-
-
-include::license-alv2.asciidoc[]
-
-== Microprofile GraphQL
-
-include::release_notes.asciidoc[]
+[cols="1,1"]
+|===
+|Purpose|GraphQL Java implementation
+|License|MIT
+|Home page|https://github.com/graphql-java/graphql-java
+|Documentation|https://www.graphql-java.com/documentation
+|Main package|graphql
+|Contributors|115
+|Main contributors|Brad Baker (Atlassian) & Andreas Mareck (Sydney)
+|Last stable releases|11.0 on 20 Oct 2018, 10.0 on Sep 2018, 9.4 on Oct 2018
+|Maven coordinates|com.graphql-java + graphql-java
+|Main dependencies|java-dataloader 2.1.1, reactive-stream : 1.0.2
+|===

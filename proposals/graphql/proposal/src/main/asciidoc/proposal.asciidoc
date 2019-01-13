@@ -17,7 +17,7 @@
 // limitations under the License.
 //
 
-= GraphQL for MicroProfile
+= MicroProfile GraphQL Proposal
 :authors: Jean-Francois James, Phillip Krüger, Andy McCright, Jean-Baptiste Roux, Bojan Tomic
 :email: j.andrew.mccright@gmail.com
 :version-label!:
@@ -32,9 +32,22 @@ ifdef::backend-pdf[]
 :pagenums:
 endif::[]
 
+include::chapters/about.asciidoc[]
 
-include::license-alv2.asciidoc[]
+include::chapters/known_libraries.asciidoc[]
 
-== Microprofile GraphQL
+include::chapters/goals.asciidoc[]
 
-include::release_notes.asciidoc[]
+include::chapters/non_goals.asciidoc[]
+
+include::chapters/proposed_programming_model.asciidoc[]
+
+include::chapters/feature_list.asciidoc[]
+
+include::chapters/interest_parties.asciidoc[]
+
+include::chapters/appendix_a.asciidoc[]
+
+include::chapters/appendix_b.asciidoc[]
+
+include::chapters/appendix_c.asciidoc[]

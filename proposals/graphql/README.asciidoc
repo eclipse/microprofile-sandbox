@@ -32,9 +32,8 @@ ifdef::backend-pdf[]
 :pagenums:
 endif::[]
 
+== Microprofile GraphQL Specification
 
-include::license-alv2.asciidoc[]
+include::../proposal/src/main/asciidoc/chapters/about.asciidoc[]
 
-== Microprofile GraphQL
-
-include::release_notes.asciidoc[]
+=== ../proposal/src/main/asciidoc/proposal.asciidoc[Original MicroProfile GraphQL Proposal]
