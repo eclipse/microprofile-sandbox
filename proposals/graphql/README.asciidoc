@@ -18,7 +18,7 @@
 //
 # MicroProfile GraphQL
 
-TODO: describe project - copy/paste from [proposal doc](https://docs.google.com/document/d/1prwMGxgr0cI5yx4lrvMET5x6rD-CQ1y7XuS1PCegE4A/edit?ts=5c35f945)?
+TODO: describe project - copy/paste from https://docs.google.com/document/d/1prwMGxgr0cI5yx4lrvMET5x6rD-CQ1y7XuS1PCegE4A/edit?ts=5c35f945[proposal doc]?
 
 To build locally - clone this repository, then run `mvn clean install` from the `proposals/graphql` directory.
 
