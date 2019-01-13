@@ -16,24 +16,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-
-= GraphQL for MicroProfile
-:authors: Jean-Francois James, Phillip Krüger, Andy McCright, Jean-Baptiste Roux, Bojan Tomic
-:email: j.andrew.mccright@gmail.com
-:version-label!:
-:sectanchors:
-:doctype: book
-:license: Apache License v2.0
-:source-highlighter: coderay
-:toc: left
-:toclevels: 4
-:sectnumlevels: 4
-ifdef::backend-pdf[]
-:pagenums:
-endif::[]
-
 == Microprofile GraphQL Specification
 
-include::../proposal/src/main/asciidoc/chapters/about.asciidoc[]
+include::proposal/src/main/asciidoc/chapters/about.asciidoc[]
 
-=== ../proposal/src/main/asciidoc/proposal.asciidoc[Original MicroProfile GraphQL Proposal]
+https://github.com/phillip-kruger/microprofile-sandbox/blob/master/proposals/proposal/src/main/asciidoc/chapters/about.asciidoc
+
+=== [proposal/src/main/asciidoc/proposal.asciidoc](Original MicroProfile GraphQL Proposal)
