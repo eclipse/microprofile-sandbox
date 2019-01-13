@@ -23,7 +23,7 @@
 Just enter `mvn clean install` at the command line. Maven will generate the following artifacts.
 
 API Jar::
-* The jar containing the api interfaces and classes in `/api/target`
+The jar containing the api interfaces and classes in `/api/target`
 
 Specification::
 The PDF and HTML will be generated in `spec/target/generated-docs/`
