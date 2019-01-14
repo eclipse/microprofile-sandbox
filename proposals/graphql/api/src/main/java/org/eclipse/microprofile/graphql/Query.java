@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
  * For example, a user might annotate a method as such:
  * <pre>
  * public class CharacterService {
- *     {@literal @}Query(value = "queryFriendsOf",
+ *     {@literal @}Query(value = "friendsOf",
  *                 description = "Returns all the friends of a character")
  *     public List{@literal <}Character{@literal >} getFriendsOf(Character character) {
  *         //...
@@ -39,7 +39,7 @@ import java.lang.annotation.Target;
  * <pre>
  * type Query {
  *    # Returns all the friends of a character
- *    queryFriendsOf(character: CharacterInput): [Character]
+ *    friendsOf(character: CharacterInput): [Character]
  * }
  * </pre>
  */
