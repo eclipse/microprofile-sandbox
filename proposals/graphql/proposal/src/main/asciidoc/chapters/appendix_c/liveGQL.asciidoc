@@ -16,25 +16,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+[[liveGQL]]
+=== liveGQL
 
-= GraphQL for MicroProfile
-:authors: Jean-Francois James, Phillip Krüger, Andy McCright, Jean-Baptiste Roux, Bojan Tomic
-:email: j.andrew.mccright@gmail.com
-:version-label!:
-:sectanchors:
-:doctype: book
-:license: Apache License v2.0
-:source-highlighter: coderay
-:toc: left
-:toclevels: 4
-:sectnumlevels: 4
-ifdef::backend-pdf[]
-:pagenums:
-endif::[]
-
-
-include::license-alv2.asciidoc[]
-
-== Microprofile GraphQL
-
-include::release_notes.asciidoc[]
+[cols="1,1"]
+|===
+|Purpose|Simple java library in order to use GraphQL Subscription on WebSocket based on Apollo Protocol.
+|License|BEER-WARE
+|Home page|https://github.com/billybichon/liveGQL
+|Documentation|https://github.com/billybichon/liveGQL/blob/master/README.md
+|Main package|com.github.billybichon.livegql
+|Contributors|1
+|Main contributors|Billy Bichon
+|Last stable releases|1.0
+|Maven coordinates|com.github.billybichon + livegql
+|Main dependencies|tyrus-standalone-client 1.10, gson 2.7
+|===

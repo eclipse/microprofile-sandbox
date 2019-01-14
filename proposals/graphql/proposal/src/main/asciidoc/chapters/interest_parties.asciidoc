@@ -16,25 +16,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+[[interested_parties]]
+== Interested Parties
 
-= GraphQL for MicroProfile
-:authors: Jean-Francois James, Phillip Krüger, Andy McCright, Jean-Baptiste Roux, Bojan Tomic
-:email: j.andrew.mccright@gmail.com
-:version-label!:
-:sectanchors:
-:doctype: book
-:license: Apache License v2.0
-:source-highlighter: coderay
-:toc: left
-:toclevels: 4
-:sectnumlevels: 4
-ifdef::backend-pdf[]
-:pagenums:
-endif::[]
-
-
-include::license-alv2.asciidoc[]
-
-== Microprofile GraphQL
-
-include::release_notes.asciidoc[]
+* Phillip Krüger (Red Hat)
+* Jean-Francois James (Atos Worldline)
+* Andy McCright (IBM)
+* Graham Charters (IBM)
+* Adam Anderson (IBM)
+* Emily Jiang (IBM)
+* Soukayna Abid (Oracle)
+* Jean-Baptiste Roux (Atos Worldline)
+* Bojan Tomic (GraphQL SPQR, ServiceNow)
