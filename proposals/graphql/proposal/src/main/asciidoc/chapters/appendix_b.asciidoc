@@ -16,25 +16,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+[[appendix_b]]
+== Appendix B - More Links
 
-= GraphQL for MicroProfile
-:authors: Jean-Francois James, Phillip Krüger, Andy McCright, Jean-Baptiste Roux, Bojan Tomic
-:email: j.andrew.mccright@gmail.com
-:version-label!:
-:sectanchors:
-:doctype: book
-:license: Apache License v2.0
-:source-highlighter: coderay
-:toc: left
-:toclevels: 4
-:sectnumlevels: 4
-ifdef::backend-pdf[]
-:pagenums:
-endif::[]
-
-
-include::license-alv2.asciidoc[]
-
-== Microprofile GraphQL
-
-include::release_notes.asciidoc[]
+[cols="1,1"]
+|===
+|More info|https://en.wikipedia.org/wiki/GraphQL
+|Home page|https://graphql.org/
+|Specification|https://facebook.github.io/graphql/draft/
+|GraphQL over HTTP protocol|https://graphql.org/learn/serving-over-http/
+||https://github.com/APIs-guru/graphql-over-http 
+|Apollo graphql-ws protocol (for subscriptions over WebSocket)|https://github.com/apollographql/subscriptions-transport-ws/blob/master/PROTOCOL.md 
+|GraphQL Compatibility Acceptance Tests|https://github.com/graphql-cats/graphql-cats 
+|===

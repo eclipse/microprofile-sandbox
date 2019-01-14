@@ -25,7 +25,7 @@
     </parent>
 
     <artifactId>microprofile-graphql-api</artifactId>
-    <name>MicroProfile GraphQL API</name>
+    <name>MicroProfile GraphQL :: API</name>
     <description>Code-first GraphQL APIs for MicroProfile :: API</description>
     <dependencies>
         <dependency>

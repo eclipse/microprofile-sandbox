@@ -16,25 +16,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+[[graphql_java_servlet_kickstart]]
+=== graphql-java-servlet kickstart
 
-= GraphQL for MicroProfile
-:authors: Jean-Francois James, Phillip Krüger, Andy McCright, Jean-Baptiste Roux, Bojan Tomic
-:email: j.andrew.mccright@gmail.com
-:version-label!:
-:sectanchors:
-:doctype: book
-:license: Apache License v2.0
-:source-highlighter: coderay
-:toc: left
-:toclevels: 4
-:sectnumlevels: 4
-ifdef::backend-pdf[]
-:pagenums:
-endif::[]
-
-
-include::license-alv2.asciidoc[]
-
-== Microprofile GraphQL
-
-include::release_notes.asciidoc[]
+[cols="1,1"]
+|===
+|Purpose|Implementation of GraphQL Java Servlet including support for Relay.js, Apollo and OSGi out of the box.
+|License|Apache V2
+|Home page|https://github.com/graphql-java-kickstart/graphql-java-servlet
+|Documentation|https://www.graphql-java-kickstart.com/servlet/getting-started
+|Main package|graphql.servlet
+|Contributors|28
+|Main contributors|Andrew Potter, Michiel Oliemans (Netherlands)
+|Last stable releases|7.1.1 on Nov 24 2018
+|Maven coordinates|com.graphql-java-kickstart + graphql-java-servlet
+|Main dependencies|guava 20.0, graphql-java 11.0, javax.servlet-api 3.1.0, javax.websocket-api 1.1, jackson 2.9.7
+|===

@@ -16,25 +16,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+[[at_order]]
+=== @FieldOrder / @InputFieldOrder
 
-= GraphQL for MicroProfile
-:authors: Jean-Francois James, Phillip Krüger, Andy McCright, Jean-Baptiste Roux, Bojan Tomic
-:email: j.andrew.mccright@gmail.com
-:version-label!:
-:sectanchors:
-:doctype: book
-:license: Apache License v2.0
-:source-highlighter: coderay
-:toc: left
-:toclevels: 4
-:sectnumlevels: 4
-ifdef::backend-pdf[]
-:pagenums:
-endif::[]
+Specifies the order of (input) fields, similar to @XmlType#propOrder. Relevant only for documentation/GraphiQL.
 
+.Parameters
+[cols="1,1"]
+|===
+|*value*|An array of field names in the desired order
+|===
 
-include::license-alv2.asciidoc[]
+.Example
+[source,java,numbered]
+----
+@Type(name = "Starship", description = "A starship from Starwars")
+@InputType(name = "StarshipInput", description = "Input object for a starship")
+@FieldOrder({"name", "id", "length"})
+@InputFieldOrder({"name", "id", "length"})
+public class Starship {
+   @InputField(name = "uuid", description = "uuid of a new Starship")
+   private String id;
+   private String name;
+   private float length;
 
-== Microprofile GraphQL
-
-include::release_notes.asciidoc[]
+   //  Getters, setters...
+}
+----

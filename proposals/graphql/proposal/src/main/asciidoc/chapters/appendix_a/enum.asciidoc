@@ -16,25 +16,41 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+[[at_enum]]
+=== @Enum
 
-= GraphQL for MicroProfile
-:authors: Jean-Francois James, Phillip Krüger, Andy McCright, Jean-Baptiste Roux, Bojan Tomic
-:email: j.andrew.mccright@gmail.com
-:version-label!:
-:sectanchors:
-:doctype: book
-:license: Apache License v2.0
-:source-highlighter: coderay
-:toc: left
-:toclevels: 4
-:sectnumlevels: 4
-ifdef::backend-pdf[]
-:pagenums:
-endif::[]
+Maps a Java enum to a corresponding GraphQL enum.
 
+.Parameters
+[cols="1,1"]
+|===
+|*name*|The name for the corresponding enum in the GraphQL schema
+|*description*|The description of the corresponding enum
+|===
 
-include::license-alv2.asciidoc[]
+.Example
+[source,java,numbered]
+----
+@Enum(name = "Color", description = "Available colors for starships")
+public enum StarshipColor {
+   WHITE,
+   BLACK,
+   RED,
+   BLUE,
+   GREEN    
+}
+----
 
-== Microprofile GraphQL
+Resulting schema SDL:
 
-include::release_notes.asciidoc[]
+[source,json,numbered]
+----
+# Available colors for starships
+enum StarshipColor {
+   WHITE,
+   BLACK,
+   RED,
+   BLUE,
+   GREEN
+}
+----

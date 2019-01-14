@@ -16,25 +16,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+[[graphql_jpa]]
+=== graphql-jpa
 
-= GraphQL for MicroProfile
-:authors: Jean-Francois James, Phillip Krüger, Andy McCright, Jean-Baptiste Roux, Bojan Tomic
-:email: j.andrew.mccright@gmail.com
-:version-label!:
-:sectanchors:
-:doctype: book
-:license: Apache License v2.0
-:source-highlighter: coderay
-:toc: left
-:toclevels: 4
-:sectnumlevels: 4
-ifdef::backend-pdf[]
-:pagenums:
-endif::[]
-
-
-include::license-alv2.asciidoc[]
-
-== Microprofile GraphQL
-
-include::release_notes.asciidoc[]
+[cols="1,1"]
+|===
+|Purpose|Extend graphql-java and have it derive the schema from a JPA model. It also implements an execution platform to generate and run JPA queries based on GraphQL queries.
+|License|MIT
+|Home page|https://github.com/jcrygier/graphql-jpa
+|Documentation|https://github.com/jcrygier/graphql-jpa/blob/master/README.md
+|Main package|org.crygier.graphql
+|Contributors|8
+|Main contributors|John Crygier, Jens Egholm
+|Last stable releases|0.6
+|Maven coordinates|com.crygier + graphql-jpa
+|Main dependencies|graphql-java 4.2
+|===

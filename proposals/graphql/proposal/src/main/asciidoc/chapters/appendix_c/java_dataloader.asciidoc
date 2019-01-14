@@ -16,25 +16,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+[[java_dataloader]]
+=== java-dataloader
 
-= GraphQL for MicroProfile
-:authors: Jean-Francois James, Phillip Krüger, Andy McCright, Jean-Baptiste Roux, Bojan Tomic
-:email: j.andrew.mccright@gmail.com
-:version-label!:
-:sectanchors:
-:doctype: book
-:license: Apache License v2.0
-:source-highlighter: coderay
-:toc: left
-:toclevels: 4
-:sectnumlevels: 4
-ifdef::backend-pdf[]
-:pagenums:
-endif::[]
-
-
-include::license-alv2.asciidoc[]
-
-== Microprofile GraphQL
-
-include::release_notes.asciidoc[]
+[cols="1,1"]
+|===
+|Purpose|Java 8 port of Facebook DataLoader
+|License|Apache V2
+|Home page|https://github.com/graphql-java/java-dataloader
+|Documentation|
+|Main package|org.dataloader
+|Contributors|5
+|Main contributors|Arnold Shrijver (Netherlands), Brad Baker (Atlassian)
+|Last stable releases|2.2.1 released on Nov 05 2018
+|Maven coordinates|com.graphql-java + java-dataloader
+|Main dependencies|
+|===

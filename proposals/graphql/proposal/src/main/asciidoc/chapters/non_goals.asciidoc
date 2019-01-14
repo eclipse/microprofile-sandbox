@@ -16,25 +16,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+[[non_goals]]
+== Non Goals
 
-= GraphQL for MicroProfile
-:authors: Jean-Francois James, Phillip Krüger, Andy McCright, Jean-Baptiste Roux, Bojan Tomic
-:email: j.andrew.mccright@gmail.com
-:version-label!:
-:sectanchors:
-:doctype: book
-:license: Apache License v2.0
-:source-highlighter: coderay
-:toc: left
-:toclevels: 4
-:sectnumlevels: 4
-ifdef::backend-pdf[]
-:pagenums:
-endif::[]
+Out-of-scope of this specification:
+
+* Authorization and Authentication concerns are out of the scope of this specification. You can learn more about Authorization pattern in GraphQL over https://graphql.org/learn/authorization/[here].
+* Caching concerns.
 
 
-include::license-alv2.asciidoc[]
-
-== Microprofile GraphQL
-
-include::release_notes.asciidoc[]

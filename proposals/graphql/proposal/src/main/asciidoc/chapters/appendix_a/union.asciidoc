@@ -16,25 +16,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+[[at_union]]
+=== @Union
 
-= GraphQL for MicroProfile
-:authors: Jean-Francois James, Phillip Krüger, Andy McCright, Jean-Baptiste Roux, Bojan Tomic
-:email: j.andrew.mccright@gmail.com
-:version-label!:
-:sectanchors:
-:doctype: book
-:license: Apache License v2.0
-:source-highlighter: coderay
-:toc: left
-:toclevels: 4
-:sectnumlevels: 4
-ifdef::backend-pdf[]
-:pagenums:
-endif::[]
+Denotes the annotated Java type is to be mapped to a GraphQL union.
 
+.Parameters
+[cols="1,1"]
+|===
+|*implementationAutoDiscovery*|Enable discovery of implementations
+|===
 
-include::license-alv2.asciidoc[]
+IMPORTANT: An alternative to specifying the implementationAutoDiscovery attribute in the annotation could be to use a defined MP Config property or separate annotation.
 
-== Microprofile GraphQL
+.Example
+[source,java,numbered]
+----
+// TODO: Add this
+----
 
-include::release_notes.asciidoc[]
+Resulting schema SDL:
+
+[source,json,numbered]
+----
+# TODO: Add this
+----

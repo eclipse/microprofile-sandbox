@@ -16,7 +16,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // Contributors:
-// Jean-Francois James, Phillip Kruger, Andy McCright, Jean-Baptiste Roux, Bojan Tomic
+// Jean-Francois James, Phillip Krüger, Andy McCright, Jean-Baptiste Roux, Bojan Tomic
 
 
 [[release_notes_10]]

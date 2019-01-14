@@ -16,25 +16,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+[[goals]]
+== Goals
 
-= GraphQL for MicroProfile
-:authors: Jean-Francois James, Phillip Krüger, Andy McCright, Jean-Baptiste Roux, Bojan Tomic
-:email: j.andrew.mccright@gmail.com
-:version-label!:
-:sectanchors:
-:doctype: book
-:license: Apache License v2.0
-:source-highlighter: coderay
-:toc: left
-:toclevels: 4
-:sectnumlevels: 4
-ifdef::backend-pdf[]
-:pagenums:
-endif::[]
+Creating a specification-based, easy to use, annotation-based API around CDI, JSON-P and JSON-B for GraphQL. 
+The initial goal would be to create a code-first approach (similar to JAX-RS) and potentially later also a schema-first approach. 
+The goal is also to add GraphQL to MicroProfile without pulling in other, non MicroProfile APIs, for example Servlet API.
 
+Following the "code-first approach", we do not want to start from scratch and reinvent something new. 
+We propose to leverage existing solutions.  The content proposed is heavily influenced by GraphQL SPQR.
 
-include::license-alv2.asciidoc[]
-
-== Microprofile GraphQL
-
-include::release_notes.asciidoc[]
