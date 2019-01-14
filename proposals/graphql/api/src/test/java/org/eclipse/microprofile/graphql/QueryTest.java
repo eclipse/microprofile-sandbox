@@ -41,7 +41,7 @@ public class QueryTest {
             return name;
         }    
 
-        @Query(value = "queryFriendsOf", description = "Returns all the friends of a character")
+        @Query(name = "friendsOf", description = "Returns all the friends of a character")
         public List<Character> getFriendsOf(Character character) {
             if (character.getName().equals("Han Solo")) {
                 return Collections.singletonList(new Character("Chewbacca"));
@@ -58,7 +58,7 @@ public class QueryTest {
     public void testQueryAnnotationOnCharacterMethod() throws Exception {
         Query query = Character.class.getDeclaredMethod("getFriendsOf", Character.class).getAnnotation(Query.class);
         assertFalse(isDeprecated(query));
-        assertEquals(query.value(), "queryFriendsOf");
+        assertEquals(query.name(), "friendsOf");
         assertEquals(query.description(), "Returns all the friends of a character");
     }
 }

@@ -23,43 +23,43 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies that the annotated method provides the implementation (ie. the resolver) for a GraphQL query.
+ * Maps the annotated class to a GraphQL input type.
  * <br><br>
- * For example, a user might annotate a method as such:
+ * For example, a user might annotate a class as such:
  * <pre>
- * public class CharacterService {
- *     {@literal @}Query(value = "friendsOf",
- *                 description = "Returns all the friends of a character")
- *     public List{@literal <}Character{@literal >} getFriendsOf(Character character) {
- *         //...
- *     }
+ * {@literal @}InputType(name = "StarshipInput", description = "Input type for a starship")
+ * {@literal @}InputFieldsOrder({"name", "id", "length"})
+ * public class Starship {
+ *     private String id;
+ *     private String name;
+ *     private float length;
+ *
+ *     // getters/setters...
  * }
  * </pre>
  *
  * Schema generation of this would result in a stanza such as:
  * <pre>
- * type Query {
- *    # Returns all the friends of a character
- *    friendsOf(character: CharacterInput): [Character]
+ * # Input type for a starship
+ * input Starship {
+ *   id: String
+ *   name: String
+ *   length: Float
  * }
  * </pre>
  */
-@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Documented
-public @interface Query {
+public @interface InputType {
+
     /**
-     * @return the name to use for the query.
+     * @return the name of the GraphQL input type.
      */
     String name() default "";
 
     /**
-     * @return the textual description of the query to be included as a comment in the schema.
+     * @return the textual description of the GraphQL input type to be included as a comment in the schema.
      */
     String description() default "";
-
-    /**
-     * @return a non-empty string will indicate that this query is deprecated and provides the reason for the deprecation.
-     */
-    String deprecationReason() default "";
 }

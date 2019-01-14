@@ -22,7 +22,7 @@
  * APIs for building a code-first GraphQL endpoint, for example:
  * <pre>
  * public class CharacterService {
- *     {@literal @}Query(value = "queryFriendsOf",
+ *     {@literal @}Query(value = "friendsOf",
  *                 description = "Returns all the friends of a character")
  *     public List{@literal <}Character{@literal >} getFriendsOf(Character character) {
  *         //...

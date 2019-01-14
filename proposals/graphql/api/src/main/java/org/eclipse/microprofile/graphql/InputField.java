@@ -23,43 +23,52 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies that the annotated method provides the implementation (ie. the resolver) for a GraphQL query.
+ * Controls the mapping from a class' property to a GraphQL input type's field.
  * <br><br>
- * For example, a user might annotate a method as such:
+ * For example, a user might annotate a class' property as such:
  * <pre>
- * public class CharacterService {
- *     {@literal @}Query(value = "friendsOf",
- *                 description = "Returns all the friends of a character")
- *     public List{@literal <}Character{@literal >} getFriendsOf(Character character) {
- *         //...
- *     }
+ * {@literal @}Type(name = "Starship", description = "A starship in StarWars")
+ * {@literal @}InputType(name = "StarshipInput", description = "Input type for a starship")
+ * public class Starship {
+ *     {@literal @}InputField(name = "uuid", description = "uuid of a new Starship")
+ *     private String id;
+ *     private String name;
+ *     private float length;
+ *
+ *     // getters/setters...
  * }
  * </pre>
  *
  * Schema generation of this would result in a stanza such as:
  * <pre>
- * type Query {
- *    # Returns all the friends of a character
- *    friendsOf(character: CharacterInput): [Character]
+ * # A starship from Starwars
+ * type Starship {
+ *   id: String
+ *   name: String
+ *   length: Float
+ * }
+ *
+ * # Input type for a starship
+ * input Starship {
+ *   # uuid of a new Starship
+ *   uuid: String
+ *   name: String
+ *   length: Float
  * }
  * </pre>
  */
-@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.FIELD})
 @Documented
-public @interface Query {
-    /**
-     * @return the name to use for the query.
-     */
-    String name() default "";
+public @interface InputField {
 
     /**
-     * @return the textual description of the query to be included as a comment in the schema.
+     * @return the name to use for the input field.
+     */
+    String name();
+
+    /**
+     * @return the textual description of the GraphQL input field to be included as a comment in the schema.
      */
     String description() default "";
-
-    /**
-     * @return a non-empty string will indicate that this query is deprecated and provides the reason for the deprecation.
-     */
-    String deprecationReason() default "";
 }
