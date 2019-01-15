@@ -51,7 +51,7 @@ public @interface Mutation {
     /**
      * @return the name of the GraphQL mutation.
      */
-    String name() default "";
+    String value() default "";
 
     /**
      * @return the textual description of the mutation to be included as a comment in the schema.

@@ -65,7 +65,7 @@ public @interface InputField {
     /**
      * @return the name to use for the input field.
      */
-    String name();
+    String value();
 
     /**
      * @return the textual description of the GraphQL input field to be included as a comment in the schema.

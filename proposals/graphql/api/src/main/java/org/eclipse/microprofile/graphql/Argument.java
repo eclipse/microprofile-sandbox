@@ -54,7 +54,7 @@ public @interface Argument {
     /**
      * @return the name to use for the GraphQL argument.
      */
-    String name() default "";
+    String value() default "";
 
     /**
      * @return the textual description of the GraphQL argument to be included as a comment in the schema.

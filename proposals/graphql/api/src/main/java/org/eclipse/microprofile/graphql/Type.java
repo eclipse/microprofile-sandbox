@@ -55,10 +55,15 @@ public @interface Type {
     /**
      * @return the name of the GraphQL type.
      */
-    String name() default "";
+    String value() default "";
 
     /**
      * @return the textual description of the GraphQL type to be included as a comment in the schema.
      */
     String description() default "";
+
+    /**
+     * @return an ordered list of GraphQL fields' names.
+     */
+    String[] fieldsOrder() default {};
 }

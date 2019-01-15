@@ -51,7 +51,7 @@ public @interface Query {
     /**
      * @return the name to use for the query.
      */
-    String name() default "";
+    String value() default "";
 
     /**
      * @return the textual description of the query to be included as a comment in the schema.
