@@ -25,7 +25,7 @@
  *     {@literal @}Query(value = "friendsOf",
  *                 description = "Returns all the friends of a character")
  *     public List{@literal <}Character{@literal >} getFriendsOf(Character character) {
- *         //...
+ *         // ...
  *     }
  * }
  * </pre>
