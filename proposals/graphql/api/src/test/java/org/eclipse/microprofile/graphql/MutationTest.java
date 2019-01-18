@@ -18,16 +18,13 @@ package org.eclipse.microprofile.graphql;
 
 import org.testng.annotations.Test;
 
-import java.util.Collections;
-import java.util.List;
-
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 /**
  * Simple test mainly as a placeholder for now.
  */
-public class QueryTest {
+public class MutationTest {
 
     private static class Character {
 
@@ -41,25 +38,23 @@ public class QueryTest {
             return name;
         }    
 
-        @Query(value = "friendsOf", description = "Returns all the friends of a character", deprecationReason = "Outdated")
-        public List<Character> getFriendsOf(Character character) {
-            if (character.getName().equals("Han Solo")) {
-                return Collections.singletonList(new Character("Chewbacca"));
-            }
-            return Collections.emptyList();
+        @Mutation(value = "save", description = "Save a character", deprecationReason = "Outdated")
+        public Character saveCharacter(Character character) {
+
+            return character;
         }
     }
 
-    private static boolean isDeprecated(Query query) {
-        return !"".equals(query.deprecationReason());
+    private static boolean isDeprecated(Mutation mutation) {
+        return !"".equals(mutation.deprecationReason());
     }
 
     @Test
-    public void testQueryAnnotationOnCharacterMethod() throws Exception {
-        Query query = Character.class.getDeclaredMethod("getFriendsOf", Character.class).getAnnotation(Query.class);
-        assertTrue(isDeprecated(query));
-        assertEquals(query.deprecationReason(), "Outdated");
-        assertEquals(query.value(), "friendsOf");
-        assertEquals(query.description(), "Returns all the friends of a character");
+    public void testMutationAnnotationOnCharacterMethod() throws Exception {
+        Mutation mutation = Character.class.getDeclaredMethod("saveCharacter", Character.class).getAnnotation(Mutation.class);
+        assertTrue(isDeprecated(mutation));
+        assertEquals(mutation.deprecationReason(), "Outdated");
+        assertEquals(mutation.value(), "save");
+        assertEquals(mutation.description(), "Save a character");
     }
 }
