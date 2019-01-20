@@ -30,10 +30,10 @@ The behavior is different depending on where `@Ignore` annotation is placed.
 .Example
 [source,java,numbered]
 ----
-@Type(name = "Starship", description = "A starship from Starwars")
-@InputType(name = "StarshipInput", description = "Input object for a starship")
+@Type(value = "Starship", description = "A starship from Starwars")
+@InputType(value = "StarshipInput", description = "Input object for a starship")
 public class Starship {
-    @InputField(name = "uuid", description = "uuid of a new Starship")
+    @InputField(value = "uuid", description = "uuid of a new Starship")
     private String id;
     private String name;
     private float length;

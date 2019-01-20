@@ -24,15 +24,15 @@ Controls the mapping of the annotated Java type to a GraphQL input object type.
 .Parameters
 [cols="1,1"]
 |===
-|*name*|The name the corresponding input object type should have in the GraphQL schema
+|*value*|The name the corresponding input object type should have in the GraphQL schema
 |*description*|The description of the corresponding input object type
 |===
 
 .Example
 [source,java,numbered]
 ----
-@Type(name = "Starship", description = "A starship from Starwars")
-@InputType(name = "StarshipInput", description = "Input object for a starship")
+@Type(value = "Starship", description = "A starship from Starwars")
+@InputType(value = "StarshipInput", description = "Input object for a starship")
 public class Starship {
    private String id;
    private String name;
@@ -44,7 +44,7 @@ public class Starship {
 [source,java,numbered]
 ----
 public class StarshipService {
-  @Mutation(name = "saveStarship", description = "Save a new starship")
+  @Mutation(value = "saveStarship", description = "Save a new starship")
   public Starship save(Starship starship) {
      // ...
   }

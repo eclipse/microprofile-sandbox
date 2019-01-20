@@ -28,7 +28,7 @@ same as in <<at_query>>
 [source,java,numbered]
 ----
 public class CharacterService {
-  @Mutation(name = "addCharacter", description = "Save a new character")
+  @Mutation(value = "addCharacter", description = "Save a new character")
   public Character save(Character character) {
      // ...
    }

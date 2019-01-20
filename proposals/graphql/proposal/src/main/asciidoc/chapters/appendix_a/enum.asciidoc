@@ -24,14 +24,14 @@ Maps a Java enum to a corresponding GraphQL enum.
 .Parameters
 [cols="1,1"]
 |===
-|*name*|The name for the corresponding enum in the GraphQL schema
+|*value*|The name for the corresponding enum in the GraphQL schema
 |*description*|The description of the corresponding enum
 |===
 
 .Example
 [source,java,numbered]
 ----
-@Enum(name = "Color", description = "Available colors for starships")
+@Enum(value = "Color", description = "Available colors for starships")
 public enum StarshipColor {
    WHITE,
    BLACK,
