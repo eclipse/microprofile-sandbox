@@ -26,7 +26,8 @@ import static org.testng.Assert.assertEquals;
  */
 public class InputTypeTest {
 
-    @InputType(value = "StarshipInput", description = "StarshipInput type", fieldsOrder = {"name", "length", "id"})
+    @InputType(value = "StarshipInput", description = "StarshipInput type")
+    @InputFieldsOrder({"name", "id", "length"})
     private static class Starship {
         private String id;
         private String name;
@@ -38,6 +39,8 @@ public class InputTypeTest {
         InputType inputType = Starship.class.getAnnotation(InputType.class);
         assertEquals(inputType.value(), "StarshipInput");
         assertEquals(inputType.description(), "StarshipInput type");
-        assertEquals(inputType.fieldsOrder(), new String[] {"name", "length", "id"});
+
+        InputFieldsOrder inputFieldsOrder = Starship.class.getAnnotation(InputFieldsOrder.class);
+        assertEquals(inputFieldsOrder.value(), new String[] {"name", "id", "length"});
     }
 }

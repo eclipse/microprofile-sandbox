@@ -26,7 +26,8 @@ import static org.testng.Assert.assertEquals;
  */
 public class TypeTest {
 
-    @Type(value = "Starship", description = "A starship in StarWars", fieldsOrder = {"name", "length", "id"})
+    @Type(value = "Starship", description = "A starship in StarWars")
+    @FieldsOrder({"name", "id", "length"})
     private static class Starship {
         private String id;
         private String name;
@@ -38,6 +39,8 @@ public class TypeTest {
         Type type = Starship.class.getAnnotation(Type.class);
         assertEquals(type.value(), "Starship");
         assertEquals(type.description(), "A starship in StarWars");
-        assertEquals(type.fieldsOrder(), new String[]{"name", "length", "id"});
+
+       FieldsOrder fieldsOrder = Starship.class.getAnnotation(FieldsOrder.class);
+        assertEquals(fieldsOrder.value(), new String[] {"name", "id", "length"});
     }
 }

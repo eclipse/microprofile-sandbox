@@ -28,7 +28,6 @@ import java.lang.annotation.Target;
  * For example, a user might annotate a class as such:
  * <pre>
  * {@literal @}InputType(name = "StarshipInput", description = "Input type for a starship")
- * {@literal @}InputFieldsOrder({"name", "id", "length"})
  * public class Starship {
  *     private String id;
  *     private String name;
@@ -49,7 +48,7 @@ import java.lang.annotation.Target;
  * </pre>
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target({ElementType.TYPE})
 @Documented
 public @interface InputType {
 
@@ -62,9 +61,4 @@ public @interface InputType {
      * @return the textual description of the GraphQL input type to be included as a comment in the schema.
      */
     String description() default "";
-
-    /**
-     * @return an ordered list of GraphQL input fields' names.
-     */
-    String[] fieldsOrder() default {};
 }

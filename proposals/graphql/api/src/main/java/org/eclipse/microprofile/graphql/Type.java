@@ -48,7 +48,7 @@ import java.lang.annotation.Target;
  * </pre>
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target({ElementType.TYPE})
 @Documented
 public @interface Type {
 
@@ -61,9 +61,4 @@ public @interface Type {
      * @return the textual description of the GraphQL type to be included as a comment in the schema.
      */
     String description() default "";
-
-    /**
-     * @return an ordered list of GraphQL fields' names.
-     */
-    String[] fieldsOrder() default {};
 }

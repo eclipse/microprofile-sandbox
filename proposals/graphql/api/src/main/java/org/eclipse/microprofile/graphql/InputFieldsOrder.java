@@ -23,14 +23,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Controls the mapping from a class' property to a GraphQL input type's field.
+ * To customize the appearance's order of input fields in documentation. No effect on the actual GraphQL schema.
  * <br><br>
- * For example, a user might annotate a class' property as such:
+ * For example, a user might annotate a class as such:
  * <pre>
- * {@literal @}Type(name = "Starship", description = "A starship in StarWars")
  * {@literal @}InputType(name = "StarshipInput", description = "Input type for a starship")
+ * {@literal @}InputFieldsOrder({"name", "id", "length"})
  * public class Starship {
- *     {@literal @}InputField(value = "uuid", description = "uuid of a new Starship")
  *     private String id;
  *     private String name;
  *     private float length;
@@ -41,34 +40,21 @@ import java.lang.annotation.Target;
  *
  * Schema generation of this would result in a stanza such as:
  * <pre>
- * # A starship from Starwars
- * type Starship {
- *   id: String
- *   name: String
- *   length: Float
- * }
- *
  * # Input type for a starship
  * input Starship {
- *   # uuid of a new Starship
- *   uuid: String
+ *   id: String
  *   name: String
  *   length: Float
  * }
  * </pre>
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD})
+@Target({ElementType.TYPE})
 @Documented
-public @interface InputField {
+public @interface InputFieldsOrder {
 
     /**
-     * @return the name to use for the input field.
+     * @return an ordered list of GraphQL input fields' names.
      */
-    String value();
-
-    /**
-     * @return the textual description of the GraphQL input field to be included as a comment in the schema.
-     */
-    String description() default "";
+    String[] value() default {};
 }
