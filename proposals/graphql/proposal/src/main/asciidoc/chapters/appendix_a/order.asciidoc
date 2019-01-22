@@ -30,12 +30,12 @@ Specifies the order of (input) fields, similar to @XmlType#propOrder. Relevant o
 .Example
 [source,java,numbered]
 ----
-@Type(name = "Starship", description = "A starship from Starwars")
-@InputType(name = "StarshipInput", description = "Input object for a starship")
+@Type(value = "Starship", description = "A starship from Starwars")
+@InputType(value = "StarshipInput", description = "Input object for a starship")
 @FieldOrder({"name", "id", "length"})
 @InputFieldOrder({"name", "id", "length"})
 public class Starship {
-   @InputField(name = "uuid", description = "uuid of a new Starship")
+   @InputField(value = "uuid", description = "uuid of a new Starship")
    private String id;
    private String name;
    private float length;

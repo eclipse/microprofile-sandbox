@@ -24,14 +24,14 @@ Controls the mapping of the annotated Java type to a GraphQL (object) type.
 .Parameters
 [cols="1,1"]
 |===
-|*name*|The name for the corresponding type in the GraphQL schema
+|*value*|The name for the corresponding type in the GraphQL schema
 |*description*|The description of the corresponding type
 |===
 
 .Example
 [source,java,numbered]
 ----
-@Type(name = "Starship", description = "A starship from Starwars")
+@Type(value = "Starship", description = "A starship from Starwars")
 public class Starship {
    private String id;
    private String name;
