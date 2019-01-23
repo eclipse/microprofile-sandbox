@@ -31,7 +31,7 @@ import java.lang.annotation.Target;
  *     {@literal @}Query(value = "searchByName",
  *                 description = "Search characters by name")
  *     public List{@literal <}Character{@literal >} getByName(
- *                      {@literal @}Argument(name = "name", defaultValue = "Han Solo", description = "Name to search for") String name) {
+ *                      {@literal @}Argument(value = "name", defaultValue = "Han Solo", description = "Name to search for") String name) {
  *         //...
  *     }
  * }
