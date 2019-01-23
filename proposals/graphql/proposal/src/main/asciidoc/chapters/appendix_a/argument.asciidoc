@@ -24,7 +24,7 @@ Controls the mapping of a method parameter to an argument on a GraphQL operation
 .Parameters
 [cols="1,1"]
 |===
-|*name*|The name the corresponding argument in the schema (required)
+|*value*|The name the corresponding argument in the schema (required)
 |*description*|The description the corresponding argument
 |===
 
@@ -32,9 +32,9 @@ Controls the mapping of a method parameter to an argument on a GraphQL operation
 [source,java,numbered]
 ----
 public class CharacterService {  
-  @Query(name = "searchByName", description = "Search characters by name")
+  @Query(value = "searchByName", description = "Search characters by name")
   public List<Character> getByName(
-       @Argument(name = "name", description = "Search for this name")
+       @Argument(value = "name", description = "Search for this name")
        @DefaultValue("Han Solo")
                String searchTerms) {
      // ...

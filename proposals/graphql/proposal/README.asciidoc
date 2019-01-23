@@ -16,41 +16,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-[[at_enum]]
-=== @Enum
+== Microprofile GraphQL Specification Proposal
 
-Maps a Java enum to a corresponding GraphQL enum.
+This is the initial proposal for a MicroProfile GraphQL Specification 
 
-.Parameters
-[cols="1,1"]
-|===
-|*value*|The name for the corresponding enum in the GraphQL schema
-|*description*|The description of the corresponding enum
-|===
+https://github.com/eclipse/microprofile-sandbox/blob/master/proposals/graphql/proposal/src/main/asciidoc/proposal.asciidoc
 
-.Example
-[source,java,numbered]
-----
-@Enum(value = "Color", description = "Available colors for starships")
-public enum StarshipColor {
-   WHITE,
-   BLACK,
-   RED,
-   BLUE,
-   GREEN    
-}
-----
+=== Other links that might convince you
 
-Resulting schema SDL:
-
-[source,json,numbered]
-----
-# Available colors for starships
-enum StarshipColor {
-   WHITE,
-   BLACK,
-   RED,
-   BLUE,
-   GREEN
-}
-----
+* https://jefrajames.wordpress.com/2019/01/04/when-graphql-meets-microprofile/[Blog post] by https://twitter.com/jefrajames[Jean-Francois James]
+* https://www.youtube.com/watch?v=TEF4qQzCXKI&t[Screencast] by https://twitter.com/phillipkruger[Phillip Kruger]

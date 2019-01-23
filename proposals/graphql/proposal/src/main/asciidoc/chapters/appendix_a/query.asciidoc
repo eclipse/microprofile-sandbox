@@ -24,7 +24,7 @@ Exposes the annotated field/method as a query/field in the GraphQL schema.
 .Parameters
 [cols="1,1"]
 |===
-|*name*|Overrides the field name in the resulting schema
+|*value*|Overrides the field name in the resulting schema
 |*description*|Sets a description on the field
 |*deprecationReason*|Marks the resulting field as deprecated and gives the deprecation reason
 |===
@@ -33,7 +33,7 @@ Exposes the annotated field/method as a query/field in the GraphQL schema.
 [source,java,numbered]
 ----
 public class CharacterService {  
-   @Query(name = "getFriendsOf", description = "Returns all the friends of a     character")
+   @Query(value = "getFriendsOf", description = "Returns all the friends of a     character")
    public List<Character> getFriendsOf(Character character) {
       // ...
    }
