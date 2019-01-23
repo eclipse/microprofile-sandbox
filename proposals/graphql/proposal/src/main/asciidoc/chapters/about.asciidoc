@@ -50,7 +50,7 @@ The main reasons for using GraphQL are:
 === GraphQL and REST
 Before going further, it is important to clearly differenciate GraphQL from REST.
 
-REST stands for "REpresentational State Transfer". It is an architecture style for network-based sofwtare specified by Roy Fielding in 2000 in a https://www.ics.uci.edu/~fielding/pubs/dissertation/fielding_dissertation.pdf[dissertation] defining 6 theoretical constrainsts:
+REST stands for "REpresentational State Transfer". It is an architectural style for network-based sofwtare specified by Roy Fielding in 2000 in a https://www.ics.uci.edu/~fielding/pubs/dissertation/fielding_dissertation.pdf[dissertation] defining 6 theoretical constrainsts:
 
 . uniform interface
 . stateless
@@ -59,9 +59,9 @@ REST stands for "REpresentational State Transfer". It is an architecture style f
 . layered system
 . code on demand (optional).
 
-Many people believe that REST is just doing JSON over HTTP, but REST is fundamentally technically agnostic, it is an architecure style. For instance, it doesn't require to use HTTP. However, it recommends using the maximum capacity of the underlying network protocol to apply the 6 basic principles.This is why its use on HTTP leads to optimize the HTTP semantic with a proper use of verbs (POST, GET, PUT, PATCH, DELETE) and response codes (2xx, 4xx, 5xx).
+REST is often believed as JSON over HTTP, but REST is fundamentally technically agnostic, it is an architecural style. In particular, it doesn't require to use HTTP. However, it recommends using the maximum capacity of the underlying network protocol to apply the 6 basic principles.For instance, its use on HTTP leads to optimize the HTTP semantic with a proper use of verbs (POST, GET, PUT, PATCH, DELETE) and response codes (2xx, 4xx, 5xx).
 
-In practise REST over HTTP has become mainstream to develop modern APIs, with more or less success because the theoretical principles are not always understood by developers. In particular, the implementation of HATEOS (Hypermedia as the engine of application state), which supports the principle of uniformity, is rarely applied. This leads to inconsistent and unclear APIs.
+In practice REST over HTTP has become mainstream to develop modern APIs, with more or less success because the theoretical principles are not always understood by developers. In particular, the implementation of HATEOS (Hypermedia as the engine of application state), which supports the principle of uniformity, is rarely applied. This leads to inconsistent and unclear APIs.
 
 GraphQL takes its roots from a Facebook https://facebook.github.io/graphql/[specification] published in 2015. As of this date, GraphQL has been subject to 5 releases:
 
@@ -76,63 +76,34 @@ According to its own definition: "GraphQL is a query language for describing the
 It should be stressed that GraphQL is independant from any transport protocol and database technology:
 
 * it does not recommend the use of HTTP. However, in practice, and as with REST, it is clearly the most widely used protocol,
-* it isn't tied to any specific database or storage engine and is instead backed by existing code and data.
+* it isn't tied to any specific database technology or storage engine and is instead backed by existing code and data.
 
 [[what_make_graphql_different]]
 === What make GraphQL different?
 In practice, here are the main differentiating features of GraphQL compared to REST:
 
-* *schema-driven*: a GraphQL API natively exposes a schema describing the structure of the data and operations (queries and mutations) exposed. This schema acts as a contract between the server and its clients. In a way GraphQL provides an explicit answer to the API discovery problem where REST relies on the ability of developers to use HATEOS,
+* *schema-driven*: a GraphQL API natively exposes a schema describing the structure of the data and operations (queries and mutations) exposed. This schema acts as a contract between the server and its clients. In a way GraphQL provides an explicit answer to the API discovery problem where REST relies on the ability of developers to properly use HATEOS and OpenAPI,
 * *single HTTP endpoint*: a typical GraphQL API is made of a single endpoint and access to data and operations is achieved through the query language. In a HTTP context, the endpoint is defined as a URL and the query can be  transported as a query string (GET request) or in the request body (POST request),
-* *flexible data retrieval*: by construction the query language enables to select the expected data in the response with a fine level of granularity,
+* *flexible data retrieval*: by construction the query language enables the client to select the expected data in the response with a fine level of granularity,thus avoiding extra and under data fetching,
 * *reduction of server requests*: the language allows the client to aggregate the expected data into a single request,
 * *easier version management*: thanks to the native capabilities to create new data while deprecating old ones, 
 * *partial results*: partial results are delivered by the GraphQL server in case of errors. A GraphQL result is made of data and errors. It's not an all or nothing approach. How to process such a result is the responsability of the client,
 * *low coupling with HTTP*: GraphQL does not try to make the most of the HTTP semantic. Queries can be made using GET or POST requests. The HTTP result code  does not reflect the GraphQL response. This aspect is subject to discussion and perhaps GraphQL will have to evolve towards a better integration with HTTP to broaden its adoption,
 * *challenging authorization handling*: an appropriate data access authorization policy must be defined and implemented to counter the extreme flexibility of the query language. For example, a customer may request data that are authorized and others that are prohibited,
-* *challenging API management*: most API management solutions are based on REST capabilities and allow for URL-based policies to be established. As we have seen, a GraphQL API has a single entry point. An analysis of the request is necessary to establish a policy. For instance, to prevent the execution of an overly complex request that would crash the server.
+* *challenging API management*: most API management solutions are based on REST capabilities and allow for endpoint (URL-based) policies to be established. As we have seen, a GraphQL API has a single entry point. Analysising the query maybe required to establish policies. For instance, to prevent from executing an overly complex request that would crash the server.
 
-[[graphql_beyond-the-hype]]
-=== GraphQL beyond the hype
-
-A lot has been said about GraphQL since its inception, creating noise and opposing believers vs skepticals. 
-
-We don't want to fuel the GraphQL vs REST controversy. We do not believe that GraphQL is a silver bullet and that it will replace REST. We do think that it is quite valid in some use cases and that it has a role to play in the world of modern APIs. 
-
-This opinion seems to us to be confirmed by:
-
-* the growth and dynamism of the  community, with, for example, events of international scope such as https://www.graphqlconf.org/[GraphQL Conf],
-* the adoption of the technology by major IT players (although it is difficult to have precise figures),
-* the recent creation of the https://gql.foundation/[GraphQL foundation] allowing for outreach beyond Facebook.
+By considering these elements, we do believe that GraphQL has a role to play in modern APIs in particular when there is a strong requirement in terms of flexibility on the client-side to access the data.
 
 [[graphql_and_database]]
 === GraphQL and Databases
 
-GraphQL is about data manipulation and can be compared to SQL but this is a misconception. 
+GraphQL is about data manipulation but it is not a database technology:
 
-GraphQL is not a database technology. It is a query language for APIs, not databases. It is database and storage agnostic and can be used in front of any kind of backend, with or without database.
+* It is a query language for APIs,
+* It is database and storage agnostic,
+* It can be used in front of any kind of backend, with or without database.
 
 One of GraphQL's strength is its multi-datasource capability enabling to aggregate data from various sources with a single API.
-
-
-[[graphql_licensing]]
-=== GraphQL licensing
-This arcticle https://nordicapis.com/what-the-graphql-patent-release-means-for-the-api-industry/[What the GraphQL patent Release Means For the API industry] written in December 2017 details the licensing issue.
-
-GraphQL was initially released with a license that could lead to potential future conflicts with software licensed under Apache.In September of 2017, GitLab officially froze their GraphQL project due to these concerns.
-
-On September 26th, 2017, Facebook relicensed GraphQL under an http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0[OWFa 1.0 license], granting a perpetual license to users of GraphQL.
-
-There’s still some cause for concern around the new licensing scheme, however. Facebook has broadly adopted the MIT license, which doesn’t expressly include a patent grant. By choosing this approach, Facebook does not convey with the MIT license any patent grants as they would have under the Apache.
-
-According to the article, most of the concerns are simply conjecture. But if the possibility of future concern is significant enough to worry an organization, they should consider moving away from GraphQL.
-
-What is not clear is the scope of that concern; is it about the specification or the JavaScript Reference Implementation ?
-
-Would it be possible for the Eclipse Foundation to clarify the legal risk?
-
-
-
 
 [[why_microprofile]]
 === Why MicroProfile
@@ -144,8 +115,9 @@ As noted in the following section (<<known_java_libraries>>), there are several 
 GraphQL continues to grow in popularity, and as such there should be a specification for GraphQL development in Java. 
 MicroProfile is the optimal place to host that standard as it is open, ideally suited for incubating technologies, and has broad reach both in terms of the user community and vendor support.
 
-[[what_graphql_is_not]]
+[[what_mp_graphql_is_not]]
 === What MicroProfile GraphQL is not
 
-This specification will focus on making it easy for developers to create a GraphQL Service/Endpoint and publish it as an API. 
-Where the data comes from (NoSQL, Relational DB, another service, etc.) is not the concern of this Proposed Specification. 
+This specification will focus on making it easy for developers to create a GraphQL Service/Endpoint and publish it as an API. The objective is to define a programming model that is consistent with the other MP specifications. Particular attention will be paid to integration with CDI.
+
+Where the data comes from (NoSQL, Relational DB, another service or API, etc.) is not the concern of this Proposed Specification. 
