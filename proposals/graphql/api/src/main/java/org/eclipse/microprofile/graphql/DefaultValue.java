@@ -23,14 +23,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies that the annotated method provides the implementation (ie. the resolver) for a GraphQL query.
+ * Controls the mapping of a method's parameter to an argument of a GraphQL operation (query/mutation/subscription).
  * <br><br>
- * For example, a user might annotate a method as such:
+ * For example, a user might annotate a method's parameter as such:
  * <pre>
  * public class CharacterService {
- *     {@literal @}Query(value = "friendsOf",
- *                 description = "Returns all the friends of a character")
- *     public List{@literal <}Character{@literal >} getFriendsOf(Character character) {
+ *     {@literal @}Query(value = "searchByName",
+ *                 description = "Search characters by name")
+ *     public List{@literal <}Character{@literal >} getByName(
+ *                      {@literal @}Argument(name = "name", description = "Name to search for")
+ *                       {@literal @}DefaultValue("Han Solo")
+ *                       String name) {
  *         //...
  *     }
  * }
@@ -39,27 +42,19 @@ import java.lang.annotation.Target;
  * Schema generation of this would result in a stanza such as:
  * <pre>
  * type Query {
- *    # Returns all the friends of a character
- *    friendsOf(character: CharacterInput): [Character]
- * }
+ *         # Search characters by name
+ *         # name: Name to search for. Default value: Han Solo.
+ *         searchByName(name: String = "Han Solo"): [Character]
+ *     }
  * </pre>
  */
-@Target(ElementType.METHOD)
+@Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Query {
+public @interface DefaultValue {
+
     /**
-     * @return the name to use for the query. If empty, annotated method's name is used.
+     * @return the name to use for the GraphQL argument.
      */
     String value() default "";
-
-    /**
-     * @return the textual description of the query to be included as a comment in the schema.
-     */
-    String description() default "";
-
-    /**
-     * @return a non-empty string will indicate that this query is deprecated and provides the reason for the deprecation.
-     */
-    String deprecationReason() default "";
 }
