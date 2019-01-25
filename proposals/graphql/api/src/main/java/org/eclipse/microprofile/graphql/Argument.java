@@ -54,7 +54,7 @@ public @interface Argument {
     /**
      * @return the name to use for the GraphQL argument.
      */
-    String value() default "";
+    String value();
 
     /**
      * @return the textual description of the GraphQL argument to be included as a comment in the schema.
@@ -63,5 +63,4 @@ public @interface Argument {
 
     String defaultValue() default "";
 
-    Class<?> defaultValueProvider() default Object.class;
 }
