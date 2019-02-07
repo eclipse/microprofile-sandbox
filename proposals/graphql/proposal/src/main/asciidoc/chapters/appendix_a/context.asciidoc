@@ -36,7 +36,7 @@ public class CharacterService {
   @Query(value = "tweets", description = "Get the last tweets for a character")
   public List<Tweet> tweets(
                          @Source(fieldName = "tweetsForMe", description = "Get the last tweets for the character") Character character,
-                         @Argument(value = "last", description = "Number of     last tweets to fetch") int last,
+                         @Argument(value = "last", description = "Number of last tweets to fetch") int last,
                          @Context QGLContext context,
                          @Info QGLInfo info) {
     return twitterService.search(character.getName(), last);

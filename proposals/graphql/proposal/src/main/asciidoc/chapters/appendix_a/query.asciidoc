@@ -33,7 +33,7 @@ Exposes the annotated field/method as a query/field in the GraphQL schema.
 [source,java,numbered]
 ----
 public class CharacterService {  
-   @Query(value = "getFriendsOf", description = "Returns all the friends of a     character")
+   @Query(value = "getFriendsOf", description = "Returns all the friends of a character")
    public List<Character> getFriendsOf(Character character) {
       // ...
    }

@@ -33,7 +33,7 @@ IMPORTANT: An alternative to specifying the implementationAutoDiscovery attribut
 [source,java,numbered]
 ----
 @Interface
-@Type(name = "Character", description = "A character in Starwars")
+@Type(value = "Character", description = "A character in Starwars")
 public interface Character {
    public String getId();
 
