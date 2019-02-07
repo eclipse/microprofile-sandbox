@@ -33,8 +33,8 @@
         <checkstyle.version>2.17</checkstyle.version>
         <checkstyle.methodNameFormat>^_?[a-z][a-zA-Z0-9]*$</checkstyle.methodNameFormat>
     
-        <asciidoctor-maven.version>1.5.5</asciidoctor-maven.version>
-        <asciidoctorj-pdf.version>1.5.0-alpha.15</asciidoctorj-pdf.version>
+        <asciidoctor-maven.version>1.5.7.1</asciidoctor-maven.version>
+        <asciidoctorj-pdf.version>1.5.0-alpha.16</asciidoctorj-pdf.version>
         <license>Apache License v 2.0</license>
         <maven.build.timestamp.format>MMMM dd, yyyy</maven.build.timestamp.format>
         <revisiondate>${maven.build.timestamp}</revisiondate>
