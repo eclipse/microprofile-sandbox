@@ -42,7 +42,7 @@ public class ArgumentTest {
 
         @Query(value = "friendsOf", description = "Returns all the friends of a character")
         public List<Character> getFriendsOf(
-                @Argument(value = "whomFriends", defaultValue = "Han Solo", description = "Whom friends to fetch") Character character) {
+                @Argument(value = "whomFriends", description = "Whom friends to fetch") Character character) {
             if (character.getName().equals("Han Solo")) {
                 return Collections.singletonList(new Character("Chewbacca"));
             }
@@ -55,6 +55,5 @@ public class ArgumentTest {
         Argument argument = (Argument)Character.class.getDeclaredMethod("getFriendsOf", Character.class).getParameterAnnotations()[0][0];
         assertEquals(argument.value(), "whomFriends");
         assertEquals(argument.description(), "Whom friends to fetch");
-        assertEquals(argument.defaultValue(), "Han Solo");
     }
 }

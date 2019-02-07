@@ -19,7 +19,6 @@ package org.eclipse.microprofile.graphql;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 /**
  * Simple test mainly as a placeholder for now.
@@ -38,22 +37,16 @@ public class MutationTest {
             return name;
         }    
 
-        @Mutation(value = "save", description = "Save a character", deprecationReason = "Outdated")
+        @Mutation(value = "save", description = "Save a character")
         public Character saveCharacter(Character character) {
 
             return character;
         }
     }
 
-    private static boolean isDeprecated(Mutation mutation) {
-        return !"".equals(mutation.deprecationReason());
-    }
-
     @Test
     public void testMutationAnnotationOnCharacterMethod() throws Exception {
         Mutation mutation = Character.class.getDeclaredMethod("saveCharacter", Character.class).getAnnotation(Mutation.class);
-        assertTrue(isDeprecated(mutation));
-        assertEquals(mutation.deprecationReason(), "Outdated");
         assertEquals(mutation.value(), "save");
         assertEquals(mutation.description(), "Save a character");
     }

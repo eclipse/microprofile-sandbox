@@ -57,9 +57,4 @@ public @interface Mutation {
      * @return the textual description of the mutation to be included as a comment in the schema.
      */
     String description() default "";
-
-    /**
-     * @return a non-empty string will indicate that this mutation is deprecated and provides the reason for the deprecation.
-     */
-    String deprecationReason() default "";
 }

@@ -61,6 +61,4 @@ public @interface Argument {
      */
     String description() default "";
 
-    String defaultValue() default "";
-
 }
