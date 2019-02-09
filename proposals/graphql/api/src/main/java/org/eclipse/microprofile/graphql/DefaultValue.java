@@ -48,7 +48,7 @@ import java.lang.annotation.Target;
  *     }
  * </pre>
  */
-@Target(ElementType.PARAMETER)
+@Target({ElementType.PARAMETER,ElementType.FIELD,ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface DefaultValue {
