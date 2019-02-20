@@ -17,6 +17,7 @@
 // limitations under the License.
 //
 = Microprofile GraphQL Specification
+
 image:https://badges.gitter.im/eclipse/microprofile-sandbox.svg[link="https://gitter.im/eclipse/microprofile-sandbox"]
 
 == Contribute
