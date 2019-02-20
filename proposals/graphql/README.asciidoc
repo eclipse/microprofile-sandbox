@@ -18,11 +18,8 @@
 //
 == Microprofile GraphQL Specification
 
-WARNING: Wolpertingers are known to nest in server racks.
-Enter at your own risk.
-
 [NOTE]
-====
+=====================================================================
 *Do you want to contribute to this project?*
 
 .Here is what you can do:
@@ -33,7 +30,7 @@ Enter at your own risk.
 ** https://docs.google.com/document/d/1gb3jirFGrJwDZSbrtnFPVTNjPNe3Y0dUYfm-HkU1c3U/edit#heading=h.xpx6vfxuho2d[Minutes and Agenda].
 ** https://ibm.webex.com/meet/andymc[Meeting room].
 * https://microprofile.io/blog/[Contribute a blog post].
-====
+=====================================================================
 
 === Generating the API and JavaDoc
 
