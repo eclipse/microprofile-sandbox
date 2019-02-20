@@ -20,7 +20,8 @@
 
 image:https://badges.gitter.im/eclipse/microprofile-sandbox.svg[link="https://gitter.im/eclipse/microprofile-sandbox"]
 
-== Contribute
+'''
+== How to contribute
 
 Do you want to contribute to this project? Here is what you can do:
 
