@@ -18,6 +18,22 @@
 //
 == Microprofile GraphQL Specification
 
+[NOTE]
+====
+Do you want to contribute to this project?
+
+.Here is what you can do:
+- Fork the repository, make changes, then do a pull request.
+- https://github.com/eclipse/microprofile-sandbox/issues[Create or fix an issues].
+- https://gitter.im/eclipse/microprofile-sandbox[Join us on Gitter to discuss this project].
+- Join our weekly meeting at https://www.timeanddate.com/worldclock/converted.html?iso=20190220T1530&p1=0&p2=111&p3=240&p4=179&p5=48&p6=233&p7=256&p8=224&p9=37&p10=176&p11=248&p12=195[10h30 AM US Eastern]. 
+-- https://docs.google.com/document/d/1gb3jirFGrJwDZSbrtnFPVTNjPNe3Y0dUYfm-HkU1c3U/edit#heading=h.xpx6vfxuho2d[Minutes and Agenda].
+-- https://ibm.webex.com/meet/andymc[Meeting room].
+- Are you using this project? https://microprofile.io/blog/[Write a blog and let us know].
+
+Interested in any other MicroProfile project? See the https://calendar.google.com/calendar/embed?src=gbnbc373ga40n0tvbl88nkc3r4%40group.calendar.google.com[meeting calendar here].
+====
+
 === Generating the API and JavaDoc
 
 Just enter `mvn clean install` at the command line. Maven will generate the following artifacts.
