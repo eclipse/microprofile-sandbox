@@ -18,7 +18,7 @@
 //
 == Microprofile GraphQL Specification
 
-[Note]
+[NOTE]
 ====
 *Do you want to contribute to this project?*
 
