@@ -18,9 +18,9 @@
 //
 == Microprofile GraphQL Specification
 
-[NOTE]
+icon:tags[] ruby, asciidoctor
 ====
-Do you want to contribute to this project?
+*Do you want to contribute to this project?*
 
 .Here is what you can do:
 - Fork the repository, make changes, then do a pull request.
