@@ -18,6 +18,14 @@
 //
 == Microprofile GraphQL Specification
 
+[sidebar]
+.Related information
+--
+This is aside text.
+
+It is used to present information related to the main content.
+--
+
 [NOTE]
 ====
 *Do you want to contribute to this project?*
