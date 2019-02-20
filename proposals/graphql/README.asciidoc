@@ -18,12 +18,6 @@
 //
 == Microprofile GraphQL Specification
 
-.An Example Sidebar
-************************************************
-Any AsciiDoc SectionBody element (apart from
-SidebarBlocks) can be placed inside a sidebar.
-************************************************
-
 [Note]
 ====
 *Do you want to contribute to this project?*
