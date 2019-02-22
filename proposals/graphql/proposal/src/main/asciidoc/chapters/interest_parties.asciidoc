@@ -28,3 +28,4 @@
 * Soukayna Abid (Oracle)
 * Jean-Baptiste Roux (Atos Worldline)
 * Bojan Tomic (GraphQL SPQR, ServiceNow)
+* Matjaz B. Juric (KumuluzEE)
