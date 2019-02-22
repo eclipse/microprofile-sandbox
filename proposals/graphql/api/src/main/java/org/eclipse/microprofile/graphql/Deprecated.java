@@ -23,38 +23,38 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies that the annotated method provides the implementation (ie. the resolver) for a GraphQL query.
+ * Marks a field/method as being deprecated, with a reason. 
+ * You should also be able to use java.lang.Deprecated, but then you can not provide a reason
  * <br><br>
  * For example, a user might annotate a method as such:
  * <pre>
- * public class CharacterService {
- *     {@literal @}Query(value = "friendsOf",
- *                 description = "Returns all the friends of a character")
- *     public List{@literal <}Character{@literal >} getFriendsOf(Character character) {
- *         //...
- *     }
+ * {@literal @}InputType(name = "StarshipInput", description = "Input type for a starship")
+ * public class Starship {
+ *     private String id;
+ *     {@literal @}Deprecated("Field is deprecated!")
+ *     private String name;
+ *     private float length;
+ *
+ *     // getters/setters...
  * }
  * </pre>
  *
  * Schema generation of this would result in a stanza such as:
  * <pre>
- * type Query {
- *    # Returns all the friends of a character
- *    friendsOf(character: CharacterInput): [Character]
+ * type Starship {
+ *   id: String
+ *   name: String @deprecated(reason: "Field is deprecated!")
+ *   length: Float
  * }
  * </pre>
  */
-@Target(ElementType.METHOD)
+@Target({ElementType.PARAMETER,ElementType.METHOD,ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Query {
-    /**
-     * @return the name to use for the query. If empty, annotated method's name is used.
-     */
-    String value() default "";
+public @interface Deprecated {
 
     /**
-     * @return the textual description of the query to be included as a comment in the schema.
+     * @return the reason and/or alternative to use.
      */
-    String description() default "";
+    String value() default "Deprecated";
 }

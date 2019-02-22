@@ -73,9 +73,4 @@ public @interface Source {
      * @return the textual description of the added field to be included as a comment in the schema.
      */
     String description() default "";
-
-    /**
-     * @return a non-empty string will indicate that the added field is deprecated and provides the reason for the deprecation.
-     */
-    String deprecationReason() default "";
 }

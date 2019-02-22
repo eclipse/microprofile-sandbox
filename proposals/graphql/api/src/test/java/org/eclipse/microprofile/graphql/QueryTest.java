@@ -22,8 +22,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 /**
  * Simple test mainly as a placeholder for now.
  */
@@ -41,7 +39,7 @@ public class QueryTest {
             return name;
         }    
 
-        @Query(value = "friendsOf", description = "Returns all the friends of a character", deprecationReason = "Outdated")
+        @Query(value = "friendsOf", description = "Returns all the friends of a character")
         public List<Character> getFriendsOf(Character character) {
             if (character.getName().equals("Han Solo")) {
                 return Collections.singletonList(new Character("Chewbacca"));
@@ -50,15 +48,9 @@ public class QueryTest {
         }
     }
 
-    private static boolean isDeprecated(Query query) {
-        return !"".equals(query.deprecationReason());
-    }
-
     @Test
     public void testQueryAnnotationOnCharacterMethod() throws Exception {
         Query query = Character.class.getDeclaredMethod("getFriendsOf", Character.class).getAnnotation(Query.class);
-        assertTrue(isDeprecated(query));
-        assertEquals(query.deprecationReason(), "Outdated");
         assertEquals(query.value(), "friendsOf");
         assertEquals(query.description(), "Returns all the friends of a character");
     }
