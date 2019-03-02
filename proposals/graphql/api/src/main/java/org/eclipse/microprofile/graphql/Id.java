@@ -23,7 +23,6 @@ import java.lang.annotation.Target;
 
 /**
  * Marks a field as a Id Scalar Type.
- * Alse see https://github.com/leangen/graphql-spqr/blob/master/src/main/java/io/leangen/graphql/annotations/GraphQLId.java
  * 
  * <br><br>
  * For example, a user might annotate a method's parameter as such:
@@ -41,7 +40,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.PARAMETER, ElementType.TYPE_USE, ElementType.FIELD, ElementType.TYPE})
 public @interface Id {
-    String RELAY_ID_FIELD_NAME = "id"; //The name of the ID field, as defined by the Node interface
     
-    boolean relayId() default false;
 }
