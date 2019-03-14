@@ -35,6 +35,7 @@ endif::[]
 
 include::license-alv2.asciidoc[]
 
-== Microprofile GraphQL
+== MicroProfile GraphQL
+include::intro.asciidoc[]
 
 include::release_notes.asciidoc[]
