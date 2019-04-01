@@ -38,4 +38,10 @@ include::license-alv2.asciidoc[]
 == MicroProfile GraphQL
 include::intro.asciidoc[]
 
+include::entities.asciidoc[]
+
+include::components.asciidoc[]
+
+include::errorhandling.asciidoc[]
+
 include::release_notes.asciidoc[]
