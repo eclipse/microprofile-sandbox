@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2018 IBM Corporation and others. All rights reserved. 
+    This program and the accompanying materials are made available under the 
+    terms of the Eclipse Public License v1.0 which accompanies this distribution, 
+    and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: 
+    IBM Corporation - initial API and implementation -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>boost</groupId>
+    <artifactId>boost-maven-parent</artifactId>
+    <version>0.1.3-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>boost-maven-plugin Parent</name>
+
+    <parent>
+        <groupId>net.wasdev.maven.parent</groupId>
+        <artifactId>parent</artifactId>
+        <version>1.4</version>
+        <relativePath />
+    </parent>
+
+    <licenses>
+        <license>
+            <name>Eclipse Public License 1.0 (EPL-1.0)</name>
+            <url>https://raw.github.com/OpenLiberty/boost/master/LICENSE</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:git@github.com:OpenLiberty/boost.git</connection>
+        <developerConnection>scm:git:git@github.com:OpenLiberty/boost.git</developerConnection>
+        <url>git@github.com:OpenLiberty/boost.git</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <modules>
+        <module>boost-boms</module>
+        <module>boost-boosters</module>
+        <module>boost-runtimes</module>
+        <module>boost-maven-plugin</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
