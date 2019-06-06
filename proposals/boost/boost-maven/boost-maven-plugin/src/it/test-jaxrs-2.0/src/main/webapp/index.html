@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Java REST Application</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<script>
+$(document).ready(function() {
+	console.log("Ready!");
+	$.get( "api/hello", function(data) {
+		console.log("good", data.message);
+  		$('#messageText').text(data.message);
+	}) 
+	.fail(function(err) {
+   	alert( "ERROR calling API" );
+  })
+	
+
+});
+</script>
+<body>
+	<br>
+	<h1>
+		<b>Message from <a href="api/hello">/api/hello</a></b> : 
+		<span id="messageText"></span>
+	</h1>
+</body>
+</html>

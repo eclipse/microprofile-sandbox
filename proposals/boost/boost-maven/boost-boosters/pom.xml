@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>boost</groupId>
+		<artifactId>boost-maven-parent</artifactId>
+		<version>0.1.3-SNAPSHOT</version>
+	</parent>
+
+    <artifactId>boost-boosters</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>booster-jaxrs-ee7</module>
+        <module>booster-jaxrs-ee8</module>
+        <module>booster-cdi-ee8</module>
+        <module>booster-jdbc</module>
+        <module>booster-jpa-ee7</module>
+        <module>booster-jpa-ee8</module>
+        <module>booster-jsonp-ee8</module>
+        <module>booster-mpConfig-20</module>
+        <module>booster-mpHealth-20</module>
+        <module>booster-mpOpenTracing-20</module>
+        <module>booster-mpRestClient-20</module>
+    </modules>
+
+</project>

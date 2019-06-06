@@ -1,0 +1,140 @@
+#!/bin/sh
+#
+# PreReq's
+#  - This requires that a current level of Eclipse is defined on your machine 
+
+# This hook will run the eclipse code formatter before any commit.
+# This will format Java code files that are part of the commit.
+# The java code will be formatted based on the preferences defined
+# in the java.prefs file provided in the base directory of this project.
+#
+# Note: this script requires a linux environment to run (linux/MacOSX/cygwin)
+# this will not execute in a native Windows environment.
+#
+# WINDOWS USERS NOTE: Update your eclipse.ini file and remove
+# the property -Dosgi.dataAreaRequiresExplicitInit=true
+#
+# Update the following items below then save this file in 
+# .git/hooks/pre-commit 
+# be sure you have execute authority for this file. 
+
+# set this to the location of your Eclipse installation
+# linux/Mac Example: ECLIPSE_HOME=/Users/mac/EclipseInstalls/EclipseO2/EClipse.app/Contents/MacOS
+# Windows/Cygwin Example: ECLIPSE_HOME="C:/EclJavaFrmtAdmin/eclipse"
+ECLIPSE_HOME=***** Fully qualified location of your Eclipse executable *****
+
+# Style file is provided in the root directory of the project as java.prefs
+PROJECT_LOCATION=$PWD
+STYLE_FILE=$PROJECT_LOCATION/java.prefs
+
+echo "Running pre-commit hook: run-eclipse-formatter---------------------"
+echo "Will run eclipse formatter, using: $STYLE_FILE"
+echo "Listing folders to run formatter on... "
+echo "Current dir = $PWD"
+
+statusFile=status.$RANDOM
+
+fileCommand="git status --porcelain 2>&1 > $statusFile"
+$(eval $fileCommand)
+
+newList=Y
+while read -r
+do
+    line="$REPLY"
+    #Check to see if this is a java file
+    if echo "$line" | grep -q "\.java"; then
+
+      actionCmd="echo \"$line\" | cut -c1-2"
+      action=$(eval "$actionCmd")
+
+      # Is the file being renamed?
+      # Yes that space in "R " needs to be there.
+      if [ "$action" == "RM" ] || [ "$action" == "R " ] ; then 
+        echo "File $line is being renamed"
+        #
+        # find the new file name, handling either the
+        #  old -> new   OR the old => new   output formats of `git status --porcelain`
+        #
+        # Note the sed output is a relative path (relative to project location)
+        #
+        # The idea is this translates
+        #  R a/b/c/X.java -> a/b/d/Y.java 
+        # into  'a/b/d/Y.java' .   That is, it strips off everything leaving the new relative path.
+        # It assumes there are no spaces in the path name.
+        #  We had some inconsistencies with Git versions and sed versions, so hopefully this covers all cases.
+        newFileCmd="echo \"$line\" | sed 's/.* //'"
+        newFile=$(eval "$newFileCmd")
+        if [ $newList == "Y" ] ; then
+          # formatFiles are input to the eclipse formatter
+          formatFiles=$PROJECT_LOCATION/$newFile  
+          checkIfFormatted=$newFile
+          newList=N
+        else
+          formatFiles="$formatFiles $PROJECT_LOCATION/$newFile"
+          checkIfFormatted="$checkIfFormatted $newFile"
+        fi
+      # Yes that space in "M " and "A " needs to be there.
+      elif [ "$action" == "MD" ] || [ "$action" == "M " ] || [ "$action" == "A " ] ; then
+        # Note the sed output is an absolute path including project location
+        newFileCmd="echo $line | cut -c 3- | sed -e 's|^|$PROJECT_LOCATION/|'"
+        newFile=$(eval "$newFileCmd")
+        if [ $newList == "Y" ] ; then
+          formatFiles="$newFile"
+          checkIfFormatted=$newFile
+          newList=N
+        else
+          formatFiles="$formatFiles $newFile"
+          checkIfFormatted="$checkIfFormatted $newFile"
+        fi
+      else
+        newFileCmd="echo $line | cut -c 3- | sed -e 's|^|$PROJECT_LOCATION/|'"
+        newFile=$(eval "$newFileCmd")
+        echo "Will not check format of file $newFile"
+      fi
+    fi
+
+done < $statusFile
+
+rm $statusFile
+
+filteredFileLen=${#formatFiles}
+
+if [ $filteredFileLen -gt 0 ]; then
+    # Format Java Files     
+    echo "Launching eclipse code formatter...    "
+    eclipseCMD="$ECLIPSE_HOME/eclipse -nosplash -application org.eclipse.jdt.core.JavaCodeFormatter -quiet -config $STYLE_FILE $formatFiles"
+    formatResults=$(eval $eclipseCMD)
+
+    # Check to see if any files have been formatted. 
+    # If files were formatted cancel the commit and notify
+    # the developer that the formatted files need to be staged
+    # and the commit needs to be rerun.
+
+    # list files that have been modified
+    onlyModifiedCmd="git ls-files -m"
+    modified=$(eval $onlyModifiedCmd)
+    modifiedLen=${#modified}
+
+    #list files that have been staged
+    onlyStagedCmd="git diff --name-only --cached"
+    staged=$(eval $onlyStagedCmd)
+
+    rc=0
+
+    # see if a stage file is also in modified (means the formatter changed the file..) 
+    # tell the developer to do a git add on the file and run the commit again
+    if [ $modifiedLen -gt 0 ]; then
+      for f in $checkIfFormatted; do
+        f=${f#"$PROJECT_LOCATION/"}
+        for match in $modified; do
+          if [ "$f" == "$match" ] ; then
+             echo "File $f has been reformatted .. please do a git add for this file and rerun git commit"
+             rc=1
+          fi
+        done;
+      done;
+    fi
+else 
+    rc=0
+fi
+exit $rc
