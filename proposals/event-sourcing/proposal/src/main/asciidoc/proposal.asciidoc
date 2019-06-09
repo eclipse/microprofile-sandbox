@@ -73,6 +73,105 @@ and able to use any MicroProfile reactive messaging Connector
 as a transport.
 
 [[sources]]
+
+[[value-add]]
+== Value Add of This Proposal
+
+=== Reduce Microservice Development Cost
+
+A big pain point of some microservice architectures is maintaining
+the chosen consistency model across services. Event sourcing is
+one common approach but event production, consumption and handling
+at-least-once semantics across failure is the same problem handled
+repeatedly with common pqatterns and adds little business value in itself.
+Raising the level of abstraction that this can be built on will
+save customers time and money and provide less scope for errors.
+
+=== Leaning-in on Standardisation of Database Change Data Capture
+
+There are no current standards for database change data capture support SPIs.
+This makes it more expensive to implement or re-implement change data capture solutions. 
+It also provides less incentive for database vendors to provide and support CDC
+SPIs as the market for what can make use of them is fragmented. 
+The value chain MicroProfile
+Event Sourcing builds is likely to increase usage of CDC
+and provide incentive for database vendors to support it.
+A CDC SPI is a natural follow on aspect, that can be done in sync with
+Debezium and other libraries, and thus carry more incentive for
+it to be supported.
+
+=== Better Integration with Other Microservice Concerns
+
+The current CDC state of the art relies on users writing plug-in components for
+particular frameworks, such as Debezium Apache Kafka Connector schemas and type transformers.
+This work would have to be repeated in other contexts. The MicroProfile
+ecosystem can provide a set of sepcifications where artifacts such as
+type converters can be used in more than one area.
+
+=== Library Selection in One Area Should Not Constrain Portability
+
+There are certain things that Kafka is great for in a microservices
+context. The Kafka ecosystem is currently also doing a great job of expanding horizontally
+into connectors, streams, tables, queries and so on.
+The MicroProfile Reactive Messaging specification allows applications to
+be written that can be easily moved from one Connector (such as Kafka) to another
+(such as a cloud provider's proprietary equivalent) with no code changes.
+
+Similarly MicroProfile Event Sourcing allows for a cross vendor home
+for event sourcing concerns that exist today such as CDC, connectors, schemas, converters
+etc. It also provides an environment for technology that 
+can be provided in the future such as transactional outbox connectors,
+conflict-free replicated data types,
+occasionally connected semantics and so on. If these technologies are
+developed solely for one transport (for example the Kafka ecosystem) then use of a function
+in one area will then constrain the solution in others, perhaps to one dominant library.
+This is a drag on portability, for example across database or cloud messaging providers.
+History has shown us that evolution plus choice in solution technologies
+is a benefit for users that ultimately lifts all libraries' performance.
+
+=== Why is This Not a Dot Release on Reactive Messaging?
+
+'Event Sourcing' is a well recognised term and understood concept.
+As this specification is not an Event Sourcing Framework or opinionated
+architectural approach. One can reasonably argue that it just makes
+event sourcing easier and is more like a set of tools to enable state
+change distribution across microservices. Unfortunately "Tools to Make State
+Change Capture, Distribution and Ingestion Easier Across Microservices" is a much
+harder rallying point for a common CDC SPI to supoprt and sounds like a much less
+attractive home to do a proof of concept for CRDT and so on. Hence
+'MicroProfile Event Sourcing' has been chosen. We do not believe there will ever
+be another MicroProfile Specification that will be closer to 
+helping the concerns raised in implementing the 'Event Sourcing' approach.
+
+
+CDC is a whole skill set in itself and involves Database skills and contacts
+to push forwards a common SPI for CDC (which is a longer term aim of this specification).
+These skills and contact exist already but not in the MicroProfile
+Reactive Messaging Team.
+
+=== Why is This Not a Dot Release on the Debezium Project?
+
+We will wrap and replicate the change data capture facility of Debezium that peeks at database
+change logs. However, this proposal pushes deeply into annotation 
+based application level integration for both state change event generation and handling.
+
+To date Debezium has captured changes from only 'underneath' the databases
+detached from application code.
+Being reactive stream based, this proposal will allow for applications to switch in any
+reactive streams based processing of event streams using MicroProfile
+reactive streams operators. 
+The proposal will allow for the whole variety of reactive messaging connectors to be
+used to transport microservices' state changes including those with various
+characteristics such as reactive back-pressure, legacy integration and so on.
+
+In short this is a 'big area' for customers, much of the technology is already
+proven to work and also has field-proven customer demand.
+A lot of the customer value remains on the table in terms of integration
+with other microservice concerns. 
+Also a 'common' standard that allows CDC SPIs and APIs to emerge; and the benefit of
+state change event propagation across diverse microservice platforms
+be realised have value that is not currently realised.
+
 == Event Generation
 
 State change events can easily be generated by applications,
@@ -178,12 +277,13 @@ outgoing reactive messaging connector.
 [[kafka-connectors]]
 ==== Apache Kafka Connectors
 
-[[kafka-offsets]]
-===== At Least Once Delivery
-
-[[kafka-schemas]]
-===== Apache Kafka Schemas
-
+Debezium can make use of Kafka Connectors as an environment that is well suited
+to event sourcing. Clustering, sharding, offset management ensuring at-least-once
+delivery and schemas which allow for de-serialisation and type conversion are all
+made easier to build by Kafka connectors. Some of these concerns, for example
+clustering, as not within the scope of MicroProfile Event Sourcing.
+However in some others Apache Kafka provides clear 'tail-lights' to follow
+either by wrapping function or providing for alternatives where this makes sense.
 
 [[sinks]]
 == Event Handling
@@ -212,7 +312,6 @@ semantics.
 [[back-pressure]]
 ==== Inter-service Reactive Back-Pressure
 
-
 [[mp-config]]
 === Integration with MicroProfile Config Converters
 
@@ -231,7 +330,7 @@ data stealing semantics from the Debezium Kafka Sink Connector.
 === Event Sourcing Background
 
 [[event-sourcing]]
-A good introduction to Event Sourcing is written at https://martinfowler.com/eaaDev/EventSourcing.html
+A good start to Event Sourcing is written at https://martinfowler.com/eaaDev/EventSourcing.html
 
 [[mrm]]
 === MicroProfile Reactive Messaging Background
@@ -250,4 +349,4 @@ of the origins are in newsgroup conversations listed below.
 Feel free to add to any active threads.
 
 https://groups.google.com/d/msg/microprofile/F0ehhd1MFMc/e2DLvf5tBAAJ
-https://groups.google.com/d/msg/microprofile/F0ehhd1MFMc/UPFcUOjGBwAJ
+
