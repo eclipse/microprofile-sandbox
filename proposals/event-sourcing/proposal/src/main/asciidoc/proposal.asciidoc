@@ -151,24 +151,37 @@ Reactive Messaging Team.
 
 === Why is This Not a Dot Release on the Debezium Project?
 
-We will wrap and replicate the change data capture facility of Debezium that peeks at database
-change logs. However, this proposal pushes deeply into annotation 
-based application level integration for both state change event generation and handling.
+One implementation approach would be to wrap and replicate the change data capture
+facility of Debezium that peeks at database change logs. 
+However, this proposal pushes deeply into annotation 
+based application level integration for both state change event 
+generation and handling.
 
-To date Debezium has captured changes from only 'underneath' the databases
+To date Debezium has captured changes from 'underneath' the databases
 detached from application code.
-Being reactive stream based, this proposal will allow for applications to switch in any
-reactive streams based processing of event streams using MicroProfile
-reactive streams operators. 
-The proposal will allow for the whole variety of reactive messaging connectors to be
+Being reactive stream based, this proposal will allow for applications 
+to switch in any reactive streams based processing of event streams 
+using MicroProfile reactive streams operators. 
+The proposal will allow for a variety of reactive messaging connectors to be
 used to transport microservices' state changes including those with various
-characteristics such as reactive back-pressure, legacy integration and so on.
+characteristics such as reactive back-pressure, better legacy integration and so on.
 
-In short this is a 'big area' for customers, much of the technology is already
+Many write mirroring systems can operate remote confirmation at different stages -
+for example: acknowledge on local save, acknowledge on remote save and
+incremental chunking of updates (for example IBM's 'Metro-mirror', 'Global-mirror'
+and 'Change Volumes'). Frequently these schemes rely on having one vendor's systems
+on each end and no application involvement. Integrating CDC and reactive messaging
+allows this work to be done in a manner that can reused across technologies and support a polyglot
+microservice environment.
+
+In short this is a 'big area' for customers, 
+CDC technology such as Debezium is already
 proven to work and also has field-proven customer demand.
-A lot of the customer value remains on the table in terms of integration
-with other microservice concerns. 
-Also a 'common' standard that allows CDC SPIs and APIs to emerge; and the benefit of
+However, a lot of the customer value remains 
+on the table in terms of integration
+with other microservice concerns.
+
+A 'common' standard that allows CDC SPIs and APIs to emerge; and the benefit of
 state change event propagation across diverse microservice platforms
 be realised have value that is not currently realised.
 
