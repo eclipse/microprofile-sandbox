@@ -220,6 +220,14 @@ Applications are at liberty to trigger the generation
 of state change events at any time using mechanisms
 similar to MicroProfile reactive messaging.
 
+[[tailable]]
+==== Tailable Cursors
+Some databases are providing support for 'tailable cursors'
+as a means to feed reactive streams. This provides an
+interesting potential hook for a custom CDC feed
+defined by the application that captures both
+an initial snapshot and subsequent changes within a defined set.
+
 [[outbox-connectors]]
 ==== Outbox Reactive Messaging Connectors
 
@@ -314,13 +322,6 @@ state changes. The before+after+metadata structure of
 MicroProfile Events Sourcing messages would be an ideal
 abstraction on which to support easy to use CRDT
 semantics.
-
-[[tailable]]
-=== Tailable Cursors
-Some databases are providing support for 'tailable cursors'
-as a means to feed reactive streams. This provides an
-interesting potential hook for a custom CDC feed that captures both
-an initial snapshot and subsequent changes within a defined set.
 
 [[ecosystem]]
 == Ecosystem 
