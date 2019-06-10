@@ -1,6 +1,6 @@
 ## Boost
 
-Boost is a Maven plugin that enhances the builds for your Java EE and MicroProfile applications.
+Boost is a Maven plugin that enhances the builds for your MicroProfile applications.
 
 There are two separate Boost projects. 
 
