@@ -7,3 +7,21 @@ Feel free to experiment with anything and share your code and documents in this 
 '''
 
 If you need to accept and merge a pull request, or you feel that an idea is mature and deserves a separate repository, contact one of the https://projects.eclipse.org/projects/technology.microprofile/who[MicroProfile project committers] for guidance. They can be contacted either directly or on the https://groups.google.com/forum/#!forum/microprofile[MicroProfile mailing list].
+
+'''
+
+==== Contributor License Agreement requirements
+
+Your pull request will be checked to make sure there is a valid Eclipse Foundation Contributor Agreement (ECA) on file, (for an *eclipse.org* id associated with the commit author).
+
+.To pass this check, perform these steps:
+. Get an *eclipse.org* id at:  https://accounts.eclipse.org/.  
+* If you specify an organization (e.g. an employer) that has signed a contributor agreement when creating your id, skip to step 3.
+. If you're not already covered via your employer, https://www.eclipse.org/legal/ecafaq.php[read] about the ECA and sign.
+. Be sure to "sign-off" your commits, `git commit -s -m "<commit message>"`.
+
+To verify that your commits are linked to a signed ECA (without submitting a PR), you can also use add the https://blogs.eclipse.org/post/christopher-guindon/eclipse-foundation-contributor-validation-service[ECA Validator GitHub app], to any repository, and test your PRs there.
+
+
+
+
