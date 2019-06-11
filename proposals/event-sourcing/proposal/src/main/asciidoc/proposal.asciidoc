@@ -87,6 +87,19 @@ repeatedly with common pqatterns and adds little business value in itself.
 Raising the level of abstraction that this can be built on will
 save customers time and money and provide less scope for errors.
 
+[[undo]]
+=== Undo and Compensation
+
+With an API that supports application involvement
+in change event handling;
+subscribable change event channels and
+events that include 'before' and 'after' state, it
+would be easy to invert a change event and construct an 'undo' operation.
+'Undo' combined with transactional outboxes at an application
+level would be very useful constructs when building *_Eventual Consistency_*
+applications.
+
+
 === Leaning-in on Standardisation of Database Change Data Capture
 
 There are no current standards for database change data capture support SPIs.
@@ -322,6 +335,15 @@ state changes. The before+after+metadata structure of
 MicroProfile Events Sourcing messages would be an ideal
 abstraction on which to support easy to use CRDT
 semantics.
+
+[[compensation]]
+=== State Change Inversion and Undo
+
+It would be possible to develop the concept of the inverse of a
+state change operation as a synthetic CDC event. This could be useful for building
+state change compensation operations that might contribute
+towards making eventual consistency applications easier to
+build.
 
 [[ecosystem]]
 == Ecosystem 
