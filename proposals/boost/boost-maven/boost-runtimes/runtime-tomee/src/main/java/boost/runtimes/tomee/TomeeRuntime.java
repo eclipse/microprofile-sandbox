@@ -21,7 +21,6 @@ import static org.twdata.maven.mojoexecutor.MojoExecutor.plugin;
 import static org.twdata.maven.mojoexecutor.MojoExecutor.version;
 
 import java.util.List;
-import java.util.Properties;
 
 import org.apache.maven.model.Plugin;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -29,7 +28,6 @@ import org.twdata.maven.mojoexecutor.MojoExecutor.ExecutionEnvironment;
 
 import boost.common.BoostException;
 import boost.common.boosters.AbstractBoosterConfig;
-import boost.common.config.BoostProperties;
 import boost.common.config.BoosterConfigurator;
 import boost.common.runtimes.RuntimeI;
 import boost.maven.runtimes.RuntimeParams;
@@ -97,18 +95,9 @@ public class TomeeRuntime implements RuntimeI {
                     BoostLogger.getInstance());
             tomeeConfig.addJarsDirToSharedLoader();
 
-            // Configure HTTP endpoint
-            Properties boostConfigProperties = BoostProperties.getConfiguredBoostProperties(BoostLogger.getInstance());
-
-            String hostname = (String) boostConfigProperties.getOrDefault(BoostProperties.ENDPOINT_HOST, "localhost");
-            tomeeConfig.addHostname(hostname);
-
-            String httpPort = (String) boostConfigProperties.getOrDefault(BoostProperties.ENDPOINT_HTTP_PORT, "8080");
-            tomeeConfig.addHttpPort(httpPort);
-
             // Loop through configuration objects and add config
             for (AbstractBoosterConfig configurator : boosterConfigurators) {
-                tomeeConfig.addServerConfig(configurator);
+            	configurator.addServerConfig(tomeeConfig);
             }
         } catch (Exception e) {
             throw new MojoExecutionException("Unable to generate server configuration for the Tomee server.", e);

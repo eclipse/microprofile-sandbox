@@ -29,6 +29,7 @@ import org.reflections.Reflections;
 import boost.common.BoostException;
 import boost.common.BoostLoggerI;
 import boost.common.boosters.AbstractBoosterConfig;
+import boost.common.boosters.HTTPEndpointBoosterConfig;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.LoaderClassPath;
@@ -97,6 +98,10 @@ public class BoosterConfigurator {
                 }
             }
         }
+        
+        // Add internal http endpoint booster
+        HTTPEndpointBoosterConfig httpBooster = new HTTPEndpointBoosterConfig(logger);
+        boosterConfigList.add(httpBooster);
 
         return boosterConfigList;
     }

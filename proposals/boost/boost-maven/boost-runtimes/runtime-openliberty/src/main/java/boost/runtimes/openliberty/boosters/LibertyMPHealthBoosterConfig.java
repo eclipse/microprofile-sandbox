@@ -33,9 +33,4 @@ public class LibertyMPHealthBoosterConfig extends MPHealthBoosterConfig implemen
         }
         return null;
     }
-
-    @Override
-    public void addServerConfig(LibertyServerConfigGenerator libertyServerConfigGenerator) {
-
-    }
 }

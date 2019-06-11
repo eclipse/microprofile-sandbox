@@ -34,9 +34,4 @@ public class LibertyMPRestClientBoosterConfig extends MPRestClientBoosterConfig 
         }
         return null;
     }
-
-    @Override
-    public void addServerConfig(LibertyServerConfigGenerator libertyServerConfigGenerator) {
-
-    }
 }

@@ -17,6 +17,7 @@ import java.util.Map;
 import boost.common.BoostException;
 import boost.common.BoostLoggerI;
 import boost.common.boosters.AbstractBoosterConfig.BoosterCoordinates;
+import boost.common.config.ServerConfigGenerator;
 
 @BoosterCoordinates(AbstractBoosterConfig.BOOSTERS_GROUP_ID + ":jsonp")
 public class JSONPBoosterConfig extends AbstractBoosterConfig {
@@ -29,5 +30,10 @@ public class JSONPBoosterConfig extends AbstractBoosterConfig {
     public List<String> getDependencies() {
         return new ArrayList<String>();
     }
+    
+    @Override
+	public void addServerConfig(ServerConfigGenerator configGenerator) {
+
+	}
 
 }

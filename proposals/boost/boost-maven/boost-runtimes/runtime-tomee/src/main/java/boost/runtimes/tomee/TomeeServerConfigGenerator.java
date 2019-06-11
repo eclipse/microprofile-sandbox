@@ -38,18 +38,21 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 
 import boost.common.BoostLoggerI;
-import boost.common.boosters.AbstractBoosterConfig;
 import boost.common.boosters.JDBCBoosterConfig;
 import boost.common.config.BoostProperties;
 import boost.common.config.ConfigConstants;
+import boost.common.config.ServerConfigGenerator;
 import boost.common.utils.BoostUtil;
 
 /**
  * Create a Liberty server.xml
  *
  */
-public class TomeeServerConfigGenerator {
+public class TomeeServerConfigGenerator implements ServerConfigGenerator {
 
+	private final String DEFAULT_HOSTNAME = "localhost";
+	private final String DEFAULT_HTTP_PORT = "8080";
+	
     private final String CATALINA_PROPERTIES = "catalina.properties";
     private final String SERVER_XML = "server.xml";
     private final String TOMEE_XML = "tomee.xml";
@@ -75,12 +78,6 @@ public class TomeeServerConfigGenerator {
         this.tomeeInstallPath = configPath + "/.."; // one directory back from
                                                     // 'apache-ee/conf'
         this.logger = logger;
-    }
-
-    public void addServerConfig(AbstractBoosterConfig boosterConfig) throws Exception {
-        if (boosterConfig instanceof JDBCBoosterConfig) {
-            addDataSource(((JDBCBoosterConfig)boosterConfig).getProductName(), ((JDBCBoosterConfig)boosterConfig).getDatasourceProperties());
-        }
     }
 
     public void addJarsDirToSharedLoader() throws ParserConfigurationException {
@@ -134,6 +131,7 @@ public class TomeeServerConfigGenerator {
         }
     }
 
+    @Override
     public void addHttpPort(String httpPort) throws Exception {
 
         // Read server.xml
@@ -165,10 +163,12 @@ public class TomeeServerConfigGenerator {
         addCatalinaProperty(BoostProperties.ENDPOINT_HTTP_PORT, httpPort);
     }
 
+    @Override
     public void addHttpsPort(String httpsPort) throws Exception {
         // Not supported yet
     }
 
+    @Override
     public void addHostname(String hostname) throws Exception {
 
         // Read server.xml
@@ -215,7 +215,7 @@ public class TomeeServerConfigGenerator {
         // No keystore support yet
     }
 
-    public void addDataSource(String productName, Properties boostDbProperties) throws Exception {
+    public void addDataSource(Map<String,String> driverInfo, Properties boostDbProperties) throws Exception {
         // Read tomee.xml
         File tomeeXml = new File(configPath + "/" + TOMEE_XML);
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -230,16 +230,7 @@ public class TomeeServerConfigGenerator {
         resource.appendChild(doc.createTextNode(System.lineSeparator()));
         tomee.appendChild(resource);
 
-        // Add driver class name
-        String driverClassName = "";
-        if (productName.equals(JDBCBoosterConfig.DERBY)) {
-            driverClassName = JDBCBoosterConfig.DERBY_DRIVER_CLASS_NAME;
-        } else if (productName.equals(JDBCBoosterConfig.DB2)) {
-            driverClassName = JDBCBoosterConfig.DB2_DRIVER_CLASS_NAME;
-        } else if (productName.equals(JDBCBoosterConfig.MYSQL)) {
-            driverClassName = JDBCBoosterConfig.MYSQL_DRIVER_CLASS_NAME;
-        }
-        Text jdbcDriverText = doc.createTextNode(JDBC_DRIVER_PROPERTY + " = " + driverClassName + System.lineSeparator());
+        Text jdbcDriverText = doc.createTextNode(JDBC_DRIVER_PROPERTY + " = " + driverInfo.get(JDBCBoosterConfig.DRIVER_CLASS_NAME) + System.lineSeparator());
         resource.appendChild(jdbcDriverText);
         
 
@@ -277,11 +268,12 @@ public class TomeeServerConfigGenerator {
             addCatalinaProperty(BoostProperties.DATASOURCE_URL, url);
         } else {
 
-            // Build the url
+        	// Build the url
+        	String driverName = driverInfo.get(JDBCBoosterConfig.DRIVER_NAME);
             StringBuilder jdbcUrl = new StringBuilder();
-            jdbcUrl.append("jdbc:" + productName);
+            jdbcUrl.append("jdbc:" + driverName);
 
-            if (productName.equals(JDBCBoosterConfig.DERBY)) {
+            if (driverName.equals(JDBCBoosterConfig.DERBY_ARTIFACT_ID)) {
 
                 // Derby's URL is slightly different than MySQL and DB2
                 String databaseName = (String) boostDbProperties.remove(BoostProperties.DATASOURCE_DATABASE_NAME);
@@ -353,5 +345,20 @@ public class TomeeServerConfigGenerator {
         output.append(key + "=" + value);
         output.close();
     }
+    
+    @Override
+	public String getDefaultHostname() {
+		return DEFAULT_HOSTNAME;
+	}
+
+	@Override
+	public String getDefaultHttpPort() {
+		return DEFAULT_HTTP_PORT;
+	}
+
+	@Override
+	public String getDefaultHttpsPort() {
+		return "";
+	}
 
 }

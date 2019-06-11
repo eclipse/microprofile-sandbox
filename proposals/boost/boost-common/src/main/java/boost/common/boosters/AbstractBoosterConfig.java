@@ -19,6 +19,7 @@ import java.lang.annotation.Target;
 import java.util.List;
 
 import boost.common.BoostException;
+import boost.common.config.ServerConfigGenerator;
 
 /**
  * Interface to describe common function across all technology Booster Pack
@@ -61,6 +62,14 @@ public abstract class AbstractBoosterConfig {
      * @return
      */
     public abstract List<String> getDependencies();
+    
+    /**
+     * Add the required server configuration
+     * 
+     * @return
+     * @throws Exception 
+     */
+    public abstract void addServerConfig(ServerConfigGenerator configGenerator) throws Exception;
 
     public String getVersion() {
         return version;

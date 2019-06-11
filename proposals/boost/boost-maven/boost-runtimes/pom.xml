@@ -16,6 +16,7 @@
 		<module>runtime-openliberty</module>
 		<!-- <module>runtime-wlp</module> -->
 		<module>runtime-tomee</module>
+		<module>runtime-wildfly</module>
     </modules>
 
 </project>

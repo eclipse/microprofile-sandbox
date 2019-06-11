@@ -15,7 +15,7 @@ public interface ServerConfigGenerator {
      * Add the necessary server configuration to run this application
      * 
      */
-    public void addApplication(String appName);
+    public void addApplication(String appName) throws Exception;
 
     /**
      * Configure the server with the specified keystore configuration
@@ -45,5 +45,21 @@ public interface ServerConfigGenerator {
      * Configure the server with the specified datasource properties
      * 
      */
-    public void addDataSource(String productName, Properties serverProperties) throws Exception;
+    public void addDataSource(Map<String, String> driverInfo, Properties serverProperties) throws Exception;
+    
+    /**
+     * Return the default hostname
+     */
+    public String getDefaultHostname();
+    
+    /**
+     * Return the default http port
+     */
+    public String getDefaultHttpPort();
+    
+    /**
+     * Return the default https port
+     */
+    public String getDefaultHttpsPort();
+    
 }

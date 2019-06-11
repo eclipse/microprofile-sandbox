@@ -26,8 +26,10 @@ public class TomeeMPRestClientBoosterConfig extends MPRestClientBoosterConfig {
     @Override
     public List<String> getDependencies() {
         List<String> deps = super.getDependencies();
+        
         deps.add("org.apache.cxf:cxf-rt-rs-mp-client:3.2.7");
         deps.add("org.eclipse.microprofile.rest.client:microprofile-rest-client-api:1.1");
+        
         return deps;
     }
 }

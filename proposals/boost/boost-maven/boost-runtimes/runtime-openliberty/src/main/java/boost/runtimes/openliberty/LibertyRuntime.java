@@ -220,8 +220,9 @@ public class LibertyRuntime implements RuntimeI {
         // Loop through configuration objects and add config and
         // the corresponding Liberty feature
         for (AbstractBoosterConfig configurator : boosterConfigurators) {
+        	configurator.addServerConfig(libertyConfig);
+        	
             if (configurator instanceof LibertyBoosterI) {
-                ((LibertyBoosterI) configurator).addServerConfig(libertyConfig);
                 libertyConfig.addFeature(((LibertyBoosterI) configurator).getFeature());
             }
         }

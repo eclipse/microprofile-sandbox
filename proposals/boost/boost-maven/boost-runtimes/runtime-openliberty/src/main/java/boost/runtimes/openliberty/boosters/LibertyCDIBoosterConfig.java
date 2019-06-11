@@ -17,7 +17,6 @@ import java.util.Map;
 import boost.common.BoostException;
 import boost.common.BoostLoggerI;
 import boost.common.boosters.CDIBoosterConfig;
-import boost.runtimes.openliberty.LibertyServerConfigGenerator;
 import boost.runtimes.openliberty.boosters.LibertyBoosterI;
 
 public class LibertyCDIBoosterConfig extends CDIBoosterConfig implements LibertyBoosterI {
@@ -31,9 +30,5 @@ public class LibertyCDIBoosterConfig extends CDIBoosterConfig implements Liberty
             return CDI_20;
         }
         return null;
-    }
-
-    public void addServerConfig(LibertyServerConfigGenerator libertyServerConfigGenerator) {
-        
     }
 }

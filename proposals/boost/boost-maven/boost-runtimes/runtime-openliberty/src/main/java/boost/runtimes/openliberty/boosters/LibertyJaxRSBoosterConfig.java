@@ -36,9 +36,4 @@ public class LibertyJaxRSBoosterConfig extends JAXRSBoosterConfig implements Lib
         }
         return null;
     }
-
-    @Override
-    public void addServerConfig(LibertyServerConfigGenerator libertyServerConfigGenerator) {
-
-    }
 }

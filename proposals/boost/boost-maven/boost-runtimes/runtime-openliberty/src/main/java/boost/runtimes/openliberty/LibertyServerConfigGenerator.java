@@ -34,17 +34,24 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import boost.common.BoostLoggerI;
+import boost.common.boosters.JDBCBoosterConfig;
 import boost.common.config.BoostProperties;
+import boost.common.config.ServerConfigGenerator;
 import boost.common.utils.BoostUtil;
 
 /**
  * Create a Liberty server.xml
  *
  */
-public class LibertyServerConfigGenerator {
+public class LibertyServerConfigGenerator implements ServerConfigGenerator{
 
+	private final String DEFAULT_HOSTNAME = "*";
+	private final String DEFAULT_HTTP_PORT = "9080";
+	private final String DEFAULT_HTTPS_PORT = "9443";
+	
     private final String serverPath;
     private final String libertyInstallPath;
 
@@ -59,8 +66,6 @@ public class LibertyServerConfigGenerator {
 
     private Properties bootstrapProperties;
 
-    private final Properties boostConfigProperties;
-
     public LibertyServerConfigGenerator(String serverPath, BoostLoggerI logger) throws ParserConfigurationException {
 
         this.serverPath = serverPath;
@@ -68,8 +73,6 @@ public class LibertyServerConfigGenerator {
                                                             // back from
                                                             // 'wlp/usr/servers/BoostServer'
         this.logger = logger;
-
-        boostConfigProperties = BoostProperties.getConfiguredBoostProperties(logger);
 
         generateServerXml();
 
@@ -220,25 +223,100 @@ public class LibertyServerConfigGenerator {
 
     }
 
+    @Override
     public void addHostname(String hostname) throws Exception {
         httpEndpoint.setAttribute("host", BoostUtil.makeVariable(BoostProperties.ENDPOINT_HOST));
-
         addBoostrapProperty(BoostProperties.ENDPOINT_HOST, hostname);
     }
 
+    @Override
     public void addHttpPort(String httpPort) throws Exception {
         httpEndpoint.setAttribute("httpPort", BoostUtil.makeVariable(BoostProperties.ENDPOINT_HTTP_PORT));
-
         addBoostrapProperty(BoostProperties.ENDPOINT_HTTP_PORT, httpPort);
     }
-
+    
+    @Override
     public void addHttpsPort(String httpsPort) throws Exception {
         httpEndpoint.setAttribute("httpsPort", BoostUtil.makeVariable(BoostProperties.ENDPOINT_HTTPS_PORT));
-
         addBoostrapProperty(BoostProperties.ENDPOINT_HTTPS_PORT, httpsPort);
     }
 
     public Document getServerXmlDoc() {
         return serverXml;
     }
+
+	@Override
+	public void addDataSource(Map<String,String> driverInfo, Properties serverProperties) throws Exception {
+		String datasourcePropertiesElement = null;
+
+        if (driverInfo.get(JDBCBoosterConfig.DRIVER_NAME).equals(JDBCBoosterConfig.DERBY_ARTIFACT_ID)) {
+            datasourcePropertiesElement = PROPERTIES_DERBY_EMBEDDED;
+        } else if (driverInfo.get(JDBCBoosterConfig.DRIVER_NAME).equals(JDBCBoosterConfig.DB2_ARTIFACT_ID)) {
+            datasourcePropertiesElement = PROPERTIES_DB2_JCC;
+        } else if (driverInfo.get(JDBCBoosterConfig.DRIVER_NAME).equals(JDBCBoosterConfig.MYSQL_ARTIFACT_ID)) {
+            datasourcePropertiesElement = PROPERTIES;
+        }
+
+        Element serverRoot = serverXml.getDocumentElement();
+
+        // Find the root server element
+        NodeList list = serverXml.getChildNodes();
+        for (int i = 0; i < list.getLength(); i++) {
+            if (list.item(i).getNodeName().equals("server")) {
+                serverRoot = (Element) list.item(i);
+            }
+        }
+
+        // Add library
+        Element lib = serverXml.createElement(LIBRARY);
+        lib.setAttribute("id", JDBC_LIBRARY_1);
+        Element fileLoc = serverXml.createElement(FILESET);
+        fileLoc.setAttribute("dir", RESOURCES);
+        fileLoc.setAttribute("includes", driverInfo.get(JDBCBoosterConfig.DRIVER_JAR));
+        lib.appendChild(fileLoc);
+        serverRoot.appendChild(lib);
+
+        // Add datasource
+        Element dataSource = serverXml.createElement(DATASOURCE);
+        dataSource.setAttribute("id", DEFAULT_DATASOURCE);
+        dataSource.setAttribute(JDBC_DRIVER_REF, JDBC_DRIVER_1);
+
+        // Add all configured datasource properties
+        Element props = serverXml.createElement(datasourcePropertiesElement);
+        addDatasourceProperties(serverProperties, props);
+        dataSource.appendChild(props);
+
+        serverRoot.appendChild(dataSource);
+
+        // Add jdbc driver
+        Element jdbcDriver = serverXml.createElement(JDBC_DRIVER);
+        jdbcDriver.setAttribute("id", JDBC_DRIVER_1);
+        jdbcDriver.setAttribute(LIBRARY_REF, JDBC_LIBRARY_1);
+        serverRoot.appendChild(jdbcDriver);
+
+        // Add properties to bootstrap.properties
+        addBootstrapProperties(serverProperties);
+    }
+
+    private void addDatasourceProperties(Properties serverProperties, Element propertiesElement) {
+        for (String property : serverProperties.stringPropertyNames()) {
+            String attribute = property.replace(BoostProperties.DATASOURCE_PREFIX, "");
+            propertiesElement.setAttribute(attribute, BoostUtil.makeVariable(property));
+        }
+    }
+
+	@Override
+	public String getDefaultHostname() {
+		return DEFAULT_HOSTNAME;
+	}
+
+	@Override
+	public String getDefaultHttpPort() {
+		return DEFAULT_HTTP_PORT;
+	}
+
+	@Override
+	public String getDefaultHttpsPort() {
+		return DEFAULT_HTTPS_PORT;
+	}
 }

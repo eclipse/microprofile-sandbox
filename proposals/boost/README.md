@@ -32,3 +32,9 @@ To build the Boost Maven Plugin:
 ```
 ./boost-maven.sh
 ```
+
+### Using Boost
+
+If you are interested in using the Boost plugin to build a MicroProfile application, you can find more information [here](https://github.com/OpenLiberty/boost/wiki/Using-Boost-in-a-MicroProfile-application).
+
+Additionally you can find a list of [supported runtimes and databased](https://github.com/OpenLiberty/boost/wiki/Supported-Runtimes-and-Databases) and [supported properties](https://github.com/OpenLiberty/boost/wiki/Supported-Boost-Properties)

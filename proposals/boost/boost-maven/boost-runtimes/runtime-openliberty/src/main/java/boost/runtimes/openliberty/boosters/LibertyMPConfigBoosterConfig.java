@@ -33,9 +33,4 @@ public class LibertyMPConfigBoosterConfig extends MPConfigBoosterConfig implemen
         }
         return null;
     }
-
-    @Override
-    public void addServerConfig(LibertyServerConfigGenerator libertyServerConfigGenerator) {
-
-    }
 }

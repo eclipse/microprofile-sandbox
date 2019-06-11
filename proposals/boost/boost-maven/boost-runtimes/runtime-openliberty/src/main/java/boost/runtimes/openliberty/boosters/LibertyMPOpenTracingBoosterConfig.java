@@ -34,9 +34,4 @@ public class LibertyMPOpenTracingBoosterConfig extends MPOpenTracingBoosterConfi
         }
         return null;
     }
-
-    @Override
-    public void addServerConfig(LibertyServerConfigGenerator libertyServerConfigGenerator) {
-
-    }
 }

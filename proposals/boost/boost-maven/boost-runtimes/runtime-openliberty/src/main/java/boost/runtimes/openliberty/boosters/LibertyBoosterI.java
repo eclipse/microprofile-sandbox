@@ -16,5 +16,4 @@ import boost.runtimes.openliberty.LibertyServerConfigGenerator;
 public interface LibertyBoosterI {
 
     public String getFeature();
-    public void addServerConfig(LibertyServerConfigGenerator libertyServerConfigGenerator) throws BoostException;
 }

@@ -37,8 +37,4 @@ public class LibertyJPABoosterConfig extends JPABoosterConfig implements Liberty
         return null;
     }
 
-    @Override
-    public void addServerConfig(LibertyServerConfigGenerator libertyServerConfigGenerator) {
-
-    }
 }

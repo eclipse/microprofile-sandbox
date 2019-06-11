@@ -17,6 +17,7 @@ import java.util.Map;
 import boost.common.BoostException;
 import boost.common.BoostLoggerI;
 import boost.common.boosters.AbstractBoosterConfig.BoosterCoordinates;
+import boost.common.config.ServerConfigGenerator;
 
 @BoosterCoordinates(AbstractBoosterConfig.BOOSTERS_GROUP_ID + ":jpa")
 public class JPABoosterConfig extends AbstractBoosterConfig {
@@ -29,4 +30,9 @@ public class JPABoosterConfig extends AbstractBoosterConfig {
     public List<String> getDependencies() {
         return new ArrayList<String>();
     }
+    
+    @Override
+	public void addServerConfig(ServerConfigGenerator configGenerator) {
+
+	}
 }

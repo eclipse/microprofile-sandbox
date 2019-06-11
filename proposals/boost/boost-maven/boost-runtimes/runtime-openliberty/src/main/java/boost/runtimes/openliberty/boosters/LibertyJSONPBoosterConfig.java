@@ -33,9 +33,4 @@ public class LibertyJSONPBoosterConfig extends JSONPBoosterConfig implements Lib
         }
         return null;
     }
-
-    @Override
-    public void addServerConfig(LibertyServerConfigGenerator libertyServerConfigGenerator) {
-
-    }
 }

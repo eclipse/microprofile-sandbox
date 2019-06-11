@@ -145,6 +145,21 @@
 				</dependency>
 			</dependencies>
 		</profile>
+		<profile>
+			<id>wildfly</id>
+			<activation>
+				<property>
+					<name>boostRuntime</name>
+					<value>wildfly</value>
+				</property>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>boost.runtimes</groupId>
+					<artifactId>wildfly</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
 
 		<!-- Profile to enable Derby as the database -->
 		<profile>

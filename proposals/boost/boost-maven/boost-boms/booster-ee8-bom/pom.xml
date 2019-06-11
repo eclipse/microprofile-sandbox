@@ -60,14 +60,16 @@
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
-				<groupId>io.openliberty.boosters</groupId>
+				<groupId>boost.boosters</groupId>
 				<artifactId>cdi</artifactId>
 				<version>0.2-SNAPSHOT</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
-				<groupId>io.openliberty.boosters</groupId>
+				<groupId>boost.boosters</groupId>
 				<artifactId>jsonp</artifactId>
 				<version>0.2-SNAPSHOT</version>
+				<scope>provided</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
