@@ -18,7 +18,9 @@
 //
 == Microprofile Event Sourcing Proposal
 
-This is the initial proposal for a MicroProfile Event Sourcing Specification 
+This is a working sandbox folder for creating a 
+proposal for a MicroProfile Event Sourcing Specification 
 
+See 
 https://github.com/eclipse/microprofile-sandbox/blob/master/proposals/event-sourcing/proposal/src/main/asciidoc/proposal.asciidoc
-
+for the working notes.

@@ -18,14 +18,13 @@
 //
 image:https://badges.gitter.im/eclipse/microprofile-sandbox.svg[link="https://gitter.im/eclipse/microprofile-sandbox"]
 
-= Microprofile Event Sourcing Specification
+= Working Area For a MicroProfile Event Sourcing Specification Proposal
 
 == Event Sourcing
 
 For a general definition of 'Event Sourcing' see: https://martinfowler.com/eaaDev/EventSourcing.html
 
-This project is a proposal for MicroProfile Event Sourcing built on top of
-MicroProfile Reactive Messaging: https://github.com/eclipse/microprofile-reactive-messaging
+This project is a working area for a proposal for MicroProfile Event Sourcing built on top of MicroProfile Reactive Messaging: https://github.com/eclipse/microprofile-reactive-messaging
 
 It also makes a great deal of reference to the ideas and code built up as part of
 the Debezium and Apache Kafka projects.
@@ -33,12 +32,15 @@ the Debezium and Apache Kafka projects.
 There is prototyping and dicusssion work going on in this repository: 
 https://github.com/smallrye/smallrye-event-sourcing
 
+The main thoughts are currently recorded in this file:
+https://github.com/eclipse/microprofile-sandbox/blob/master/proposals/event-sourcing/proposal/src/main/asciidoc/proposal.asciidoc
+
 === Contributing
 
-If you are interested in contributing to this porposal feel free to fork and raise issues or PRs at
+If you are interested in contributing to this proposal feel free to fork and raise issues or PRs at
 https://github.com/eclipse/microprofile-sandbox
 
-This project is in the _event-sourcing_ top level folder.
+This file is in the proposals/event-sourcing folder.
 
 If you are interested in contributing to a prototype implementation then please
 head over to the https://github.com/smallrye/smallrye-event-sourcing project. 

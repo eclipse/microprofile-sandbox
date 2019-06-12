@@ -22,10 +22,6 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     
-    <name>MicroProfile Event Sourcing</name>
-    <description>An Event Sourcing framework built on top of MicroProfile Reactive Messaging</description>
-    <url>http://microprofile.io</url>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -39,7 +35,6 @@
         <maven.build.timestamp.format>MMMM dd, yyyy</maven.build.timestamp.format>
         <revisiondate>${maven.build.timestamp}</revisiondate>
         <revremark>Draft</revremark>
-    
     </properties>
 
     <licenses>
@@ -51,44 +46,10 @@
         </license>
     </licenses>
 
-    <organization>
-        <name>Eclipse Foundation</name>
-        <url>http://www.eclipse.org/</url>
-    </organization>
-
     <issueManagement>
         <system>GitHub</system>
         <url>https://github.com/eclipse/microprofile-sandbox/issues</url>
     </issueManagement>
-
-    <scm>
-        <connection>scm:git:https://github.com/eclipse/microprofile-sandbox.git</connection>
-        <developerConnection>scm:git:git@github.com:eclipse/microprofile-sandbox.git</developerConnection>
-	    <url>https://github.com/eclipse/microprofile-sandbox/proposals/event-sourcing</url>
-        <tag>HEAD</tag>
-    </scm>
-
-    <distributionManagement>
-        <repository>
-            <id>ossrh</id>
-            <name>Sonatype OSSRH - Release Staging Area</name>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <name>Sonatype OSSRH Snapshots</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-            <uniqueVersion>true</uniqueVersion>
-        </snapshotRepository>
-    </distributionManagement>
-
-    <developers>
-        <developer>
-            <name>MicroProfile Community</name>
-            <url>http://microprofile.io/</url>
-            <organization>Eclipse Foundation</organization>
-        </developer>
-    </developers>
 
     <modules>
         <module>proposal</module>

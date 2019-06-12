@@ -17,7 +17,7 @@
 // limitations under the License.
 //
 
-= MicroProfile Event Sourcing Proposal
+= *_EARLY DRAFT_* MicroProfile Event Sourcing Proposal
 :authors: Gordon Hutchison, Gunnar?, Clement?
 :email: Gordon.Hutchison@gmail.com
 :version-label!:
@@ -179,6 +179,12 @@ The proposal will allow for a variety of reactive messaging connectors to be
 used to transport microservices' state changes including those with various
 characteristics such as reactive back-pressure, better legacy integration and so on.
 
+Debezium could begin to benefit from any emerging reactive messaging ecosystem.
+For example there is a case for Debezium supporting _Cloud Events_
+https://issues.jboss.org/browse/DBZ-1292
+but this work could perhaps better be done in the MicroProfile Reactive Messaging
+layer and so be of benefit to multiple users of reactive messaging.
+
 Many write mirroring systems can operate remote confirmation at different stages -
 for example: acknowledge on local save, acknowledge on remote save and
 incremental chunking of updates (for example IBM's 'Metro-mirror', 'Global-mirror'
@@ -318,6 +324,17 @@ made easier to build by Kafka connectors. Some of these concerns, for example
 clustering, as not within the scope of MicroProfile Event Sourcing.
 However in some others Apache Kafka provides clear 'tail-lights' to follow
 either by wrapping function or providing for alternatives where this makes sense.
+
+[[cloud-events]]
+=== Cloud Events
+
+There is an interesting integration possibility with _Cloud Events._
+This is discussed from a Debezium perspective here:
+https://issues.jboss.org/browse/DBZ-1292
+"wrap the existing Debezium messages into a CloudEvents envelope"
+If this work was done using MicroProfile reactive messaging
+it may be possible that it could be reused by multiple
+frameworks and customers rather than solely by Debezium. 
 
 [[sinks]]
 == Event Handling
