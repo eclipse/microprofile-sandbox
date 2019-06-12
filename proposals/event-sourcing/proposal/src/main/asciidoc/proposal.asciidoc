@@ -180,7 +180,7 @@ used to transport microservices' state changes including those with various
 characteristics such as reactive back-pressure, better legacy integration and so on.
 
 Debezium could begin to benefit from any emerging reactive messaging ecosystem.
-For example there is a case for Debezium supporting _Cloud Events_
+For example there is a case for Debezium supporting _CloudEvents_
 https://issues.jboss.org/browse/DBZ-1292
 but this work could perhaps better be done in the MicroProfile Reactive Messaging
 layer and so be of benefit to multiple users of reactive messaging.
@@ -325,10 +325,11 @@ clustering, as not within the scope of MicroProfile Event Sourcing.
 However in some others Apache Kafka provides clear 'tail-lights' to follow
 either by wrapping function or providing for alternatives where this makes sense.
 
-[[cloud-events]]
-=== Cloud Events
+[[cloudevents]]
+=== CloudEvents
 
-There is an interesting integration possibility with _Cloud Events._
+There is an interesting integration possibility with
+_CloudEvents_ ( https://cloudevents.io ).
 This is discussed from a Debezium perspective here:
 https://issues.jboss.org/browse/DBZ-1292
 "wrap the existing Debezium messages into a CloudEvents envelope"
