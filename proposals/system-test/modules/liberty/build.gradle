@@ -1,0 +1,5 @@
+description = "MicroProfile and JavaEE Testing framework :: Liberty extensions"
+
+dependencies {
+  compile project(':microprofile-system-test-core')
+}
