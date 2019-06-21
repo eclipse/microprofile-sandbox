@@ -21,7 +21,6 @@ package org.eclipse.microprofile.system.test.app;
 import org.eclipse.microprofile.system.test.jupiter.SharedContainerConfiguration;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.MockServerContainer;
-import org.testcontainers.containers.Network;
 import org.testcontainers.containers.microprofile.MicroProfileApplication;
 import org.testcontainers.junit.jupiter.Container;
 
@@ -29,7 +28,6 @@ public class AppContainerConfig implements SharedContainerConfiguration {
 
     @Container
     public static MicroProfileApplication<?> app = new MicroProfileApplication<>()
-                    .withNetwork(Network.SHARED)
                     .withAppContextRoot("/myservice")
                     .withEnv("MONGO_HOSTNAME", "testmongo")
                     .withEnv("MONGO_PORT", "27017")
@@ -37,12 +35,10 @@ public class AppContainerConfig implements SharedContainerConfiguration {
 
     @Container
     public static MockServerContainer mockServer = new MockServerContainer()
-                    .withNetwork(Network.SHARED)
                     .withNetworkAliases("mockserver");
 
     @Container
     public static GenericContainer<?> mongo = new GenericContainer<>("mongo:3.4")
-                    .withNetwork(Network.SHARED)
                     .withNetworkAliases("testmongo");
 
     @Override

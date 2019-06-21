@@ -34,6 +34,7 @@ import org.junit.platform.commons.support.HierarchyTraversalMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.Network;
 import org.testcontainers.containers.microprofile.MicroProfileApplication;
 import org.testcontainers.junit.jupiter.Container;
 
@@ -59,7 +60,28 @@ public class MicroProfileTestExtension implements BeforeAllCallback {
 
         Class<? extends SharedContainerConfiguration> configClass = clazz.getAnnotation(SharedContainerConfig.class).value();
 
-        // First check if the SharedContainerConfig has implemented a manual container start
+        Set<GenericContainer<?>> discoveredContaienrs = new HashSet<>();
+        for (Field containerField : AnnotationSupport.findAnnotatedFields(configClass, Container.class)) {
+            if (!Modifier.isStatic(containerField.getModifiers()) || !Modifier.isPublic(containerField.getModifiers()))
+                continue;
+            boolean isStartable = GenericContainer.class.isAssignableFrom(containerField.getType());
+            if (!isStartable)
+                throw new ExtensionConfigurationException("Annotation is only supported for " + GenericContainer.class + " types");
+            GenericContainer<?> startableContainer = (GenericContainer<?>) containerField.get(null);
+            discoveredContaienrs.add(startableContainer);
+        }
+
+        // Put all containers in the same network if no networks are explicitly defined
+        boolean networksDefined = false;
+        for (GenericContainer<?> c : discoveredContaienrs)
+            networksDefined |= c.getNetwork() != null;
+        if (!networksDefined) {
+            LOGGER.debug("No networks explicitly defined. Using shared network for all containers.");
+            discoveredContaienrs.forEach(c -> c.setNetwork(Network.SHARED));
+        }
+
+        // Check if the SharedContainerConfig has implemented a manual container start
+        // TODO: Merge this behavior with non-SharedContainerConfig usage of @Container
         try {
             SharedContainerConfiguration configInstance = configClass.newInstance();
             configInstance.startContainers();
@@ -71,19 +93,17 @@ public class MicroProfileTestExtension implements BeforeAllCallback {
 
         // If we get here, the user has not implemented a custom startContainers() method
         Set<GenericContainer<?>> containersToStart = new HashSet<>();
-        for (Field containerField : AnnotationSupport.findAnnotatedFields(configClass, Container.class)) {
-            if (!Modifier.isStatic(containerField.getModifiers()) || !Modifier.isPublic(containerField.getModifiers()))
-                continue;
-            boolean isStartable = GenericContainer.class.isAssignableFrom(containerField.getType());
-            if (!isStartable)
-                throw new ExtensionConfigurationException("Annotation is only supported for " + GenericContainer.class + " types");
-            GenericContainer<?> startableContainer = (GenericContainer<?>) containerField.get(null);
-            if (!startableContainer.isRunning()) {
-                containersToStart.add(startableContainer);
+        for (GenericContainer<?> c : discoveredContaienrs) {
+            if (!c.isRunning()) {
+                containersToStart.add(c);
             } else {
-                LOGGER.info("Found already running contianer instance: " + startableContainer.getContainerId());
+                LOGGER.info("Found already running contianer instance: " + c.getContainerId());
             }
         }
+
+        if (containersToStart.isEmpty())
+            return;
+
         LOGGER.info("Starting containers in parallel for " + configClass);
         for (GenericContainer<?> c : containersToStart)
             LOGGER.info("  " + c.getImage());
