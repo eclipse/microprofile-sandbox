@@ -18,10 +18,10 @@
  */
 package org.eclipse.microprofile.system.test.app;
 
-import org.aguibert.testcontainers.framework.MicroProfileApplication;
 import org.eclipse.microprofile.system.test.jupiter.SharedContainerConfiguration;
 import org.testcontainers.containers.Network;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.containers.microprofile.MicroProfileApplication;
 import org.testcontainers.junit.jupiter.Container;
 
 /**

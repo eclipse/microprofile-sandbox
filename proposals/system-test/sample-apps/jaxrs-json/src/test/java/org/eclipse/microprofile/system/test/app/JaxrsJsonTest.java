@@ -30,11 +30,11 @@ import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
 
-import org.aguibert.testcontainers.framework.MicroProfileApplication;
 import org.eclipse.microprofile.system.test.app.Person;
 import org.eclipse.microprofile.system.test.app.PersonService;
 import org.eclipse.microprofile.system.test.jupiter.MicroProfileTest;
 import org.junit.jupiter.api.Test;
+import org.testcontainers.containers.microprofile.MicroProfileApplication;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
@@ -45,7 +45,6 @@ public class JaxrsJsonTest {
     @Container
     public static MicroProfileApplication<?> app = new MicroProfileApplication<>()
                     .withAppContextRoot("/myservice")
-                    .withStartupTimeout(Duration.ofSeconds(30))
                     .withReadinessPath("/myservice/app/people");
 
     @Inject

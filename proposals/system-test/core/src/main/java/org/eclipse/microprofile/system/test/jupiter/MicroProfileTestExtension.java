@@ -26,7 +26,6 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.aguibert.testcontainers.framework.MicroProfileApplication;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionConfigurationException;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -35,6 +34,7 @@ import org.junit.platform.commons.support.HierarchyTraversalMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.microprofile.MicroProfileApplication;
 import org.testcontainers.junit.jupiter.Container;
 
 /**
