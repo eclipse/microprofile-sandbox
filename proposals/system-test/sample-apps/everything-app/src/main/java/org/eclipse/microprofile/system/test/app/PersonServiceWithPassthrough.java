@@ -16,23 +16,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.eclipse.microprofile.system.test.jupiter;
+package org.eclipse.microprofile.system.test.app;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
-import org.junit.jupiter.api.extension.ExtendWith;
+@Path("/with-passthrough")
+@ApplicationScoped
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public class PersonServiceWithPassthrough {
 
-/**
- * References a SharedContainerConfiguration to be used by a test class
- */
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-@ExtendWith(MicroProfileTestExtension.class)
-public @interface SharedContainerConfig {
+    @Inject
+    ExternalRestServiceClient externalService;
 
-    public Class<? extends SharedContainerConfiguration> value();
+    @GET
+    @Path("/{personId}")
+    public Person getPersonFromExternalService(@PathParam("personId") long id) {
+        return externalService.getPerson(id);
+    }
 
 }

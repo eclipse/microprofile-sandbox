@@ -15,14 +15,13 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */package org.eclipse.microprofile.system.test.jupiter;
+ */
+package org.eclipse.microprofile.system.test.jupiter;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -31,8 +30,6 @@ import org.aguibert.testcontainers.framework.MicroProfileApplication;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionConfigurationException;
 import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
-import org.junit.jupiter.api.extension.TestInstancePostProcessor;
 import org.junit.platform.commons.support.AnnotationSupport;
 import org.junit.platform.commons.support.HierarchyTraversalMode;
 import org.slf4j.Logger;
@@ -40,19 +37,14 @@ import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 
-public class MicroProfileTestExtension implements BeforeAllCallback, TestInstancePostProcessor {
+/**
+ * JUnit Jupiter extension that is applied whenever the <code>@MicroProfileTest</code> is used on a test class.
+ * Currently this is tied to Testcontainers managing runtime build/deployment, but in a future version
+ * it could be refactored to allow for a different framework managing the runtime build/deployment.
+ */
+public class MicroProfileTestExtension implements BeforeAllCallback {
 
     static final Logger LOGGER = LoggerFactory.getLogger(MicroProfileTestExtension.class);
-
-    private static final Map<Class<? extends SharedContainerConfiguration>, MicroProfileApplication<?>> sharedContainers = new HashMap<>();
-    private static final Namespace NAMESPACE = Namespace.create(MicroProfileTestExtension.class);
-    private static final String NAMESPACE_KEY = "mpExtensionKey";
-
-    @Override
-    public void postProcessTestInstance(Object testInstance, ExtensionContext context) throws Exception {
-        ExtensionContext.Store store = context.getStore(NAMESPACE);
-        store.put(NAMESPACE_KEY, testInstance);
-    }
 
     @Override
     public void beforeAll(ExtensionContext context) throws Exception {

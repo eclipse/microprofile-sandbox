@@ -16,23 +16,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.eclipse.microprofile.system.test.jupiter;
+package org.eclipse.microprofile.system.test.app;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.core.Application;
 
-import org.junit.jupiter.api.extension.ExtendWith;
-
-/**
- * References a SharedContainerConfiguration to be used by a test class
- */
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-@ExtendWith(MicroProfileTestExtension.class)
-public @interface SharedContainerConfig {
-
-    public Class<? extends SharedContainerConfiguration> value();
-
-}
+@ApplicationPath("/")
+public class TestApp extends Application {}

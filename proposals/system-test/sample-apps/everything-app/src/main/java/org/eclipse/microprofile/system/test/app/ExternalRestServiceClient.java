@@ -16,23 +16,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.eclipse.microprofile.system.test.jupiter;
+package org.eclipse.microprofile.system.test.app;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import javax.enterprise.context.ApplicationScoped;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-/**
- * References a SharedContainerConfiguration to be used by a test class
- */
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-@ExtendWith(MicroProfileTestExtension.class)
-public @interface SharedContainerConfig {
+@ApplicationScoped // needed bean-defining anno for app servers that only support MP Rest Client 1.0
+@RegisterRestClient
+@Path("/mock-passthrough")
+public interface ExternalRestServiceClient {
 
-    public Class<? extends SharedContainerConfiguration> value();
+    @GET
+    @Path("/person/{personId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Person getPerson(@PathParam("personId") long id);
 
 }

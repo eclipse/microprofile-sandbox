@@ -43,9 +43,9 @@
    </dependency>
   
    <dependency>
-        <groupId>com.github.testcontainers</groupId>
-        <artifactId>mp-jee-testing</artifactId>
-        <version>v0.1-alpha</version>
+        <groupId>org.eclipse.microprofile.sandbox</groupId>
+        <artifactId>system-test</artifactId>
+        <version>0.1-SNAPSHOT</version>
         <scope>test</scope>
     </dependency>
     

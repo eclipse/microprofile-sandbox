@@ -1,4 +1,20 @@
-description = "MicroProfile and JavaEE Testing framework"
+plugins {
+    id 'maven-publish'
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'org.eclipse.microprofile.sandbox'
+            artifactId = 'system-test'
+            version = '0.1-SNAPSHOT'
+
+            from components.java
+        }
+    }
+}
+
+description = "MicroProfile System Testing framework"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -16,8 +32,6 @@ dependencies {
   compile group: 'org.apache.cxf', name: 'cxf-rt-rs-extension-providers', version: '3.3.0'
   compile group: 'javax.inject', name: 'javax.inject', version: '1'
   compile "org.testcontainers:junit-jupiter:1.11.2"
-  compile "org.testcontainers:mockserver:1.11.2"
-  compile 'org.mock-server:mockserver-client-java:5.5.1'
-  compile 'com.github.testcontainers:mp-jee-testing:0.1-alpha'
+  compile 'com.github.testcontainers:mp-jee-testing:0.2-alpha'
   testImplementation 'org.junit.jupiter:junit-jupiter:5.4.2'
 }

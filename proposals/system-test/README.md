@@ -1,18 +1,27 @@
-# mp-jee-testing
+# MicroProfile System Test Framework
 
 # Goals
 1. Simple to setup
 1. Work with any JavaEE or MicroProfile runtime
-1. Integration tests (for true-to-production tests), but easy to write and fast to run
+1. System tests (for true-to-production tests), but easy to write and fast to run
 
 # How to run locally:
 
+### Run with Gradle:
 ```
-./gradlew :mp-jee-testing-jaxrs-json:test
+./gradlew :microprofile-system-test-jaxrs-json:test
 ```
+
+### Run with Maven:
+```bash
+./gradlew :microprofile-system-test-core:publishToMavenLocal
+cd sample-apps/maven-app
+mvn clean install
+```
+
 NOTE: The first run will take longer due to downloading required container layers. Subsequent runs will be faster.
 
-Tested with:
+### Tested with:
 - OpenLiberty / WAS Liberty
 - Wildfly
 - Payara Micro
@@ -22,8 +31,8 @@ To change which app server is used, [un]comment sections of the test app's Docke
 
 # Proposed mockup:
 ```java
-import org.aguibert.testcontainers.framework.jupiter.MicroProfileTest;
-import org.aguibert.testcontainers.framework.jupiter.SharedContainerConfig;
+import org.aguibert.testcontainers.framework.MicroProfileApplication;
+import org.eclipse.microprofile.system.test.jupiter.MicroProfileTest;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
