@@ -37,7 +37,6 @@ import org.testcontainers.containers.microprofile.MicroProfileApplication;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-@Testcontainers
 @MicroProfileTest
 public class JaxrsJsonTest {
     

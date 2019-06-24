@@ -30,9 +30,7 @@ import org.eclipse.microprofile.system.test.app.PersonServiceWithJDBC;
 import org.eclipse.microprofile.system.test.jupiter.MicroProfileTest;
 import org.eclipse.microprofile.system.test.jupiter.SharedContainerConfig;
 import org.junit.jupiter.api.Test;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
-@Testcontainers
 @MicroProfileTest
 @SharedContainerConfig(AppContainerConfig.class)
 public class DatabaseTest {

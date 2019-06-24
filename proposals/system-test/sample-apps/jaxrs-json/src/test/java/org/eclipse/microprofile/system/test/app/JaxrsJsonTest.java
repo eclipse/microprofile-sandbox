@@ -23,7 +23,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.time.Duration;
 import java.util.Collection;
 
 import javax.inject.Inject;
@@ -36,9 +35,7 @@ import org.eclipse.microprofile.system.test.jupiter.MicroProfileTest;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.microprofile.MicroProfileApplication;
 import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
-@Testcontainers
 @MicroProfileTest
 public class JaxrsJsonTest {
     

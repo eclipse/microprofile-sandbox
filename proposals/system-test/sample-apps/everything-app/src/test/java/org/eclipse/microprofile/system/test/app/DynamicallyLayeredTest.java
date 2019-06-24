@@ -28,9 +28,7 @@ import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.microprofile.ComposedMicroProfileApplication;
 import org.testcontainers.containers.microprofile.MicroProfileApplication;
 import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
-@Testcontainers
 @MicroProfileTest
 @Disabled // not a golden path test
 public class DynamicallyLayeredTest {

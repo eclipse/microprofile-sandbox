@@ -29,7 +29,7 @@ task runMvnVerify(type:Exec) {
   }
 }
 
-assemble.dependsOn project(':microprofile-system-test-core').publishToMavenLocal
+compileJava.dependsOn project(':microprofile-system-test-core').publishToMavenLocal
 assemble.dependsOn runMvnCompile
 test.dependsOn runMvnVerify
 

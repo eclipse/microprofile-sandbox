@@ -29,14 +29,10 @@ import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
 
-import org.eclipse.microprofile.system.test.app.Person;
-import org.eclipse.microprofile.system.test.app.PersonService;
 import org.eclipse.microprofile.system.test.jupiter.MicroProfileTest;
 import org.eclipse.microprofile.system.test.jupiter.SharedContainerConfig;
 import org.junit.jupiter.api.Test;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
-@Testcontainers
 @MicroProfileTest
 @SharedContainerConfig(AppContainerConfig.class)
 public class BasicJAXRSServiceTest {
