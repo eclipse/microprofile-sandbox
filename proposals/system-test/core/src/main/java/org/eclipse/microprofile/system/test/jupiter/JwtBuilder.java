@@ -136,15 +136,6 @@ public class JwtBuilder {
 		return elements;
 	}
 	
-	public static void main(String[] args) {
-		String[] sa = (String[]) handleArrays(",fred,bob,barney,");
-		for(int i=0; i<sa.length; i++) {
-			System.out.println(sa[i]);
-		}
-		System.out.println("end");
-		
-	}
-	
 	private static void setClaim(String name, Object value) {
 	    System.out.println(name + " " + value);		    
 	    me.claims.setClaim(name, value);
