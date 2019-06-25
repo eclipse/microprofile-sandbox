@@ -27,19 +27,15 @@ import javax.inject.Inject;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 
-import org.eclipse.microprofile.system.test.app.Person;
-import org.eclipse.microprofile.system.test.app.PersonServiceWithPassthrough;
 import org.eclipse.microprofile.system.test.jupiter.MicroProfileTest;
 import org.eclipse.microprofile.system.test.jupiter.SharedContainerConfig;
 import org.junit.jupiter.api.Test;
 import org.mockserver.client.MockServerClient;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.google.common.net.MediaType;
 
 @SuppressWarnings("resource")
 
-@Testcontainers
 @MicroProfileTest
 @SharedContainerConfig(AppContainerConfig.class)
 public class DependentServiceTest {

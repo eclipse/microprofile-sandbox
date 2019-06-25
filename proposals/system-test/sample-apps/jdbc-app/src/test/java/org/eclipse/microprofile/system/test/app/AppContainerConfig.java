@@ -18,27 +18,21 @@
  */
 package org.eclipse.microprofile.system.test.app;
 
-import org.aguibert.testcontainers.framework.MicroProfileApplication;
 import org.eclipse.microprofile.system.test.jupiter.SharedContainerConfiguration;
-import org.testcontainers.containers.Network;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.containers.microprofile.MicroProfileApplication;
 import org.testcontainers.junit.jupiter.Container;
 
-/**
- * @author aguibert
- */
 public class AppContainerConfig implements SharedContainerConfiguration {
 
     @Container
     public static MicroProfileApplication<?> app = new MicroProfileApplication<>()
-					.withNetwork(Network.SHARED)
 					.withEnv("POSTGRES_HOSTNAME", "testpostgres")
                     .withEnv("POSTGRES_PORT", "5432")
                     .withAppContextRoot("/myservice");
 					
 	@Container
 	public static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>()
-					.withNetwork(Network.SHARED)
 					.withNetworkAliases("testpostgres")
 					.withDatabaseName("testdb");	
 

@@ -18,42 +18,37 @@
  */
 package org.eclipse.microprofile.system.test.app;
 
-import java.time.Duration;
-
-import org.aguibert.testcontainers.framework.MicroProfileApplication;
 import org.eclipse.microprofile.system.test.jupiter.SharedContainerConfiguration;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.MockServerContainer;
-import org.testcontainers.containers.Network;
+import org.testcontainers.containers.microprofile.MicroProfileApplication;
 import org.testcontainers.junit.jupiter.Container;
 
 public class AppContainerConfig implements SharedContainerConfiguration {
 
     @Container
     public static MicroProfileApplication<?> app = new MicroProfileApplication<>()
-                    .withNetwork(Network.SHARED)
                     .withAppContextRoot("/myservice")
-                    .withStartupTimeout(Duration.ofSeconds(30))
                     .withEnv("MONGO_HOSTNAME", "testmongo")
                     .withEnv("MONGO_PORT", "27017")
                     .withMpRestClient(ExternalRestServiceClient.class, "http://mockserver:" + MockServerContainer.PORT);
 
     @Container
     public static MockServerContainer mockServer = new MockServerContainer()
-                    .withNetwork(Network.SHARED)
                     .withNetworkAliases("mockserver");
 
     @Container
     public static GenericContainer<?> mongo = new GenericContainer<>("mongo:3.4")
-                    .withNetwork(Network.SHARED)
                     .withNetworkAliases("testmongo");
 
     @Override
     public void startContainers() {
         // OPTIONAL: this method may be implemented to do custom instantiation/ordering of containers
-        mongo.start();
-        mockServer.start();
-        app.start();
+//        mongo.start();
+//        mockServer.start();
+//        app.start();
+        // by default evertything will start in parallel
+        SharedContainerConfiguration.super.startContainers();
     }
 
 }
