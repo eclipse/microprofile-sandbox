@@ -19,13 +19,16 @@
 package org.eclipse.microprofile.system.test.jaxrs;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
+import org.apache.cxf.jaxrs.client.JAXRSClientFactoryBean;
 import org.junit.platform.commons.support.AnnotationSupport;
 import org.junit.platform.commons.support.ReflectionSupport;
 import org.slf4j.Logger;
@@ -34,18 +37,34 @@ import org.slf4j.LoggerFactory;
 public class JAXRSUtilities {
 
     static final Logger LOGGER = LoggerFactory.getLogger(JAXRSUtilities.class);
+    
+    
 
-    public static <T> T createRestClient(Class<T> clazz, String appContextRoot, String applicationPath) {
+    public static <T> T createRestClient(Class<T> clazz, String appContextRoot, String applicationPath, String jwt) {
         Objects.requireNonNull(appContextRoot, "Supplied 'appContextRoot' must not be null");
         Objects.requireNonNull(applicationPath, "Supplied 'applicationPath' must not be null");
         String basePath = join(appContextRoot, applicationPath);
         // TODO: Allow the provider list to be customized
         List<Class<?>> providers = Collections.singletonList(JsonBProvider.class);
         LOGGER.info("Building rest client for " + clazz + " with base path: " + basePath + " and providers: " + providers);
-        return JAXRSClientFactory.create(basePath, clazz, providers);
+        JAXRSClientFactoryBean bean = new org.apache.cxf.jaxrs.client.JAXRSClientFactoryBean();
+        bean.setProviders(providers);
+        bean.setAddress(basePath);
+        if(jwt != null && jwt.length()>0) {
+	        Map headers = new HashMap();
+	        headers.put("Authorization", "Bearer " + jwt);
+	        bean.setHeaders(headers);
+        }
+        bean.setResourceClass(clazz);
+        return bean.create(clazz);        
+        //return JAXRSClientFactory.create(basePath, clazz, providers);
+    }
+    
+    public static <T> T createRestClient(Class<T> clazz, String appContextRoot) {
+    	return createRestClient(clazz, appContextRoot, null);
     }
 
-    public static <T> T createRestClient(Class<T> clazz, String appContextRoot) {
+    public static <T> T createRestClient(Class<T> clazz, String appContextRoot, String jwt) {
         String resourcePackage = clazz.getPackage().getName();
 
         // First check for a javax.ws.rs.core.Application in the same package as the resource
@@ -69,7 +88,7 @@ public class JAXRSUtilities {
         if (appClasses.size() == 0) {
             LOGGER.info("No classes implementing 'javax.ws.rs.core.Application' found on classpath to set as context root for " + clazz +
                         ". Defaulting context root to '/'");
-            return createRestClient(clazz, appContextRoot, "");
+            return createRestClient(clazz, appContextRoot, "", jwt);
         }
 
         Class<?> selectedClass = appClasses.get(0);
@@ -79,7 +98,7 @@ public class JAXRSUtilities {
                         ". Setting context root to the first class discovered (" + selectedClass.getCanonicalName() + ")");
         }
         ApplicationPath appPath = AnnotationSupport.findAnnotation(selectedClass, ApplicationPath.class).get();
-        return createRestClient(clazz, appContextRoot, appPath.value());
+        return createRestClient(clazz, appContextRoot, appPath.value(), jwt);
     }
 
     private static String join(String firstPart, String secondPart) {

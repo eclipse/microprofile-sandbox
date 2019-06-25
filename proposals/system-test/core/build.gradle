@@ -23,6 +23,7 @@ tasks.withType(JavaCompile) {
 }
 
 dependencies {
+  compile group: 'org.bitbucket.b_c', name: 'jose4j', version: '0.6.5'
   compile group: 'org.eclipse', name: 'yasson', version: '1.0.3'
   compile group: 'org.glassfish', name: 'javax.json', version: '1.1.4'
   compile group: 'org.testcontainers', name: 'testcontainers', version: '1.11.2'

@@ -66,10 +66,20 @@ public class MicroProfileTestExtension implements BeforeAllCallback {
                 Modifier.isFinal(restClientField.getModifiers())) {
                 throw new ExtensionConfigurationException("REST-client field must be public, static, and non-final: " + restClientField.getName());
             }
-
-            Object restClient = JAXRSUtilities.createRestClient(restClientField.getType(), mpAppURL);
+            String jwt = createJwtIfNeeded(restClientField);
+            Object restClient = JAXRSUtilities.createRestClient(restClientField.getType(), mpAppURL, jwt);
+            //Object restClient = JAXRSUtilities.createRestClient(restClientField.getType(), mpAppURL);
             restClientField.set(null, restClient);
             LOGGER.debug("Injecting rest client for " + restClientField);
         }
+    }
+    
+    private static String createJwtIfNeeded(Field restClientField) {
+    	Field f = restClientField;
+    	JwtConfig anno = f.getDeclaredAnnotation(JwtConfig.class);
+    	if (anno != null) {
+    		return JwtBuilder.buildJwt(anno.subject(), anno.issuer(), anno.claims());
+    	}    	
+    	return null;
     }
 }
