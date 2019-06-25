@@ -36,7 +36,7 @@ public class SecuredSvcTest {
     public static MicroProfileApplication<?> app = new MicroProfileApplication<>()
                     .withAppContextRoot("/myservice")
                     .withEnv("mp_jwt_verify_publickey", JwtBuilder.getPublicKey())                   
-                    .withEnv("mp_jwt_verify_issuer",JwtBuilder.getDefaultIssuer())   
+                    .withEnv("mp_jwt_verify_issuer",JwtBuilder.DEFAULT_ISSUER)   
                     .withReadinessPath("/myservice/app/data/ping");
 
     @Inject

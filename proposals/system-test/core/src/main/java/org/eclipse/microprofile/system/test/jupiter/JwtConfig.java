@@ -28,8 +28,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface JwtConfig {
-      public String issuer() default "http://testissuer.com";
-      public String subject() default "testSubject";
+	  public final String DEFAULT_ISSUER = "http://testissuer.com";
+	  public final String DEFAULT_SUBJECT = "testSubject";
+      public String issuer() default DEFAULT_ISSUER;
+      public String subject() default DEFAULT_SUBJECT;
       
       /**
        * array of claims in the following format:

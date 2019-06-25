@@ -38,106 +38,102 @@ import org.jose4j.jwt.MalformedClaimException;
 import org.jose4j.lang.JoseException;
 
 /**
- * Build JWT's for use with Rest clients.
- * The public and private keys will be statically initialized and reused until this class goes away. 
+ * Build JWT's for use with Rest clients. The public and private keys will be
+ * statically initialized and reused until this class goes away.
  * 
  * @author brutif
  *
  */
 public class JwtBuilder {
-	 private static final String BEGIN_PUBLIC_KEY = "-----BEGIN PUBLIC KEY-----";
-	    private static final String END_PUBLIC_KEY = "-----END PUBLIC KEY-----";	    
-	    private static final String DEFAULT_ISSUER="http://testissuer.com";	    
+	private static final String BEGIN_PUBLIC_KEY = "-----BEGIN PUBLIC KEY-----";
+	private static final String END_PUBLIC_KEY = "-----END PUBLIC KEY-----";
+	public static final String DEFAULT_ISSUER = JwtConfig.DEFAULT_ISSUER;
 	JwtClaims claims = null;
-    JsonWebSignature jws = null;
-    static RsaJsonWebKey rsajwk = null;    
-    static JwtBuilder me = null;    
-    
-    // init the single public:private key pair that we will re-use.
-    private  static void init() {
-    	if (rsajwk != null) {
-    		return;
-    	}
-    	try {
-    		rsajwk = RsaJwkGenerator.generateJwk(2048);
-    		rsajwk.setKeyId("keyid");
-    	} catch (Exception e) {
-    		e.printStackTrace(System.out);
-    	}
-    }
-    
-	public static String getDefaultIssuer() {
-		return DEFAULT_ISSUER;
+	JsonWebSignature jws = null;
+	static RsaJsonWebKey rsajwk = null;
+	static JwtBuilder me = null;
+
+	// init the single public:private key pair that we will re-use.
+	private static void init() {
+		if (rsajwk != null) {
+			return;
+		}
+		try {
+			rsajwk = RsaJwkGenerator.generateJwk(2048);
+			rsajwk.setKeyId("keyid");
+		} catch (Exception e) {
+			e.printStackTrace(System.out);
+		}
 	}
 	
 	public static String getPublicKey() {
 		init();
 		return pemEncode(rsajwk.getPublicKey());
 	}
-	
-   private static String pemEncode(Key publicKey) {
-        byte[] encoded = publicKey.getEncoded(); // X509 SPKI
-        return BEGIN_PUBLIC_KEY + "\r\n" + SimplePEMEncoder.encode(encoded) + END_PUBLIC_KEY;
-    }
-	
-	public static String buildJwt(String subject, String issuer, String[] claims ) {		
+
+	private static String pemEncode(Key publicKey) {
+		byte[] encoded = publicKey.getEncoded(); // X509 SPKI
+		return BEGIN_PUBLIC_KEY + "\r\n" + SimplePEMEncoder.encode(encoded) + END_PUBLIC_KEY;
+	}
+
+	public static String buildJwt(String subject, String issuer, String[] claims) {
 		me = new JwtBuilder();
 		init();
 		me.claims = new JwtClaims();
 		me.jws = new JsonWebSignature();
-					
+
 		me.jws.setKeyIdHeaderValue(rsajwk.getKeyId());
 		me.jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_USING_SHA256);
 		// The JWT is signed using the private key, get the key we'll use every time.
-	    me.jws.setKey(rsajwk.getPrivateKey()); 
-	    if(subject != null) {
-	    	me.claims.setClaim("sub", subject);
-	    	me.claims.setClaim("upn", subject);
-	    }
-	    me.claims.setIssuer(DEFAULT_ISSUER);
-	    me.claims.setExpirationTimeMinutesInTheFuture(60);
-	    if (issuer != null) {
-	    	me.claims.setIssuer(issuer);
-	    }
-	    setClaims(claims);
-	    try {
+		me.jws.setKey(rsajwk.getPrivateKey());
+		if (subject != null) {
+			me.claims.setClaim("sub", subject);
+			me.claims.setClaim("upn", subject);
+		}
+		me.claims.setIssuer(DEFAULT_ISSUER);
+		me.claims.setExpirationTimeMinutesInTheFuture(60);
+		if (issuer != null) {
+			me.claims.setIssuer(issuer);
+		}
+		setClaims(claims);
+		try {
 			if (me.claims.getIssuedAt() == null) {
 				me.claims.setIssuedAtToNow();
 			}
-		} catch (MalformedClaimException e1) {			
+		} catch (MalformedClaimException e1) {
 			e1.printStackTrace(System.out);
 		}
-    	me.jws.setPayload(me.claims.toJson());    	
-    	try {
-			return  me.jws.getCompactSerialization();			
-		} catch (JoseException e) {			
+		me.jws.setPayload(me.claims.toJson());
+		try {
+			return me.jws.getCompactSerialization();
+		} catch (JoseException e) {
 			e.printStackTrace(System.out);
 			return null;
-		}   	
-		
+		}
+
 	}
-	
+
 	private static void setClaims(String[] claims) {
-		for (String claim:claims) {
-			if (!claim.contains("=")) continue;
+		for (String claim : claims) {
+			if (!claim.contains("="))
+				continue;
 			int loc = claim.indexOf('=');
-			String claimName = claim.substring(0,loc);
-			Object claimValue = claim.substring(loc+1);
-			claimValue = handleArrays((String)claimValue);
+			String claimName = claim.substring(0, loc);
+			Object claimValue = claim.substring(loc + 1);
+			claimValue = handleArrays((String) claimValue);
 			setClaim(claimName, claimValue);
 		}
 	}
-	
+
 	private static Object handleArrays(String claimValue) {
-		if (! claimValue.contains(",")) {
+		if (!claimValue.contains(",")) {
 			return claimValue;
 		}
 		String[] elements = claimValue.split(",");
 		return elements;
 	}
-	
-	private static void setClaim(String name, Object value) {
-	    System.out.println(name + " " + value);		    
-	    me.claims.setClaim(name, value);
+
+	private static void setClaim(String name, Object value) {		
+		me.claims.setClaim(name, value);
 	}
 }
