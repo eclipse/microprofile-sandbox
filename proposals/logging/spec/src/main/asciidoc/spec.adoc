@@ -1,0 +1,117 @@
+//
+// Copyright (c) 2019 Eclipse Microprofile Contributors:
+// Alex Lewis
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+# Logging for MicroProfile
+
+== MicroProfile Logging Framework
+The MicroProfile Logging Framework has taken inspiration from pre-existing frameworks such as SLF4J, Log4j, Flogger, etc.
+As such, this will ideally lower the friction to adopt this API when migrating an existing codebase. 
+In particular, those using SLF4J will see the least resistence.
+
+The API can be added to an application using the following coordinates:
+
+....
+Group ID: org.eclipse.microprofile.logging
+Artifact: microprofile-logging-api
+Version: 1.0.0-SNAPSHOT
+....
+
+
+== Using the Logger
+=== Accessing a Logger
+As is typical of many logging frameworks, a `LoggerFactory` is used to access a named `Logger` instance.
+In its simplest form, a logger can be accessed by:
+....
+Logger log = LoggerFactory.getLogger();
+....
+
+This will create a Logger, named using the name of the enclosing class. When an application wishes to create log statements, it uses one of the various log methods that categorise a log statement at a specific level of interest I.e. Debug, Information, Warning, etc. E.g.
+....
+log.debug(e -> "A simple log statement");
+....
+
+The Logger API uses a _Functional_ interface in each of its log methods. This interface provides the application with a `LogEvent` to populate. The `LogEvent` provided with this API is automatically populated with:
+
+* The message returned by the log statement. 
+* The ID of the `Span` in which the log statement occurred, if Tracing is available to the Application.
+
+A log statment can also include an Exception/Throwable in the `LogEvent`.
+
+=== Application Log Data
+If an application wishes to include additional, application specific, data to a `LogEvent` this can be done by extending the `LogEvent` class. The _Type_ of desired `LogEvent` is then specified when accessing the `Logger` instance. E.g.
+
+....
+public class AppSpecificLogEvent extends LogEvent {
+    @JsonbProperty("v")
+    public int version;
+
+    public String userGuid;
+}
+
+...
+
+Logger<AppSpecificLogEvent> log = LoggerFactory.getLogger(new AppSpecificLogEventSupplier());
+
+...
+
+log.debug(e -> {
+    e.version = 1;
+    e.userGuid = getUserGuid();
+    return String.format("User deleted: %s", getUserGuid());
+});
+....
+
+A `LogEventSupplier` is a class that implements Java's `Supplier<T>` interface and is capable of building instances of the specific type of `LogEvent` on behalf of the `Logger`. These instances are then handed to the _Functional_ interface for each logging statement to populate.
+
+This specification requires the use of JSON-B for the serialization of the `LogEvent` instances (and sub-classes).
+
+Logging implementations can decide _if_ and _how_ to output `LogEvent` data when the logging implementation is *not* using JSON as the output format.
+However, when JSON is in use, the `LogEvent` MUST be serialized through JSON-B and MUST be attached to the parent log object as a key/property named: `mpLogEvent`.
+
+=== Span Logging
+The MicroProfile Logging API makes it possible for an Application to output `Span` specific log data that is sent to the configured Tracing server such as `Jaeger` or `Zipkin`. This can be achieved by:
+
+1. Using the `span()` method. 
+* This method will ALWAYS send the `LogEvent` data to the Tracing server, if available.
+* If a _Span Logging_ Level is configured, this method will also send the log data the Logging implementation at the configured level (I.e. Debug, Warning, Info, etc.)
+* Default: DEBUG.
+1. Using _Span Implicit_ logging.
+* This causes the other logging methods such as `debug()`, `warn()`, etc. to send the same `LogEvent` data to the Tracing service as `Span` logging as well as to the logging framework, as normal.
+* Default: OFF.
+
+As such, Applications using the MicroProfile API can make explicit calls to `span()` in order to mark important points in the processing that add additional insights to the Tracing data. 
+However, in situations where a greater level of detail is required at the Tracing server the _Span Implicit_ logging may be useful.
+This enables Applications to make use of existing log statements such as `warn()`, `debug()` and `trace()` to populate span logging without having to modify Application code.
+
+In all cases, if Tracing is available the ID of the current/active Span in which the log statement operates is added to the `LogEvent` data.
+
+== Configuration
+MicroProfile Logging exposes configuration outside of the Logging Framework behind it, specifically:
+
+* Span Level
+* Span Implicit Level
+
+Please see the `Configuration` class within the API for details of the configuration items.
+
+MicroProfile Logging uses _MicroProfile Config_ as a means to access configuration. As such, an Application can use any of the supported mechanisms for accessing and managing configuration through MicroProfile Config in order to manage the configuration of MicroProfile Logging.
+
+
+== Runtime Requirements
+The runtime MUST make the MicroProfile Logging API available on the classpath for the Application; an application MUST NOT need to include the API jar file within its archive.
+
+The runtime MUST provide an implementation that integrates the MicroProfile Logging output into a Logging Framework supported by the runtime.
+Application Logging must therefore be combined with and managed by the runtime.
