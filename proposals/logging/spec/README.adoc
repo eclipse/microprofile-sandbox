@@ -1,0 +1,82 @@
+//
+// Copyright (c) 2019 Eclipse Microprofile Contributors:
+// Alex Lewis
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+# Logging for MicroProfile
+
+== Introduction
+The vast majority of applications will introduce Logging in order to aid development, debugging and maintainenance.
+Logging is typically achieved through Frameworks such as Log4j, SLF4J, Java Util Logging (JUL), Flogger, amongst others.
+
+Although not necessarily new concepts, the rise in popularity of Microservices has increased a focus on the supporting practices of _Tracing_ and _Metrics_, in addition to _Logging_.
+These 3 practices live under the umbrella of _Observability_.
+
+Specifically:
+
+* *Tracing*: Tracking network traffic as it moves across service boundaries and between internal services.
+* *Metrics*: Ability to monitor and measure the stress the system is under and its resulting performance.
+* *Logging*: Application specific textual information, typically for human consumption, in order to gain a better understanding of the operation and behaviour of individual services, as well as the system as a whole.
+
+Dedicated services now exist to capture the distributed data related to each of these areas of Observability and present it to Developers, Support Teams, Administrators, Operations Engineers, etc.
+
+This specification defines a MicroProfile specific API and the expected behaviour that most importantly addresses _Logging_ but, also creates a relationship with the other areas of Observability, where applicable.
+
+In particular, this API and Specification addresses the following areas:
+
+* A mechansim for an Application to perform _Structured Logging_.
+The ability to structure Log data in a way that makes it more accessible to other Observability services, as well as attaching additional contextual data to each log statement.
+
+* Make it possible to easily attach/send Log data as _Span_ Logging provided by _Tracing_ services.
+
+* Attach Span related data (the ID of the Span in which the log statement occurred) to the Log data so it can be sent to _Logging_ frameworks and appear in the output.
+Values such as the Span ID can be a useful key to tie up related log messages accross Threads and even distributed Services.
+
+== Rationale
+Introducing a MicroProfile specific API provides the following benefits.
+
+=== Portability
+Ensure Portability across all compatible MicroProfile and Jakarta EE runtimes (Jakarta EE Application Servers, Quarkus, Helidon, etc.) by providing a common API.
+
+Prior to this specifiction, the portability of all MicroProfile and Jakarta EE Applications is impacted negatively to varying degrees by the Application's choice of logging framework.
+
+=== Time, Effort and Complexity
+Application Developers are responsible for:
+
+* Identifying the appropriate/supported Logging Frameworks provided by the runtime.
+* Instrumenting Applications/Services with _Logging_, _Tracing_ and _Metrics_ concerns.
+
+As such, this specification attempts to address these concerns by:
+
+* Eliminating the time and effort required to identify the "right" Logging Framework by presenting a defacto solution.
+* Create a more natural integration between Logging and the other areas of Observability to lower the effort required to instument application code.
+
+==== MicroProfile Open Tracing
+The MicroProfile Open Tracing specification makes it easy for Applications to add, instrument and access _Tracing_ functionality. 
+Although it is possible to leverge this functionality to add Span Logging, it is still completely separate from any other logging the application may have. 
+As such, time and effort are required to add specific Span logging to each and every service that consistutes the system. 
+In addition, if an Application wishes to add Span information to log statements, the Application Developer will have to do this manually.
+With the introduction of this specification, that work is done for the developer; reducing time, effort and complexity.
+
+=== Reduced Overhead
+In addition to guaranteed Portability, by introducing a MicroProfile Logging specification that is provided by the runtime:
+
+* An Application does not need to ship a Logging Framework within its archive (I.e. a WAR), thus lowering its overall size.
+* Have a guaranteed integrated logging experience between the application and the runtime.
+Application Log output is then consistet with the runtime and it is managed centrally through the runtime; the Application no longer needs to manage its own logging configuration.
+
+== Specification
+
+The specification can be found here: link:src/main/asciidoc/spec.adoc[Spec]
