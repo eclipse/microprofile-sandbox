@@ -79,4 +79,4 @@ Application Log output is then consistet with the runtime and it is managed cent
 
 == Specification
 
-The specification can be found here: link:src/main/asciidoc/spec.adoc[Spec]
+The specification can be found here: link:spec/src/main/asciidoc/spec.adoc[Spec]
