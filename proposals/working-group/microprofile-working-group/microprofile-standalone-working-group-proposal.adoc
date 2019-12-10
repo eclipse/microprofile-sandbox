@@ -1,0 +1,47 @@
+= Motivation
+
+Eclipse MicroProfile was founded as a separate initiative to supplement JCP activity with fast-paced, experimental activity that deliberately moved in opposite direction in several regards, including:
+
+* Shipping works-in-progress to gather live user feedback 
+* De-emphasizing backwards compatibility 
+* Keeping processes deliberately light, avoiding overhead and more 
+* Low or zero bar to enter the community in perception and process
+* Bottom up community decision making
+
+MicroProfile was viewed as a strategically separate initiative to the JCP that in many ways complemented the stable, top-down nature of the JCP and is a separate method of collaboration that was needed to be truly successful overall.  There was never an intent to merge MicroProfile with the JCP.   Migration of Java EE to Eclipse Jakarta EE does not impact the desire to run MicroProfile as its own community.  Having both within the Eclipse Foundation is a major advantage and provides enough unity that there is no need to merge them further.
+
+There is strong concern that if MicroProfile and Jakarta EE are merged into a single working group there is risk of losing MicroProfile’s differentiators over time.  There is an additional concern about having all of our eggs in one basket.  Separate initiatives allow us to sustain any market conditions and address separate market segments.  For example, there is significant value in Jakarta EE attracting organizations that prefer stability and MicroProfile attracting organizations that prefer rapid change.
+
+The driver is to establish a Working Group to address sufficient IP capture and deliver MicroProfile specifications via some derivative of the EFSP.  Our preference is to establish a minimalistic Working Group, with low overhead and a light-touch Steering Committee, focused exclusively on MicroProfile to address the IP capture needs.
+
+= Requirements
+* Voting rights. 
+** Corporate members
+** Committers
+* Committee Communications
+** Open, public communications by default
+** Private communications will be an exception (ex: private Legal issues)
+* Adhere to the MicroProfile Specification Process, which is based on the * Eclipse Foundation Specification Process
+* No dedicated headcount under the Working Group budget
+* Eclipse Foundation costs managed by Legal and G&A
+
+= Principles
+* Working Group Voting
+** 66% Corporate Members (one appointee per Corporate Member)
+** 33% Committer Members (elected)
+* Budget and Fees
+** Budget deferred till second year, sans legal
+** Budget must be reviewed at least annually
+** Mandatory budget items include Strategic Initiatives, Marketing, Legal and G&A
+** Budget proposed and managed by MicroProfile Working Group members
+* Organization
+** Consists of Steering, Specification, and Marketing committees
+** Steering Committee and Specification Committee consists of all Working Group voting members.
+* Process
+** Processes are defined only when needed
+** Decisions are “lazy consensus” by default
+** All specifications developed within a single Eclipse project by default
+* Marketing
+Encourage brand proliferation
+** Eclipse Foundation and Working Group members retain and manage admin access on all social media accounts
+** A well-defined set of logo usage rules will be established. All requests for MicroProfile Logo usage outside those rules must be directed to MicroProfile Working Group.
