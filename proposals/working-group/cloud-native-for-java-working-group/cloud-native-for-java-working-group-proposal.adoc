@@ -1,0 +1,80 @@
+= Cloud Native for Java Working Group Proposal
+
+== tl;dr
+* Have one working group to govern both MicroProfile and Jakarta EE as independent specification processes and communities
+** One budget, one set of participation fees, one set of paperwork to sign
+** Independent specification processes, specification committees, and compatibility branding programs
+** Better alignment of these related technologies in the marketplace
+** Avoid duplication of effort for the many contributors, committers, vendors, and adopters who are participating in both MicroProfile and Jakarta EE today
+* Key outcomes from adopting this proposal:
+** Jakarta EE and MicroProfile brands continue to be marketed independently
+** MicroProfile no longer requires the “Eclipse” prefix
+* Customized Specification Processes to meet independent objectives
+** JESP and MPSP
+(Jakarta EE Specification Process and MicroProfile Specification Process)
+* Marketing
+** Acknowledges that the two technologies are related and together address the needs of developers who are committed to modernizing Java as a cloud native platform
+*** Eliminates the perception that these are two communities are competitive.
+*** Less confusion in the marketplace
+*** A single initiative for people and organizations to join and participate
+* Better alignment for both vendors and adopters
+
+== Background
+* It is widely agreed that for the MicroProfile specifications and ecosystem to advance, it requires a governance model that goes beyond the current Eclipse project structure.
+* It is the recommendation of the Eclipse Foundation that, rather than create a new, independent MicroProfile working group, Jakarta EE and MicroProfile be combined into a single, neutrally named, working group structure that encourages both technologies to progress in the independent, while loosely coupled manner they do today.
+* What is currently known as the Jakarta EE Working Group will be rebranded as the Cloud Native for Java Working Group (CN4J), and its charter updated to reflect this document.
+* Both Jakarta EE and MicroProfile will be moved under the governance of CN4J as separate, peer brands. Each would be supported by having their own separate specification processes, specification committees, branding guidelines, and marketing committees - all under the guidance of a shared steering committee, and a common membership.
+** Note that almost all of the vendors, committers, and contributors to the MicroProfile and Jakarta EE communities are the same organizations and people. A combined initiative will result in far less paperwork and organizational overhead than separate working groups.
+* This approach has the following benefits:
+** Allows both communities to be positioned as peers which are part of a larger initiative around Cloud Native for Java, rather than as the potentially competitive scenario today.
+** By operating under one steering committee, it is much clearer to potential consumers and adopters that these technologies are related and aligned.
+** The single working group model makes  clearer there is room for additional brands and projects, thus making an overall Cloud Native for Java initiative more attractive and more sustainable.
+** Almost all of the existing members supporting these two initiatives are the same. This allows them to collaborate in both without the additional burden of separate working groups and the additional fees, paperwork, meetings, and co-ordination that would result from separate working groups.
+** For those organizations that are interested in only one of the two technologies, there is no additional burden for participating in that one technology versus the scenario of creating two independent working groups.
+** As part of the same working group, the two initiatives would be able to more easily share and re-use each others’ output.  This will result in clearer positioning in the marketplace, and better ensure the success of both.
+
+== Proposal
+
+Jakarta EE and MicroProfile are two groups under the Eclipse Foundation’s umbrella which share many supporters, and contributors. Both develop Java-related specifications intended to extend the Java platform to solve the needs of mission critical, enterprise-class applications. Jakarta EE has its roots in the historical on-premise, monolithic application servers defined by Java EE. MicroProfile is newer, and is focused on adding specifications to enable microservice-based applications designed for cloud deployment written in Java. Both have the shared goal of helping Java become a first-class language and platform for the development, deployment, and management of cloud-native applications.
+
+MicroProfile is currently a relatively informal specification group which operates under the Eclipse Development Process and the Apache License v2 to deliver its specifications. When it started in late 2016 it was an experiment to see how rapidly a community could develop Java specifications for microservices. The experiment has been a resounding success. With at least seven independent implementations, MicroProfile has demonstrable industry momentum, and a vibrant community. Further, it is acknowledged this success has, in part, been possible because of the shared commitment of the people involved to rapid innovation and collaborative development.
+
+However, when MicroProfile started, the Eclipse Foundation did not have a formal specification process in place which could benefit Eclipse  MicroProfile, which it now does. In addition, the existing MicroProfile processes are not using standard Eclipse Foundation practices for vendor neutral governance for industry collaboration. For example, there is a desire for many of the stakeholders in MicroProfile to pool significant funds to support its marketing and community development activities, but to do so, a process to prioritize and manage disbursements is required. The benefit of having MicroProfile governance under the vendor-neutral governance structure a working group provides is to clearly define the benefits, responsibilities, and rules for participation by any interested party, and to improve the IP licensing regime for downstream adopters and consumers of the specifications.
+
+In order to protect the interests of MicroProfile’s adopters, users, and implementers, the time has come to formalize the MicroProfile membership, contribution model, and specification process under an Eclipse Foundation working group.  Further, our proposal is to bring Jakarta EE and MicroProfile into a single working group structure that allows both to progress in the independent while loosely coupled manner they do today.
+
+Reference: https://www.eclipse.org/org/workinggroups/jakarta_ee_charter.php[Jakarta EE Working Group Charter] Note: If this proposal is adopted then the charter and working group will need to be renamed.
+
+Areas in scope to cover:
+
+* Committee structure
+* Specification Process
+* Branding and compatibility logo
+* Trademark guidelines
+* Marketing
+* Budget
+* Projects
+
+The existing Jakarta EE Working Group is re-missioned as the Cloud Native for Java Working Group. The charter is amended to include Jakarta EE and MicroProfile as peer brands and communities under the single working group.
+
+The Jakarta EE Steering Committee becomes the CN4J Working Group Steering Committee and the scope is adjusted to be inclusive of both MicroProfile and Jakarta EE priorities. If desirable, the membership of the steering committee could be expanded to add greater representation from the committer community. It may be possible to add seats dedicated to both  MicroProfile and Jakarta EE, assuming we can clearly define those communities within the working group charter.
+
+For the Jakarta EE Specification Committee and Marketing Committee there is no change anticipated to Powers, Duties and Composition.
+
+To support MicroProfile, a Specification Committee and a Marketing & Brand Committee will be created. Each will have its own chair and membership, including their own rules for composition.
+
+The MicroProfile Specification Committee will create a “MicroProfile Specification Process” (“MPSP”) which is their own customization of the EFSP for use by the Eclipse MicroProfile specification projects. The MPSP can ensure protection of key attributes of what has made MicroProfile successful thus far, including agility and flexibility.
+
+The budget will remain the working group budget, it will however maintain categories that are specific to Jakarta EE and MicroProfile, in particular for marketing programs.  Any Foundation staff that are engaged directly on behalf of the working group, unless expressly designated, will work to the benefit of the entire working group.
+
+MicroProfile will have its own compatibility logo and trademark usage guidelines. Those could be based on the https://jakarta.ee/legal/trademark_guidelines/[Jakarta EE Trademark Usage Guidelines], but this is a decision to be taken by the MicroProfile Marketing and Brand Committee. Also, the usage of all MicroProfile logos is established by the MicroProfile Marketing and Brand Committee, under the terms of the Eclipse Foundation’s compatibility licensing frameworks.
+
+There will be no change to the membership of the MicroProfile project leadership as a result of this proposal. It may make sense for the Eclipse MicroProfile project to move under the EE4J PMC, but that is at the discretion of the MicroProfile project. There is also no immediate requirement for MicroProfile to change from the single project structure as it works today - any such a project re-organization is independent of the creation of the working group.
+
+MicroProfile could drop the “Eclipse” prefix for its specifications and for branding compatible implementations, as working groups, unlike Eclipse projects, are permitted to utilize brands that do not have the “Eclipse” prefix. Eclipse MicroProfile would refer to the project that develops the specifications, but the platform produced by the group, and compatible implementations thereof would simply use the “MicroProfile” brand.
+
+All committers and contributors to Jakarta EE would be able to participate in MicroProfile specifications without signing *any* additional paperwork. Note that creating a separate working group for MicroProfile would require all participants to sign an additional participation agreement.
+
+All companies that are participating in the MicroProfile community who are not already members of Jakarta EE would be encouraged to join the CN4J Working Group. To have committers on MicroProfile specification projects they are required to do so. This requirement comes from the Eclipse Foundation’s Specification Process, and is required to ensure all intellectual property rights are managed as intended. As noted earlier, this is a driving motivator for having MicroProfile governed under a working group.
+
+Changes are required in the CN4J Charter to reflect the change in Scope and Committee structure outlined above.

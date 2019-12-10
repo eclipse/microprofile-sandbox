@@ -1,0 +1,31 @@
+//
+// Copyright (c) 2019 Eclipse Microprofile Contributors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+# Working Group Proposals for MicroProfile
+
+== Introduction
+In order to satisfy the IP Grant and Flow requirements of the Eclipse Foundation, the Eclipse MicroProfile project will need to establish a https://www.eclipse.org/org/workinggroups/about.php[Working Group].
+Another requirement is to define a derivative of the https://www.eclipse.org/projects/efsp/[Eclipse Foundation Specification Process], but the goal of this initial exercise is to define a proper Working Group.
+(The creation of a derived "MicroProfile Specification Process" will be a common task regardless of the direction for creation of a Working Group.)
+
+== Proposals
+Following are the proposals currently under discussion.
+Additional proposals are welcome -- just submit a new PR that documents the new proposal for discussion.
+
+* link:microprofile-working-group/microprofile-standalone-working-group-proposal.adoc[MicroProfile Working Group Proposal]
+* link:cloud-native-for-java-working-group/cloud-native-for-java-working-group-proposal.adoc[Cloud Native for Java Working Group Proposal]
+
+Please submit comments and suggestions via additional Issues, PRs, or the https://groups.google.com/forum/#!forum/microprofile[MicroProfile Google Group].
