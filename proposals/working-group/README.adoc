@@ -28,4 +28,4 @@ Additional proposals are welcome -- just submit a new PR that documents the new 
 * link:microprofile-working-group/microprofile-working-group.adoc[Independent MicroProfile Working Group]
 * link:cloud-native-for-java-working-group/cloud-native-for-java-working-group.adoc[Combined Jakarta EE and MicroProfile Working Group]
 
-Please submit comments and suggestions via additional PRs or the https://groups.google.com/forum/#!forum/microprofile[MicroProfile Google Group].
+Please submit comments and suggestions via additional Issues, PRs, or the https://groups.google.com/forum/#!forum/microprofile[MicroProfile Google Group].
