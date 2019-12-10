@@ -25,7 +25,7 @@ Another requirement is to define a derivative of the https://www.eclipse.org/pro
 Following are the proposals currently under discussion.
 Additional proposals are welcome -- just submit a new PR that documents the new proposal for discussion.
 
-* link:microprofile-working-group/microprofile-standalone-working-group-proposal.adoc[Independent MicroProfile Working Group]
-* link:cloud-native-for-java-working-group/cloud-native-for-java-working-group-proposal.adoc[Combined Jakarta EE and MicroProfile Working Group]
+* link:microprofile-working-group/microprofile-standalone-working-group-proposal.adoc[MicroProfile Working Group Proposal]
+* link:cloud-native-for-java-working-group/cloud-native-for-java-working-group-proposal.adoc[Cloud Native for Java Working Group Proposal]
 
 Please submit comments and suggestions via additional Issues, PRs, or the https://groups.google.com/forum/#!forum/microprofile[MicroProfile Google Group].
