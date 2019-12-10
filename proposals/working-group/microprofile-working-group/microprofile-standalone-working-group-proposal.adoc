@@ -1,21 +1,30 @@
-= Motivation
+= MicroProfile Working Group Proposal
+
+== Motivation
 
 Eclipse MicroProfile was founded as a separate initiative to supplement JCP activity with fast-paced, experimental activity that deliberately moved in opposite direction in several regards, including:
 
-* Shipping works-in-progress to gather live user feedback 
-* De-emphasizing backwards compatibility 
-* Keeping processes deliberately light, avoiding overhead and more 
+* Shipping works-in-progress to gather live user feedback
+* De-emphasizing backwards compatibility
+* Keeping processes deliberately light, avoiding overhead and more
 * Low or zero bar to enter the community in perception and process
 * Bottom up community decision making
 
-MicroProfile was viewed as a strategically separate initiative to the JCP that in many ways complemented the stable, top-down nature of the JCP and is a separate method of collaboration that was needed to be truly successful overall.  There was never an intent to merge MicroProfile with the JCP.   Migration of Java EE to Eclipse Jakarta EE does not impact the desire to run MicroProfile as its own community.  Having both within the Eclipse Foundation is a major advantage and provides enough unity that there is no need to merge them further.
+MicroProfile was viewed as a strategically separate initiative to the JCP that in many ways complemented the stable, top-down nature of the JCP and is a separate method of collaboration that was needed to be truly successful overall.
+There was never an intent to merge MicroProfile with the JCP.
+Migration of Java EE to Eclipse Jakarta EE does not impact the desire to run MicroProfile as its own community.
+Having both within the Eclipse Foundation is a major advantage and provides enough unity that there is no need to merge them further.
 
-There is strong concern that if MicroProfile and Jakarta EE are merged into a single working group there is risk of losing MicroProfile’s differentiators over time.  There is an additional concern about having all of our eggs in one basket.  Separate initiatives allow us to sustain any market conditions and address separate market segments.  For example, there is significant value in Jakarta EE attracting organizations that prefer stability and MicroProfile attracting organizations that prefer rapid change.
+There is strong concern that if MicroProfile and Jakarta EE are merged into a single working group there is risk of losing MicroProfile’s differentiators over time.
+There is an additional concern about having all of our eggs in one basket.
+Separate initiatives allow us to sustain any market conditions and address separate market segments.
+For example, there is significant value in Jakarta EE attracting organizations that prefer stability and MicroProfile attracting organizations that prefer rapid change.
 
-The driver is to establish a Working Group to address sufficient IP capture and deliver MicroProfile specifications via some derivative of the EFSP.  Our preference is to establish a minimalistic Working Group, with low overhead and a light-touch Steering Committee, focused exclusively on MicroProfile to address the IP capture needs.
+The driver is to establish a Working Group to address sufficient IP capture and deliver MicroProfile specifications via some derivative of the EFSP.
+Our preference is to establish a minimalistic Working Group, with low overhead and a light-touch Steering Committee, focused exclusively on MicroProfile to address the IP capture needs.
 
-= Requirements
-* Voting rights. 
+== Requirements
+* Voting rights.
 ** Corporate members
 ** Committers
 * Committee Communications
@@ -25,7 +34,7 @@ The driver is to establish a Working Group to address sufficient IP capture and 
 * No dedicated headcount under the Working Group budget
 * Eclipse Foundation costs managed by Legal and G&A
 
-= Principles
+== Principles
 * Working Group Voting
 ** 66% Corporate Members (one appointee per Corporate Member)
 ** 33% Committer Members (elected)
