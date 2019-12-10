@@ -1,4 +1,9 @@
 = MicroProfile Working Group Proposal
+Drafted with much care over time by MicroProfilers:
+Kevin Sutter/IBM: https://twitter.com/kwsutter
+John Clingan/RedHat: https://twitter.com/jclingan
+Scott Stark/RedHat
+David Blevins/Tomitribe: https://twitter.com/dblevins
 
 == Motivation
 
