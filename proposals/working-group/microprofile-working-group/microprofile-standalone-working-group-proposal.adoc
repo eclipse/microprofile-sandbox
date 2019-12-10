@@ -30,7 +30,7 @@ Our preference is to establish a minimalistic Working Group, with low overhead a
 * Committee Communications
 ** Open, public communications by default
 ** Private communications will be an exception (ex: private Legal issues)
-* Adhere to the MicroProfile Specification Process, which is based on the * Eclipse Foundation Specification Process
+* Adhere to the MicroProfile Specification Process, which is based on the Eclipse Foundation Specification Process
 * No dedicated headcount under the Working Group budget
 * Eclipse Foundation costs managed by Legal and G&A
 
