@@ -1,0 +1,31 @@
+= Fee Structure Options
+
+One of the main barriers to a specification process is the cost associated with joining.
+Companies are often willing sponsor committee members, spec developers and sign IP commitments, but are unwilling to pay a fee to join. We want to support sponsorship at two distinct levels; project sponsors and specification sponsors.
+
+These notions were derived from the
+https://oasis-open-projects.org/sponsorship/[OASIS Open Project Sponsorship]
+concept.
+
+== Project Sponsors
+Project sponsors bear the cost of the running the infrastructure and legal costs of the project. Project sponsors receive special placement on associated MicroProfile websites. Project sponsors
+sign the working group participation agreement to ensure commitment of IP associated with the MicroProfile specifications and pay the sponsorship fee based on employee count
+as given in the following table:
+
+
+.Fees
+[width="100%",options="header"]
+|====================
+|Amount  |  Headcount
+|$25,000 |  2000+
+|$ 15,000| 500-1,999
+|$ 10,000| 100-499
+|$  5,000| 10-99
+|$  2,000| <10
+|$  1,000| Nonprofit, university, local or government 
+|====================
+
+
+== Specification Sponsors
+Specification sponsors provide specification committee members and project members from their
+organization. This is a valuable resource that is essential to specification project success. Specification sponsors sign the working group participation agreement to ensure commitment of IP associated with the MicroProfile specifications, but there is no additional fee associated with this level of sponsorship. Specification sponsors receive a secondary level of placement on associated MicroProfile websites.
