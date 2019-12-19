@@ -54,3 +54,5 @@ Our preference is to establish a minimalistic Working Group, with low overhead a
 Encourage brand proliferation
 ** Eclipse Foundation and Working Group members retain and manage admin access on all social media accounts
 ** A well-defined set of logo usage rules will be established. All requests for MicroProfile Logo usage outside those rules must be directed to MicroProfile Working Group.
+
+include::sponsorship.adoc[leveloffset=+1]

@@ -25,6 +25,8 @@ as given in the following table:
 |$  1,000| Nonprofit, university, local or government 
 |====================
 
+Project sponsors also typically support specification developers that work on the specification
+committee and specification projects.
 
 == Specification Sponsors
 Specification sponsors provide specification committee members and project members from their
