@@ -1,0 +1,13 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="debug">
+        <appender-ref ref="STDOUT" />
+    </root>
+    <logger name="org.testcontainers.containers.output" level="INFO"/>
+    <logger name="org.jboss.resteasy.resteasy_jaxrs.i18n" level="INFO"/>
+</configuration>
