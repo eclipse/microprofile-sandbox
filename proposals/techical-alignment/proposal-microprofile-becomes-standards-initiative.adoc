@@ -1,0 +1,33 @@
+# MicroProfile Becomes A Standards Initiative
+
+Under this proposal the concept of stable or "standard" specifications is introduced in order to keep APIs in the MicroProfile java package once they are deemed stable.
+
+ - API classes remain in `org.eclipse.microprofile`
+ - Once a specification is stable or "standard" it cannot be changed in a backwards-incompatible way
+ - some clear label or marker would need to be created to distinquish "standard" specifications
+ - Only specifications that are marked "stable" or "standard" can be used in a Jakarta EE specification
+ 
+When phrases like "innovation over stability" or "breaking changes are ok" are spoken, all community members must understand it does not apply to stable APIs.
+
+# Long-term Effects
+
+Under this proposal MicroProfile will become a predominately stable community.
+
+ - Scenario 1: If a specification on average becomes stable in 2 years, with 8 new specifications added evenly over the next 4 years we would still be roughly 75% stable (16 total, 12 stable).  From there 8 specifications added evenly over the subsequent 4 years we would be roughtly 83% stable and fairly large at 24 specifications.  Under this scenario MicroProfile risks becoming bloated and not "micro" anymore.
+ 
+ - Scenario 2: If a specification on average becomes stable in 2 years, with 1 new specifications added evenly over the next 4 years we would still be roughly 83% stable (12 total, 10 stable).  From there 4 specifications added evenly over the subsequent 4 years we would be roughtly 88% stable.
+
+# Open Questions
+
+ * If a stable specification depends on a non-stable spec, how does that work?
+ * If MicroProfile needs to make a blanket breaking change (such as the recent pom discussion), how does that work?
+ * With both MicroProfile and Jakarta EE being focused on creating stable standards, the relationship between MicroProfile and Jakarta EE will become less clear.
+ ** If you have a new idea where do you submit it?
+ ** If if all unproven ideas are submitted in MicroProfile and never leave, how does Jakarta grow?
+ ** Will the intended synergy between the two become lost and eventually be two brands for the same inseparable thing?
+ * Does this create a circular dependency that could be difficult to manage?
+ * Could users find it difficult to understand which APIs are stable and when?
+ ** "I see Metrics is stable, but I upgraded and my app broke.", "You're using Metrics 2.0.  It didn't become stable till 3.0."
+ ** "In what version of MicroProfile did healthcheck become stable?  Was it MP 4.0 or 5.0?", "I don't remember it's been 10 years."
+ * How does MicroProfile attract an audience promising both stability and instability/innovation?
+ * Will consensus become increasingly difficult as the focus of the committer base diverges into two camps; those who favor innovation over stability and those who favor stability over innovation.

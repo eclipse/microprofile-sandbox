@@ -1,0 +1,25 @@
+# MicroProfile and Jakarta EE Technical Alignment
+
+MicroProfile was founded in 2016 as a compliment to Java EE, aimed at "driving innovation for future standardization" around microservices. Free from backwards compatibility, the vision was to provide a place where vendors and users combined can experiment, make mistakes, learn together, reinvent and reach stablization much faster.
+
+The initial vision was proven APIs would be standardized via the JCP process.  In August 2017 the Eclipse MicroProfile community submitted MicroProfile Config to the JCP as link:https://jcp.org/en/jsr/detail?id=382[JSR-382].  Quotes around the time reinforced the vision and anticipated relationship to the JCP.
+
+ - _"How we are collaborating in Open Source around this: Build a strong community; Collaborate on specifications; Encourage multiple implementations; Standardize technologies when ready"_ - John Clingan, 2019-07-07, link:https://developers.redhat.com/blog/2017/07/07/microprofile-optimizing-enterprise-java-for-a-microservices-architecture/[MicroProfile: Optimizing Enterprise Java for a Microservices Architecture]
+ - _"ideas that are rapidly prototyped in MP can quickly become standards via the JCP process and gain a larger audience"_, - Martijn Verburg, 2017-09-27, link:https://blog.payara.fish/microprofile-panel-one-year-on[MicroProfile One Year On]
+ - _"It was in our mission statement from the beginning that we would never subvert or undermine the JCP, but participate in it to accelerate innovation and standardization. By submitting this JSR, we are fulfilling that aspect of our mission statement."_ - David Blevins, 2017-08-23, link:https://adtmag.com/articles/2017/08/23/eclipse-microprofile.aspx[Eclipse MicroProfile 1.1 Paving a New Path for Java EE]
+ - _"The Configuration API JSR is based on innovation in the Eclipse MicroProfile Config project carried out by several contributors both corporate and individual ... with the hope of future standardization via the JCP."_ - Kevin Sutter, 2017-09-12, link:https://jcp.org/en/jsr/detail?id=382[JSR 382 Configuration API 1.0]
+
+After the move of Java EE to Eclipse as Jakarta EE, similar thoughts were expressed.
+
+- _"Since both MicroProfile and Jakarta EE are managed by Eclipse Foundation, the specifications defined under MicroProfile (e.g. MicroProfile Fault Tolerance) could be submitted to Jakarta EE and eventually standardized."_ - Emily Jiang, 2018-09-03, https://jaxenter.com/understanding-jakarta-ee-series-ibm-148922.html[Understanding Jakarta EE: “We can treat MicroProfile as a sports car and Jakarta EE as a minibus”]
+
+The underlying consensus being that MicroProfile innovations are not standards.  Users who use MicroProfile and vendors who implement it must understand the goal is not stability, but innovation.  Breaking changes will occur.  Innovation is prioritized over stability.
+
+# Proposals for Standardization
+
+After Jakarta EE 9 ships Jakarta specifications, which are standards, will want to benefit from the innovations of MicroProfile.  The critical question is what is the 2020 answer for how a MicroProfile specification becomes a standard.
+
+Proposals in discussion:
+
+ - link:proposal-microprofile-becomes-standards-initiative.adoc[MicroProfile becomes a standards initiative]
+ - link:proposal-specifications-graduation-to-jakarta.adoc[Innovations graduate to Jakarta]
