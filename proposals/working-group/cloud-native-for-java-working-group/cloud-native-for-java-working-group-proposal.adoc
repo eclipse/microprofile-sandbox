@@ -1,5 +1,7 @@
 = Cloud Native for Java Working Group Proposal
 
+Drafted by the Eclipse Foundation and NOT endorce by MicroProfilers.
+
 == tl;dr
 * Have one working group to govern both MicroProfile and Jakarta EE as independent specification processes and communities
 ** One budget, one set of participation fees, one set of paperwork to sign
