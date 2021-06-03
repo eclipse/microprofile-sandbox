@@ -35,7 +35,7 @@
     <properties>
         <failOnMissingWebXml>false</failOnMissingWebXml>
 
-        <resteasy.version>4.4.2.Final</resteasy.version>
+        <resteasy.version>4.5.7.Final</resteasy.version>
         <slf4j.version>1.7.30</slf4j.version>
     </properties>
 
