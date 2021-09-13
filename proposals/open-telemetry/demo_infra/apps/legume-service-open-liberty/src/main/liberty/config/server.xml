@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="new server">
+
+    <!-- Enable features -->
+    <featureManager>
+        <feature>jakartaee-8.0</feature>
+        <feature>microProfile-4.0</feature>
+    </featureManager>
+
+    <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
+    <httpEndpoint id="defaultHttpEndpoint"
+                  httpPort="8080"
+                  httpsPort="8443" />
+
+    <!-- Automatically expand WAR files and EAR files -->
+    <applicationManager autoExpand="true"/>
+
+    <!-- Default SSL configuration enables trust for default certificates from the Java runtime -->
+    <ssl id="defaultSSLConfig" trustDefaultCerts="true" />
+
+    <basicRegistry id="basic" realm="dummyRealm"></basicRegistry>
+
+    <dataSource
+      id="jdbc/jpadatasource"
+      jndiName="jpadatasource"
+      type="javax.sql.ConnectionPoolDataSource">
+        <jdbcDriver
+          javax.sql.ConnectionPoolDataSource="org.h2.jdbcx.JdbcDataSource"
+          javax.sql.DataSource="org.h2.jdbcx.JdbcDataSource"
+          libraryRef="SharedLibrary_H2"/>
+        <properties
+          URL="jdbc:h2:C:/Apps/db/h2/mydb.db;MV_STORE=FALSE;AUTO_SERVER=TRUE"
+          databaseName="MY_DB"
+          user="sa"
+          password="" />
+    </dataSource>
+</server>

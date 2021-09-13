@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  
+  database:
+    image: postgres:11.5
+    environment:
+      POSTGRES_PASSWORD: changeit
+      POSTGRES_USER: pguser
+      POSTGRES_DB: test
+
+  vegetables:
+    image: service-mesh-presentation/vegetables
+    build:
+      context: ../apps
+      dockerfile: Dockerfile
+      # Set mode MODE=dev to build with local target resources (triggers target=vegetablesdev) - MODE=dev observability build
+      target: vegetables${MODE:-}
+
+  vegetables-open-liberty:
+    image: service-mesh-presentation/vegetables-open-liberty
+    build:
+      context: ../apps
+      dockerfile: Dockerfile
+      # Set mode MODE=dev to build with local target resources (triggers target=vegetablesdev) - MODE=dev observability build
+      target: vegetables-open-liberty${MODE:-}
+

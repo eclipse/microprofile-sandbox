@@ -1,0 +1,3 @@
+#Just an alias command to simplify running commands
+alias observability="docker-compose -f docker-compose.yml -f docker-compose.observability.yml -f observability-network.yml"
+

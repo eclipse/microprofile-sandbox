@@ -1,0 +1,14 @@
+global:
+  scrape_interval: 30s
+  scrape_timeout: 10s
+
+scrape_configs:
+  - job_name: services
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+          - 'prometheus:9090'
+          - 'vegetables:8080'
+          - 'vegetables-open-liberty:9080'
+    consul_sd_configs:
+    - server: 'host.docker.internal:8500'

@@ -1,0 +1,21 @@
+apps
+
+Legume-service (port 8080) can create vegetables and send messages to hero-service (port 8081) to create superheroes
+
+Usefull commands:
+
+```yml
+curl -v -L http://localhost:8080/health/live
+curl -v -L http://localhost:8081/health/live
+
+curl -v -L http://localhost:8080/health/ready
+curl -v -L http://localhost:8081/health/ready
+
+curl -v http://localhost:8080/q/metrics
+curl -v http://localhost:8081/q/metrics
+
+
+curl -v -XPOST  http://localhost:8080/legumes/init
+curl -v http://localhost:8080/legumes
+curl -v http://localhost:8081/heroes
+```
