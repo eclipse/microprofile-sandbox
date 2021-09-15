@@ -1,7 +1,17 @@
 # The infrastructure.
-There are 2 different contexts:
-- Service mesh
-- Observability demo
+
+The docker compose context includes a built in observability stack with:
+
+- 2 services: vegetables and vegetables-open-liberty
+- grafana - where all is seen. http://localhost:3000
+- jaeger-agent-vegetables - jaeger agent sidecar for service vegetables
+- jaeger-agent-vegetables-open-liberty
+- jaeger-collector - jaeger trace collector that ingests and aggregates values from jaeger agents
+- prometheus - metrics collector and aggregator
+- loki - centralized logging system
+- fluent-bit - logger ingester compatible with fluentd
+- casandra - to store the logs
+
 
 #Intro
 
@@ -25,7 +35,7 @@ docker-compose -f docker-compose.yml -f docker-compose.observability up -d
 observability up -d
 ```
 
-Navigate to localhost:3000 to visit grafana
+Navigate to http://localhost:3000 to visit grafana
 
 Initial credentials for grafana are:
 

@@ -1,21 +1,27 @@
 apps
 
-Legume-service (port 8080) can create vegetables and send messages to hero-service (port 8081) to create superheroes
+Legume-service (port 8080) can create vegetables using quarkus
+legume-service-open-liberty (port 8082) can also create vegetables using open liberty
 
-Usefull commands:
+Useful commands:
 
-```yml
+```bash
+#Healthcheck endpoints
 curl -v -L http://localhost:8080/health/live
-curl -v -L http://localhost:8081/health/live
+curl -v -L http://localhost:8082/health/live
 
 curl -v -L http://localhost:8080/health/ready
-curl -v -L http://localhost:8081/health/ready
+curl -v -L http://localhost:8082/health/ready
 
+#Micrometer metrics
 curl -v http://localhost:8080/q/metrics
-curl -v http://localhost:8081/q/metrics
+curl -v http://localhost:8082/q/metrics
 
-
+#DB init with some data
 curl -v -XPOST  http://localhost:8080/legumes/init
+curl -v -XPOST  http://localhost:8082/legumes/init
+
+#Add legumes
 curl -v http://localhost:8080/legumes
-curl -v http://localhost:8081/heroes
+curl -v http://localhost:8082/legumes
 ```
