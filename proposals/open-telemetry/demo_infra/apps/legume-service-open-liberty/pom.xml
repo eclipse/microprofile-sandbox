@@ -28,7 +28,12 @@
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>${lombok.version}</version>
-      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.2.23</version>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
 
@@ -69,6 +74,19 @@
       <plugin>
         <groupId>io.openliberty.tools</groupId>
         <artifactId>liberty-maven-plugin</artifactId>
+        <configuration>
+          <copyDependencies>
+            <dependencyGroup>
+              <!-- Relative to server config directory -->
+              <location>lib/global/jdbc</location>
+              <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>42.2.23</version>
+              </dependency>
+            </dependencyGroup>
+          </copyDependencies>
+        </configuration>
       </plugin>
     </plugins>
   </build>

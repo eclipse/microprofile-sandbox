@@ -20,18 +20,23 @@
 
     <basicRegistry id="basic" realm="dummyRealm"></basicRegistry>
 
-    <dataSource
-      id="jdbc/jpadatasource"
-      jndiName="jpadatasource"
-      type="javax.sql.ConnectionPoolDataSource">
-        <jdbcDriver
-          javax.sql.ConnectionPoolDataSource="org.h2.jdbcx.JdbcDataSource"
-          javax.sql.DataSource="org.h2.jdbcx.JdbcDataSource"
-          libraryRef="SharedLibrary_H2"/>
-        <properties
-          URL="jdbc:h2:C:/Apps/db/h2/mydb.db;MV_STORE=FALSE;AUTO_SERVER=TRUE"
-          databaseName="MY_DB"
-          user="sa"
-          password="" />
+    <dataSource id="DefaultDataSource"
+                jndiName="jdbc/postgresql"
+                jdbcDriverRef="postgresql-driver">
+        <properties serverName="localhost"
+                    portNumber="5432"
+                    databaseName="test"
+                    user="pguser"
+                    password="changeit"/>
     </dataSource>
+
+    <jdbcDriver id="postgresql-driver"
+                javax.sql.XADataSource="org.postgresql.xa.PGXADataSource"
+                javax.sql.ConnectionPoolDataSource="org.postgresql.ds.PGConnectionPoolDataSource"
+                libraryRef="postgresql-library"/>
+
+    <library id="postgresql-library">
+        <fileset id="PostgreSQLFileset" dir="${server.config.dir}/lib/global/jdbc"
+                 includes="postgresql-42.2.23.jar"/>
+    </library>
 </server>
