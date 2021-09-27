@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="new server">
+
+    <!-- Enable features -->
+    <featureManager>
+        <feature>jakartaee-8.0</feature>
+        <feature>microProfile-4.0</feature>
+    </featureManager>
+
+    <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
+    <httpEndpoint id="defaultHttpEndpoint"
+                  httpPort="8080"
+                  httpsPort="8443" />
+
+    <!-- Automatically expand WAR files and EAR files -->
+    <applicationManager autoExpand="true"/>
+
+    <!-- Default SSL configuration enables trust for default certificates from the Java runtime -->
+    <ssl id="defaultSSLConfig" trustDefaultCerts="true" />
+
+    <basicRegistry id="basic" realm="dummyRealm"></basicRegistry>
+
+    <dataSource id="DefaultDataSource"
+                jndiName="jdbc/postgresql"
+                jdbcDriverRef="postgresql-driver">
+        <properties serverName="localhost"
+                    portNumber="5432"
+                    databaseName="test"
+                    user="pguser"
+                    password="changeit"/>
+    </dataSource>
+
+    <jdbcDriver id="postgresql-driver"
+                javax.sql.XADataSource="org.postgresql.xa.PGXADataSource"
+                javax.sql.ConnectionPoolDataSource="org.postgresql.ds.PGConnectionPoolDataSource"
+                libraryRef="postgresql-library"/>
+
+    <library id="postgresql-library">
+        <fileset id="PostgreSQLFileset" dir="${server.config.dir}/lib/global/jdbc"
+                 includes="postgresql-42.2.23.jar"/>
+    </library>
+</server>

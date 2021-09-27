@@ -1,0 +1,27 @@
+apps
+
+Legume-service (port 8080) can create vegetables using quarkus
+legume-service-open-liberty (port 8082) can also create vegetables using open liberty
+
+Useful commands:
+
+```bash
+#Healthcheck endpoints
+curl -v -L http://localhost:8080/health/live
+curl -v -L http://localhost:8082/health/live
+
+curl -v -L http://localhost:8080/health/ready
+curl -v -L http://localhost:8082/health/ready
+
+#Micrometer metrics
+curl -v http://localhost:8080/q/metrics
+curl -v http://localhost:8082/q/metrics
+
+#DB init with some data
+curl -v -XPOST  http://localhost:8080/legumes/init
+curl -v -XPOST  http://localhost:8082/legumes/init
+
+#Add legumes
+curl -v http://localhost:8080/legumes
+curl -v http://localhost:8082/legumes
+```
