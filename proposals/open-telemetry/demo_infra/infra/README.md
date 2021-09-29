@@ -1,4 +1,4 @@
-# The infrastructure.
+# The Infrastructure
 
 The docker compose context includes a built in observability stack with:
 
@@ -13,7 +13,7 @@ The docker compose context includes a built in observability stack with:
 - casandra - to store the logs
 
 
-#Intro
+# Intro
 
 To build specific docker images, `build-vegetables-open-liberty` in this example:
 ```
@@ -25,9 +25,9 @@ Add alias to you console:
 ```
  source .alias
 ```
-# Observability demo
+# Observability Demo
 
-## Setting infrastructure for observability
+## Setting Infrastructure for Observability
 
 ```shell
 docker-compose -f docker-compose.yml -f docker-compose.observability up -d
@@ -35,7 +35,7 @@ docker-compose -f docker-compose.yml -f docker-compose.observability up -d
 observability up -d
 ```
 
-Navigate to http://localhost:3000 to visit grafana
+Navigate to http://localhost:3000 to visit grafana.
 
 Initial credentials for grafana are:
 
@@ -43,4 +43,3 @@ Initial credentials for grafana are:
 username: admin
 password: admin
 ```
-
