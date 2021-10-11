@@ -75,11 +75,10 @@ services:
   # Set services environment variables to communicate to sidecar jaeger agent
   vegetables-open-liberty:
     environment:
-#      - FIXME
-      - QUARKUS_JAEGER_AGENT_HOST_PORT=127.0.0.1:6831
-      - QUARKUS_JAEGER_SAMPLER_PARAM=1
-      - QUARKUS_JAEGER_SAMPLER_TYPE=const
-      - QUARKUS_JAEGER_SERVICE_NAME=vegetables
+      - JAEGER_AGENT_HOST_PORT=127.0.0.1:6831
+      - JAEGER_SAMPLER_PARAM=1
+      - JAEGER_SAMPLER_TYPE=const
+      - JAEGER_SERVICE_NAME=vegetables-open-liberty
     logging:
       driver: fluentd
       options:
