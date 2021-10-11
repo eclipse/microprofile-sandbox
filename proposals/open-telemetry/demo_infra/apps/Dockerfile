@@ -36,8 +36,9 @@ CMD ["java", "-jar", "/work/quarkus-run.jar"]
 # Building with dependendencies all contained in Docker: docker build --target vegetables .
 FROM openliberty/open-liberty:full-java11-openj9-ubi as vegetables-open-liberty
 COPY --chown=1001:0 --from=build-vegetables-open-liberty /usr/src/legume-service-open-liberty/src/main/liberty/config/server.xml /config/
-COPY --chown=1001:0 --from=build-vegetables-open-liberty /usr/src/legume-service-open-liberty/target/legume-service-open-liberty.war /config/dropins/legume-service-open-liberty.war
-COPY --chown=1001:0 --from=build-vegetables-open-liberty /usr/src/legume-service-open-liberty/target/legume-service-open-liberty/WEB-INF/lib/postgresql-42.2.23.jar /liberty/lib/global/jdbc/postgresql-42.2.23.jar
+COPY --chown=1001:0 --from=build-vegetables-open-liberty /usr/src/legume-service-open-liberty/target/legume-service-open-liberty.war /config/apps/legume-service-open-liberty.war
+RUN mkdir -p /opt/ol/wlp/usr/shared/config/lib/global
+COPY --chown=1001:0 --from=build-vegetables-open-liberty /usr/src/legume-service-open-liberty/target/legume-service-open-liberty/WEB-INF/lib/postgresql-42.2.23.jar /opt/ol/wlp/usr/shared/config/lib/global/postgresql-42.2.23.jar
 EXPOSE 8080
 RUN configure.sh
 
