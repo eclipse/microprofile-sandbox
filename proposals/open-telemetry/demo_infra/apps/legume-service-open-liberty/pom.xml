@@ -1,5 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <properties>
+    <jaeger-client.version>1.5.0</jaeger-client.version>
+    <slf4j-api.version>1.7.30</slf4j-api.version>
+
+
+    <!-- Jaeger configuration -->
+    <liberty.env.JAEGER_SAMPLER_TYPE>const</liberty.env.JAEGER_SAMPLER_TYPE>
+    <liberty.env.JAEGER_SAMPLER_PARAM>1</liberty.env.JAEGER_SAMPLER_PARAM>
+    <liberty.env.JAEGER_AGENT_HOST>127.0.0.1</liberty.env.JAEGER_AGENT_HOST>
+    <liberty.env.JAEGER_AGENT_PORT>6831</liberty.env.JAEGER_AGENT_PORT>
+  </properties>
 
   <parent>
     <groupId>com.brunobat</groupId>
@@ -35,7 +46,22 @@
       <version>42.2.23</version>
       <scope>compile</scope>
     </dependency>
-  </dependencies>
+    <dependency>
+      <groupId>io.jaegertracing</groupId>
+      <artifactId>jaeger-client</artifactId>
+      <version>${jaeger-client.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j-api.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-jdk14</artifactId>
+      <version>${slf4j-api.version}</version>
+    </dependency>
+</dependencies>
 
   <build>
     <finalName>legume-service-open-liberty</finalName>
@@ -66,6 +92,12 @@
           <groupId>io.openliberty.tools</groupId>
           <artifactId>liberty-maven-plugin</artifactId>
           <version>3.3.4</version>
+          <configuration>
+            <bootstrapProperties>
+              <JAEGER_AGENT_HOST>${liberty.env.JAEGER_AGENT_HOST}</JAEGER_AGENT_HOST>
+              <JAEGER_AGENT_PORT>${liberty.env.JAEGER_AGENT_PORT}</JAEGER_AGENT_PORT>
+            </bootstrapProperties>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>

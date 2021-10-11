@@ -23,7 +23,7 @@
     <dataSource id="DefaultDataSource"
                 jndiName="jdbc/postgresql"
                 jdbcDriverRef="postgresql-driver">
-        <properties serverName="localhost"
+        <properties serverName="database"
                     portNumber="5432"
                     databaseName="test"
                     user="pguser"
@@ -36,7 +36,11 @@
                 libraryRef="postgresql-library"/>
 
     <library id="postgresql-library">
-        <fileset id="PostgreSQLFileset" dir="${server.config.dir}/lib/global/jdbc"
+        <fileset id="PostgreSQLFileset" dir="${shared.config.dir}/lib/global/"
                  includes="postgresql-42.2.23.jar"/>
     </library>
+
+    <webApplication location="legume-service-open-liberty.war" contextRoot="/">
+        <classloader apiTypeVisibility="+third-party" />
+    </webApplication>
 </server>
