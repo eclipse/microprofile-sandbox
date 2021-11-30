@@ -1,0 +1,226 @@
+:authors: Roberto Cortez
+:email: radcortez@yahoo.com
+:version-label!:
+:sectanchors:
+:doctype: book
+:license: Eclipse Foundation Specification License v1.0
+:source-highlighter: coderay
+:toc: left
+:toclevels: 4
+:sectnumlevels: 4
+ifdef::backend-pdf[]
+:pagenums:
+endif::[]
+:otel-spec-version: 1.8.0
+:otel-java-version: 1.9.0
+
+= Eclipse MicroProfile OpenTelemetry Tracing
+
+== Introduction
+
+TODO
+
+== Rationale
+
+TODO
+
+== Architecture
+
+This specification defines an easy way to allow an application running in a cloud native container to take advantage of
+distributed tracing by using the https://opentelemetry.io[OpenTelemetry project] (a merger of the OpenTracing and
+OpenCensus projects).
+
+This document and implementations *MUST* comply with the following OpenTelemetry {otel-spec-version} specifications:
+
+- https://github.com/open-telemetry/opentelemetry-specification/blob/v{otel-spec-version}/specification/overview.md[OpenTelemetry Overview]
+(except for Metrics)
+- https://github.com/open-telemetry/opentelemetry-specification/blob/v{otel-spec-version}/specification/trace/api.md[Tracing API]
+- https://github.com/open-telemetry/opentelemetry-specification/blob/v{otel-spec-version}/specification/baggage/api.md[Baggage API]
+- https://github.com/open-telemetry/opentelemetry-specification/tree/v{otel-spec-version}/specification/context[Context API]
+- https://github.com/open-telemetry/opentelemetry-specification/blob/v{otel-spec-version}/specification/resource/sdk.md[Resource SDK]
+
+=== Automatic Instrumentation
+
+Jakarta RESTful Web Services (server and client), and MicroProfile REST Clients are automatically enlisted to
+participate in distributed tracing without code modification as specified in the
+https://github.com/open-telemetry/opentelemetry-specification/blob/v{otel-spec-version}/specification/trace/api.md[Tracing API].
+
+These should follow the rules specified in the <<semantic-conventions>> section.
+
+=== Manual Instrumentation
+
+Explicit manual instrumentation can be added into a MicroProfile application in the following ways:
+
+==== @WithSpan
+
+Annotating a method in any Jakarta CDI aware beans with the `io.opentelemetry.extension.annotations.WithSpan`
+annotation. This will create a new Span and establish any required relationships with the current Trace context.
+
+Method parameters can be annotated with the `io.opentelemetry.extension.annotations.SpanAttribute` annotation to
+indicate which method parameters should be part of the Trace.
+
+Example:
+[source,java]
+----
+@ApplicationScoped
+class SpanBean {
+    @WithSpan
+    void span() {
+
+    }
+
+    @WithSpan("name")
+    void spanName() {
+
+    }
+
+    @WithSpan(kind = SERVER)
+    void spanKind() {
+
+    }
+
+    @WithSpan
+    void spanArgs(@SpanAttribute(value = "arg") String arg) {
+
+    }
+}
+----
+
+==== Obtain a SpanBuilder
+
+By obtaining a `SpanBuilder` from the current `Tracer` and calling
+`io.opentelemetry.api.trace.Tracer.spanBuilder(String)`. In this case, it is the developer's responsibility to ensure
+that the `Span` is properly created, closed, and propagated.
+
+Example:
+[source,java]
+----
+@RequestScoped
+@Path("/")
+public class SpanResource {
+    @Inject
+    Tracer tracer;
+
+    @GET
+    @Path("/span/new")
+    public Response spanNew() {
+        Span span = tracer.spanBuilder("span.new")
+                .setSpanKind(INTERNAL)
+                .setParent(Context.current().with(this.span))
+                .setAttribute("my.attribute", "value")
+                .startSpan();
+
+        span.end();
+
+        return Response.ok().build();
+    }
+}
+----
+
+NOTE: Start and end a new `Span` will add a child `Span` to the current one enlisted by the automatic instrumentation
+of Jakarta REST Applications.
+
+==== Obtain the current Span
+
+By obtaining the current `Span` to add attributes. The Span lifecycle is managed by the implementation.
+
+Example:
+[source,java]
+----
+@RequestScoped
+@Path("/")
+public class SpanResource {
+    @GET
+    @Path("/span/current")
+    public Response spanCurrent() {
+        Span span = Span.current();
+        span.setAttribute("my.attribute", "value");
+        return Response.ok().build();
+    }
+}
+----
+
+Or with CDI:
+[source,java]
+----
+@RequestScoped
+@Path("/")
+public class SpanResource {
+    @Inject
+    Span span;
+
+    @GET
+    @Path("/span/current")
+    public Response spanCurrent() {
+        span.setAttribute("my.attribute", "value");
+        return Response.ok().build();
+    }
+}
+----
+
+=== Agent Instrumentation
+
+TODO
+
+=== Access to the OpenTelemetry Tracing API
+
+An implementation of MicroProfile OpenTelemetry must provide the following CDI beans for supporting contextual instance
+injection:
+
+- `io.opentelemetry.api.OpenTelemetry`
+- `io.opentelemetry.api.trace.Tracer`
+- `io.opentelemetry.api.trace.Span`
+- `io.opentelemetry.api.baggage.Baggage`
+
+Calling the OpenTelemetry API directly must work in the same way and yield the same results:
+
+- `io.opentelemetry.api.GlobalOpenTelemetry.get()`
+- `io.opentelemetry.api.trace.Span.current()`
+- `io.opentelemetry.api.baggage.Baggage.current()`
+
+To obtain the `Tracer` with the OpenTelemetry API, the consumer must use the exact same instrumentation name and version
+used by the implementation. Failure to do so, may result in a different `Tracer` and incorrect handling of the
+OpenTelemetry data.
+
+=== Configuration
+
+OpenTelemetry must be configured by MicroProfile Config following the configuration properties detailed in:
+
+- https://github.com/open-telemetry/opentelemetry-java/tree/v{otel-java-version}/sdk-extensions/autoconfigure[OpenTelemetry SDK Autoconfigure]
+(excluding properties related to Metrics).
+- https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/v{otel-java-version}/docs/manual-instrumentation.md[Manual Instrumentation]
+
+An implementation may opt to not support a subset of configuration properties related to a specific configuration. For
+instance, `otel.traces.exporter` is required but if the implementation does not support `jaeger` as a valid exporter,
+then all configuration properties referring to `otel.tracer.jaeger.*` are not required.
+
+[[semantic-conventions]]
+=== Semantic Conventions
+
+The https://github.com/open-telemetry/opentelemetry-specification/tree/v{otel-spec-version}/specification/trace/semantic_conventions[Trace Semantic Conventions]
+for Spans and Attributes must be followed by any compatible implementation.
+
+All attributes marked as `required` must be present in the context of the Span where they are defined. Any other
+attribute is optional. Implementations can also add their own attributes.
+
+==== MicroProfile Attributes
+
+Other MicroProfile specifications can add their own attributes under their own attribute name following the
+convention `mp.[specification short name].[attribute name]`.
+
+== MicroProfile OpenTracing
+
+MicroProfile OpenTelemetry Tracing supercedes MicroProfile OpenTracing. Even if the end goal is the same,
+there are some considerable differences:
+
+- Different API (between OpenTracing and OpenTelemetry)
+- No `@Traced` annotation
+- No specific MicroProfile configuration
+- No customization of Span name through MicroProfile API
+- Differences in attribute names and mandatory ones
+
+For these reasons, the MicroProfile OpenTelemetry Tracing specification does not provide any migration path between
+both projects. While it is certainly possible to achieve a migration path at the code level and at the specification
+level (at the expense of not following the main OpenTelemetry specification), it is unlikely to be able to achieve the
+same compatibility at the data layer. Regardless, implementations are still free to provide migration paths between
+MicroProfile OpenTracing and MicroProfile OpenTelemetry Tracing.
