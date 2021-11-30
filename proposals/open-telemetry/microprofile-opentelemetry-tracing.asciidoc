@@ -18,17 +18,25 @@ endif::[]
 
 == Introduction
 
-TODO
+In cloud-native technology stacks, distributed and polyglot architectures are the norm. Distributed architectures
+introduce a variety of operational challenges including how to solve availability and performance issues quickly.
+These challenges have led to the rise of observability.
 
-== Rationale
+Telemetry data is needed to power observability products. Traditionally, telemetry data has been provided by either
+open-source projects or commercial vendors. With a lack of standardization, the net result is the lack of data
+portability and the burden on the user to maintain the instrumentation.
 
-TODO
+The https://opentelemetry.io[OpenTelemetry] project solves these problems by providing a single, vendor-agnostic
+solution.
 
 == Architecture
 
-This specification defines an easy way to allow an application running in a cloud native container to take advantage of
-distributed tracing by using the https://opentelemetry.io[OpenTelemetry project] (a merger of the OpenTracing and
-OpenCensus projects).
+https://opentelemetry.io[OpenTelemetry] is a set of APIs, SDKs, tooling and integrations that are designed for the
+creation and management of telemetry data such as traces, metrics, and logs.
+
+This specification defines the behaviors that allow MicroProfile applications to easily participate in an environment
+where distributed tracing is enabled via https://opentelemetry.io[OpenTelemetry] (a merger between
+https://opentracing.io[OpenTracing] and https://opencensus.io[OpenCensus]).
 
 This document and implementations *MUST* comply with the following OpenTelemetry {otel-spec-version} specifications:
 
@@ -38,6 +46,9 @@ This document and implementations *MUST* comply with the following OpenTelemetry
 - https://github.com/open-telemetry/opentelemetry-specification/blob/v{otel-spec-version}/specification/baggage/api.md[Baggage API]
 - https://github.com/open-telemetry/opentelemetry-specification/tree/v{otel-spec-version}/specification/context[Context API]
 - https://github.com/open-telemetry/opentelemetry-specification/blob/v{otel-spec-version}/specification/resource/sdk.md[Resource SDK]
+
+IMPORTANT: The Metrics and Logging integrations of https://opentelemetry.io[OpenTelemetry] are out of scope of this
+specification. Implementations are free to provide support for both Metrics and Logging if desired.
 
 === Automatic Instrumentation
 
@@ -160,7 +171,17 @@ public class SpanResource {
 
 === Agent Instrumentation
 
-TODO
+Implementations are free to support the OpenTelemetry Agent Instrumentation. This provides the ability to gather
+telemetry data without code modifications by attaching a Java Agent JAR to the running JVM.
+
+If an implementation of MicroProfile OpenTelemetry provides such support, it must conform to the instructions detailed
+in the https://github.com/open-telemetry/opentelemetry-java-instrumentation[OpenTelemetry Java Instrumentation]
+project, including:
+
+- https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/v{otel-java-version}/docs/agent-config.md[Agent Configuration]
+- https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/v{otel-java-version}/docs/suppressing-instrumentation.md[Suppressing Instrumentation]
+
+Both Agent and MicroProfile OpenTelemetry Instrumentation (if any), must coexist with each other.
 
 === Access to the OpenTelemetry Tracing API
 
