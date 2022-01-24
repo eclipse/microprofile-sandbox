@@ -1,198 +1,47 @@
 
 = MicroProfile OpenTelemetry
 
-[IMPORTANT]
-====
-The following content is moved from the original https://docs.google.com/document/d/1-mFPmFjxmOx29rDrr1qBtpOXmGZtqVquF0_BvpklO5s/edit#heading=h.q5u44wt1zwb9[Google Doc document]:
-====
+This specification is to adopt https://opentelemetry.io/ [OpenTelemetry] from CNCF to allow MicroProfile Applications benefit from 
+OpenTelemetry and enable Jakarta RESTful Web Services automatically being traced.
+
 == OpenTracing move to OpenTelemetry
+With the merge of OpenTracing and Open Census, OpenTelemetry is the new future. 
+OpenTelemetry consists of Tracing, Logging and Metrics support. This reposition is to start with Tracing part first with the potential to add logging support.
 
-=== Tracer API
-Both OpenTracing and OpenTelemetry have a Tracer API, but they are different. Moving from one to the other is fairly straightforward.
+== Multiple modules
+Since this specification potentially expands to support logging from OpenTelemetry, it will use multi module structure. 
+For the time being, the main focus is OpenTelemetry Tracing. When OpenTelemtry Logging is ready for production, we will then evaluate the need to pull in the OpenTelemetry Logging.
 
-* This only impacts client code that uses the Tracer API directly (if you want to add new spans or add additional custom tags).
-Automatic traces triggered by JAX-RS applications are not affected, since this is implementation library code and can be easily adjusted.
-* The https://github.com/open-telemetry/opentelemetry-java/tree/main/opentracing-shim provides a way to produce an OpenTracing Tracer from the OpenTelemetry Tracer.
-It could be used to prevent an API migration if desired.
+== Directly adopt the APIs from OpenTelemetry Tracing
 
-[NOTE]
-====
-Bruno Baptista
-11:14 25. Okt.
-This is the path we were trying to pursue first.
-Create a shim to forward things to openTelemetry
+This specification directly expose the Tracing APIs from OpenTelemetry and then provide CDI and Jakarta RESTful Web Services integration.
+The https://github.com/open-telemetry/opentelemetry-java/tree/main/api/all/src/main/java/io/opentelemetry/api/trace Tracer APIs from OpenTelemetry will be exposed.
+This specification does not plan to reinvent the wheels but rather exposes OpenTelemetry APIs due to the following reasons:
+* OpenTelemetry is a specification under CNCF 
+* OpenTelemetry is widely adopted by different vendors and languages
+* OpenTelemetry has Java API and annotations that are readily to be used
+* OpenTelemetry is active and open for the collaboration with us
+* OpenTelemetry is platform technology and we use the effort to make Java libraries to be used directly instead of reinventing our own APIs
+* OpenTelemetry is serious with backward incompatible changes and communicates openly
+MicroProfile pulls in a particular version of OpenTelemetry. Whenever we upgrade, we evaluate the backward compatibility status ourselves as well.
 
-Roberto Cortez
-16:23 27. Okt.
-Remember, implementations do automatic instrumentation for JAX-RS endpoints, so the implementation needs to be adjusted as well.
-(Depending on how the implementation is writing it may be possible to replace the Tracer, without many code changes on the implementation side).
-====
+== MicroProfile OpenTelemetry Tracing
+MicroProfile OpenTelemetry pulls in OpenTelemetry tracing and integrate with CDI and Jakarta Restful Services. It provides three types of instrumentations:
 
-==== Explicit Instrumentation
-There are no suitable annotations to trace service calls that are not REST endpoints like the @Traced annotation in MP OpenTracing (considering that REST calls are traced automatically):
-
-* Check https://github.com/open-telemetry/opentelemetry-java/blob/main/extensions/annotations/src/main/java/io/opentelemetry/extension/annotations/WithSpan.java
-* The @WithSpan could work, but it doesn't apply to classes (or has a way to disable a particular trace - a different issue, see above).
-https://github.com/open-telemetry/opentelemetry-java/issues/813
-https://github.com/open-telemetry/opentelemetry-java/pull/1148
-* The @WithSpan may be implemented in a CDI Jakarta Interceptor interceptor.
-
-[NOTE]
-====
-Bruno Baptista
-11:19 25. Okt.
-I believe that in this case we should do an extension, using the standard opentelemetry-client that actually uses the JakartaEE stack and CDI in particular to provide a transparent interface with the standard client.
-I believe we should do this in the OpenTelemetry repo.
-
-Roberto Cortez
-16:25 27. Okt.
-Agree.
-OpenTelemetry instrumentations are implemented here:
-https://github.com/open-telemetry/opentelemetry-java-instrumentation/tree/main/instrumentation.
-
-For now, I've implemented a prototype for CDI and REST integration here:
-https://github.com/smallrye/smallrye-opentelemetry/tree/main/implementation/.
-We can look into it and when we are happy with it we can propose it to the OpenTelemetry repo.
-====
-
-==== Tracer API vs Span API
-A Span represents a single operation within a Trace and a Trace is a directed acyclic graph of Spans, where the edges between Spans are defined as parent/child relationship.
-In this context, a call to a rest endpoint represents a Span in a Trace.
-
-The Tracer API in OpenTelemetry has only a single method, _SpanBuilder spanBuilder(String spanName)_.
-In this context, it may make sense to use annotations that refer to Spans that the Tracer itself.
-In the case of MP OpenTracing we use @Tracer, but a Trace represents the entire capture of the system call.
-Usually we want to operate on a Span.
-The OpenTelemetry API defines a @WithSpan annotation that it is used to instrument pieces of the code that need to be part of the Trace.
-[NOTE]
-====
-Bruno Baptista
-11:15 25. Okt.
-I agree that this is a much better annotation that @Traced.
-====
-Maybe it should be considered to drop the MP OpenTracing Tracer annotation and any OpenTelemetry required annotation refer to Spans instead.
-Ideally, using the ones already available in the OpenTelemetry API.
-
-=== Enable / Disable Spans
-There is no way to selectively enable / disable Traces in OpenTelemetry: 
-
-* https://github.com/open-telemetry/opentelemetry-java/issues/1552
-* https://github.com/open-telemetry/opentelemetry-java-instrumentation/issues/1060
-* https://github.com/open-telemetry/opentelemetry-specification/issues/530
-* This is achieved in MP OpenTracing with the @Traced annotation and an enable / disable flag.
-* Maybe add a @SkipSpan in the OpenTelemetry API?
-
-=== Operation Name
-In MP OpenTracing it has well defined rules.
-The default is to use the format <HTTP method>:<package name>.<class name>.<method name>.
-In OpenTelemetry it seems to be loosely defined:
-
-* https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/api.md#span
-
-This is not exactly a problem, but any MP OpenTelemetry integration should follow the OpenTelemetry specification, so systems that use other technologies are consistent with MP (if they also follow the specification) in the context of a Trace.
-
-=== Standard Span tags
-Standard Span tags between OpenTracing and OpenTelemetry are mostly the same, with the following differences:
-
-* The component tag is handled as a named Tracer: https://github.com/open-telemetry/opentelemetry-specification/issues/10.
-It shows in the "otel.library.name" tag.
-
-[NOTE]
-====
-Tomas Langer
-14:30 21. Okt.
-Is this final?
-This seems to be quite a big difference (as now you can just get the global tracer and use it - this seems to require additional steps)
-
-Roberto Cortez
-17:33 21. Okt.
-You just need to pass in a name and optional a version:
-https://github.com/open-telemetry/opentelemetry-java/blob/main/api/all/src/main/java/io/opentelemetry/api/OpenTelemetry.java#L42-L65
-====
-* http.url is optional: https://github.com/open-telemetry/opentelemetry-specification/tree/main/specification/trace/semantic_conventions. In MP OpenTracing it is required.
-* Other required tags work the same: http.method, http.status_code, span.kind
-
-Semantic Conventions for tags:
-
-* https://github.com/open-telemetry/opentelemetry-specification/tree/main/specification/trace/semantic_conventions
-* https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/resource/semantic_conventions/README.md
-
-=== Configuration
-OpenTelemetry supports the following configuration:
-https://github.com/open-telemetry/opentelemetry-java/tree/main/sdk-extensions/autoconfigure
-
-== TCK
-The MP OpenTracing TCK adds little value:
-
-* Assertions are done on a MockedTracer and on internal data
-* No clue on how the trace data is going to be actually written because the Tracer implementation differs per runtime tool (jaeger, zookeeper, etc).
-* The TCK may be fine, but the actual runtime implementation may behave differently since it does not verify the real output
-
-There is no reliable way to run the MP OpenTracing TCK as is with an OpenTelemetry implementation.
-The Tracer and Span APIs are mostly write-only, so the MP OpenTracing TCK requires an OpenTracing MockTracer to retrieve the information.
-Most likely TCK runners could access the current OpenTelemetry Tracer and copy the values to the MockTracer.
-On the other hand, this would misrepresent the TCK tests and they cannot be taken seriously.
-[NOTE]
-====
-Bruno Baptista
-11:23 25. Okt.
-Shouldn't the traces be directed to a real collector and asserted there?
-
-Roberto Cortez
-14:04 25. Okt.
-Yes, for an OpenTelemetry TCK.
-====
-
-OpenTelemetry provides an agnostic way to receive, process, and export telemetry data which could be used to create a more reliable and trustworthy TCK.
-
-OpenTelemetry on it own doesn’t seem to provide a standard set of tests to validate an implementation / integration.
-
-=== Migration
-Any OpenTelemetry effort coming from MP should not claim a migration from the current MP OpenTracing specification.
-While it is certainly possible to achieve a migration path at the code level and at the specification level for MP (at the expense of not following the main OpenTelemetry specification), it is unknown how to proceed at the data level.
-At the data level, it will be required to verify that some of the most popular tools write the data in the same way in the case of a move.
-This may require a considerable amount of effort that most likely is not in the scope of this effort.
-[NOTE]
-====
-Bruno Baptista
-11:21 25. Okt.
-If we won't do the migration we should place MP OpenTracing on end of life and inform the users.
-If we are not going to commit on a transition.
-MP OpenTracing should not be used in new projects...
-
-Roberto Cortez
-14:07 25. Okt.
-My proposal was to just move it outside the MP platform and deprecate it.
-Users and implementations could still use it as a standalone project.
-
-The only breaking change is that users may require to add the MP OpenTracing dependency (if the app uses the API directly).
-====
-
-OpenTracing Tracers:
-
-* https://opentracing.io/docs/supported-tracers/
-
-OpenTelemetry Exporters:
-
-* https://opentelemetry.io/docs/go/exporting_data/
-
-=== MicroProfile OpenTelemetry Specification
-A possible MicroProfile OpenTelemetry specification should point and reuse the already existing OpenTelemetry specification in https://github.com/open-telemetry/opentelemetry-specification and only fill in the blanks:
-
-* Expose Configuration with MicroProfile Config
-** https://github.com/open-telemetry/opentelemetry-java/blob/main/sdk-extensions/autoconfigure/README.md
-** https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/config/common.md
-** Register additional resources with CDI
-*** Exporters, Propagators, etc.
 * Automatic Instrumentation
-** JAX-RS and REST Client are the obvious candidates
-** OpenTelemetry Java Agents?
-*** May need to define that MP OpenTelemetry must support whatever OpenTelemetry supports
+
+Jakarta RESTful Web Services (server and client), and MicroProfile REST Clients are automatically enlisted to participate in distributed tracing without code modification as specified in the Tracing API.
+
 * Manual Instrumentation
-** Use the @WithSpan annotation
-** CDI calls
+
+Explicit manual instrumentation can be added into a MicroProfile application using annotation or programmatic lookup.
+
+* Agent Instrumentation
+
+Implementations are free to support the OpenTelemetry Agent Instrumentation.
 
 === References
+
 The following repo was used to try out some of the possible integrations between MP OpenTracing and OpenTelemetry:
 
 * https://github.com/quarkiverse/quarkus-microprofile/tree/opentelemetry
