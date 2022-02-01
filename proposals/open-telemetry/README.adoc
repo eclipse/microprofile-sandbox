@@ -22,6 +22,8 @@ This specification does not plan to reinvent the wheels but rather exposes OpenT
 * OpenTelemetry has Java API and annotations that are readily to be used
 * OpenTelemetry is active and open for the collaboration with us
 * OpenTelemetry is platform technology and we use the effort to make Java libraries to be used directly instead of reinventing our own APIs
+* OpenTelemetry has broad vendor support. Many APMs are contributing to the spec, providing a guarantee that traces can be used out of the box, with minimal integrations. 
+
 * OpenTelemetry is serious with backward incompatible changes and communicates openly
 MicroProfile pulls in a particular version of OpenTelemetry. Whenever we upgrade, we evaluate the backward compatibility status ourselves as well.
 
