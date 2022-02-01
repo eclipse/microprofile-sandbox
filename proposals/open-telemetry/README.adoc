@@ -17,6 +17,7 @@ For the time being, the main focus is OpenTelemetry Tracing. When OpenTelemtry L
 This specification directly expose the Tracing APIs from OpenTelemetry and then provide CDI and Jakarta RESTful Web Services integration.
 The https://github.com/open-telemetry/opentelemetry-java/tree/main/api/all/src/main/java/io/opentelemetry/api/trace Tracer APIs from OpenTelemetry will be exposed.
 This specification does not plan to reinvent the wheels but rather exposes OpenTelemetry APIs due to the following reasons:
+
 * OpenTelemetry is a specification under CNCF 
 * OpenTelemetry is widely adopted by different vendors and languages
 * OpenTelemetry has Java API and annotations that are readily to be used
