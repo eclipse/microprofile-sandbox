@@ -1,16 +1,17 @@
 
-= MicroProfile OpenTelemetry
+= MicroProfile Telemetry
 
-This specification is to adopt https://opentelemetry.io/ [OpenTelemetry] from CNCF to allow MicroProfile Applications benefit from 
-OpenTelemetry and enable Jakarta RESTful Web Services automatically being traced.
+This specification is to adopt https://opentelemetry.io/ [OpenTelemetry] from CNCF to allow MicroProfile Applications benefit from OpenTelemetry and enable Jakarta RESTful Web Services automatically being traced.
 
 == OpenTracing move to OpenTelemetry
-With the merge of OpenTracing and Open Census, OpenTelemetry is the new future. 
-OpenTelemetry consists of Tracing, Logging and Metrics support. This reposition is to start with Tracing part first with the potential to add logging support.
+With the merge of OpenTracing and OpenCensus, OpenTelemetry is the new future. 
+OpenTelemetry consists of Tracing, Logging and Metrics support.
+This reposition is to start with Tracing part first with the potential to add logging support.
 
 == Multiple modules
 Since this specification potentially expands to support logging from OpenTelemetry, it will use multi module structure. 
-For the time being, the main focus is OpenTelemetry Tracing. When OpenTelemtry Logging is ready for production, we will then evaluate the need to pull in the OpenTelemetry Logging.
+For the time being, the main focus is OpenTelemetry Tracing.
+When OpenTelemtry Logging is ready for production, we will then evaluate the need to pull in the OpenTelemetry Logging.
 
 == Directly adopt the APIs from OpenTelemetry Tracing
 
@@ -24,12 +25,13 @@ This specification does not plan to reinvent the wheels but rather exposes OpenT
 * OpenTelemetry is active and open for the collaboration with us
 * OpenTelemetry is platform technology and we use the effort to make Java libraries to be used directly instead of reinventing our own APIs
 * OpenTelemetry has broad vendor support. Many APMs are contributing to the spec, providing a guarantee that traces can be used out of the box, with minimal integrations. 
-
 * OpenTelemetry is serious with backward incompatible changes and communicates openly
-MicroProfile pulls in a particular version of OpenTelemetry. Whenever we upgrade, we evaluate the backward compatibility status ourselves as well.
 
-== MicroProfile OpenTelemetry Tracing
-MicroProfile OpenTelemetry pulls in OpenTelemetry tracing and integrate with CDI and Jakarta Restful Services. It provides three types of instrumentations:
+MicroProfile Telemetry pulls in a particular version of OpenTelemetry.
+Whenever we upgrade, we evaluate the backward compatibility status ourselves as well.
+
+== MicroProfile Telemetry Tracing
+MicroProfile Telemetry pulls in OpenTelemetry Tracing and integrate with CDI and Jakarta Restful Services. It provides three types of instrumentations:
 
 * Automatic Instrumentation
 
@@ -45,7 +47,7 @@ Implementations are free to support the OpenTelemetry Agent Instrumentation.
 
 === References
 
-The following repo was used to try out some of the possible integrations between MP OpenTracing and OpenTelemetry:
+The following repo was used to try out some of the possible integrations between MP OpenTracing and MP Telemetry:
 
 * https://github.com/quarkiverse/quarkus-microprofile/tree/opentelemetry
 
