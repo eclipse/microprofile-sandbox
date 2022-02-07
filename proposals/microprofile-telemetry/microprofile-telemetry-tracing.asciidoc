@@ -14,7 +14,7 @@ endif::[]
 :otel-spec-version: 1.8.0
 :otel-java-version: 1.9.0
 
-= Eclipse MicroProfile OpenTelemetry Tracing
+= Eclipse MicroProfile Telemetry Tracing
 
 == Introduction
 
@@ -186,18 +186,18 @@ public class SpanResource {
 Implementations are free to support the OpenTelemetry Agent Instrumentation. This provides the ability to gather
 telemetry data without code modifications by attaching a Java Agent JAR to the running JVM.
 
-If an implementation of MicroProfile OpenTelemetry provides such support, it must conform to the instructions detailed
+If an implementation of MicroProfile Telemetry provides such support, it must conform to the instructions detailed
 in the https://github.com/open-telemetry/opentelemetry-java-instrumentation[OpenTelemetry Java Instrumentation]
 project, including:
 
 - https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/v{otel-java-version}/docs/agent-config.md[Agent Configuration]
 - https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/v{otel-java-version}/docs/suppressing-instrumentation.md[Suppressing Instrumentation]
 
-Both Agent and MicroProfile OpenTelemetry Instrumentation (if any), must coexist with each other.
+Both Agent and MicroProfile Telemetry Instrumentation (if any), must coexist with each other.
 
 === Access to the OpenTelemetry Tracing API
 
-An implementation of MicroProfile OpenTelemetry must provide the following CDI beans for supporting contextual instance
+An implementation of MicroProfile Telemetry must provide the following CDI beans for supporting contextual instance
 injection:
 
 - `io.opentelemetry.api.OpenTelemetry`
@@ -243,7 +243,7 @@ convention `mp.[specification short name].[attribute name]`.
 
 == MicroProfile OpenTracing
 
-MicroProfile OpenTelemetry Tracing supercedes MicroProfile OpenTracing. Even if the end goal is the same,
+MicroProfile Telemetry Tracing supercedes MicroProfile OpenTracing. Even if the end goal is the same,
 there are some considerable differences:
 
 - Different API (between OpenTracing and OpenTelemetry)
@@ -252,8 +252,8 @@ there are some considerable differences:
 - No customization of Span name through MicroProfile API
 - Differences in attribute names and mandatory ones
 
-For these reasons, the MicroProfile OpenTelemetry Tracing specification does not provide any migration path between
+For these reasons, the MicroProfile Telemetry Tracing specification does not provide any migration path between
 both projects. While it is certainly possible to achieve a migration path at the code level and at the specification
 level (at the expense of not following the main OpenTelemetry specification), it is unlikely to be able to achieve the
 same compatibility at the data layer. Regardless, implementations are still free to provide migration paths between
-MicroProfile OpenTracing and MicroProfile OpenTelemetry Tracing.
+MicroProfile OpenTracing and MicroProfile Telemetry Tracing.
