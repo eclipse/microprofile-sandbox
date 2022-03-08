@@ -46,7 +46,7 @@ Most programming languages support https://opentelemetry.io[OpenTelemetry], incl
 JavaScript, PHP, Python, Ruby, Rust and Swift.
 
 It is best for the MicroProfile community to engage with the https://opentelemetry.io[OpenTelemetry] on its
-specification and Java implementation, rather than fork (or redifine) the OpenTelemetry APIs.
+specification and Java implementation, rather than fork (or redefine) the OpenTelemetry APIs.
 
 == Architecture
 
