@@ -1,0 +1,26 @@
+//
+// Copyright (c) 2016-2018 Eclipse Microprofile Contributors:
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+[[resource_access]]
+## Future Directions
+
+Not all considerations discussed during the specification process make it into the
+specification.  This section serves as an abridged version for the purposes of soliciting
+feedback and interest.  By convention we will leave items in the Future Direction for at most two revisions.
+
+### TODO
+
+In future versions of the API we would like to TODO
