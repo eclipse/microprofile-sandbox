@@ -21,9 +21,43 @@
 
 ## Introduction
 
+Jakarta Security plans to include a JWT authentication mechanism. MicroProfile has specified JWT, and a few implementations are internally based on Jakarta Security.
+
 
 ## Motivation
+The proposal is to enable Jakarta Security building on MicroProfile JWT without forking it but providing seamless integrations with MicroProfile JWT. 
+In order not to introduce circular dependencies, a new bridge-like specification is to be created with the following scopes:
 
+* Define the annotations to working with JWT authentication mechanisms such as how to configure the JWT claims.
+`JwtAuthenticationMechanismDefinition` accepts a full set of properties mapped to MP JWT properties
+E.g. `@JwtClaimsVerification` issuer maps `mp.jwt.verify.issuer`
+* Spec language would be added to state:
+Format of the JWT must comply with MP spec.
+Validation and handling of the JWT must comply with MP spec.
+Config must be accepted via annotation, however implementers may provide other methods of supplying config
+Application code can access JWT claims by injecting the Jakarta SecurityContext
+Implementation could utilize MP JWT under the covers, accept MP config, allow injection of MP JsonWebToken, but none of that would be mandated by the spec.
+Usage is demonstrated below.
+
+```
+@JwtAuthenticationMechanismDefinition(
+    jwtClaimsDefinition = @JwtClaimsDefinition(callerNameClaim = "upn", callerGroupsClaim = "groups"),
+    publicKeyDefinition = @PublicKeyDefinition(key = "", location = "", algorithm = "RS256"),
+    decryptionKeyDefinition = @PrivateKeyDefinition(location = "", algorithm = ""),
+    jwtClaimsVerification = @JwtClaimsVerification(issuer = "", audiences = "", tokenAge = 0, tokenAgeExpression = "", clockSkew = 0, clockSkewExpression = ""),
+    httpHeadersDefinition = @HttpHeadersDefinition(tokenHeader = "Authorization", cookieName = "Bearer"),
+    jwksDefinition = @JwksDefinition(jwksConnectTimeout = 500, jwksConnectTimeoutExpression = "", jwksReadTimeout = 500, jwksReadTimeoutExpression = ""))
+public class JwtSecuredServlet extends HttpServlet {
+
+    @Inject jakarta.security.enterprise.SecurityContext securityContext;
+
+    @Override protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // example of getting JWT claims from Jakarta SecurityContext
+        jakarta.security.enterprise.identitystore.openid.JwtClaims jwtClaims = securityContext.getPrincipalsByType(...);
+    }
+}
+```
+* Move the optional section of MP JWT to the new bridge spec together with TCKs
 
 ## Documentation
 
