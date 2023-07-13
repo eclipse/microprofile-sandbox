@@ -36,7 +36,7 @@ Format of the JWT must comply with MP spec.
 Validation and handling of the JWT must comply with MP spec.
 Config must be accepted via annotation, however implementers may provide other methods of supplying config
 Application code can access JWT claims by injecting the Jakarta SecurityContext
-Implementation could utilize MP JWT under the covers, accept MP config, allow injection of MP JsonWebToken, but none of that would be mandated by the spec.
+Implementation could utilize MP JWT under the covers, accept MP config, allow injection of MP JsonWebToken.
 Usage is demonstrated below.
 
 ```
