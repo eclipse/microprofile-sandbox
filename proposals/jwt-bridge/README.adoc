@@ -17,7 +17,7 @@
 // limitations under the License.
 //
 
-# MicroProfile JWT Integration 
+# MicroProfile JWT Bridge 
 
 ## Introduction
 
