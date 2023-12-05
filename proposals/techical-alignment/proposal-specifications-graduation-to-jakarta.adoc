@@ -1,0 +1,26 @@
+# Innovations Graduate to Jakarta
+
+Under this proposal specifications ready for standardization are proposed as Jakarta specifications via Creation Review defined by the Jakarta EE Specification Process (JESP).
+
+ - API is repackaged into the `jakarta` namespace as currently defined by the Jakarta EE Specification Committee
+ - Vendors may ship and support the prexisting `org.eclipse.microprofile` package to provide optional compatibility
+ - Once a MicroProfile innovation is submitted and accepted (passes creation review), its Github repository is frozen
+
+Pros:
+
+ - Consumers will have a clear rule to follow that stands the test of time
+ - Greater clarity in community goals helps consumers better understand Jakarta EE / MicroProfile relationship and synnergy
+ - Maximum ability to attract intended audience of those willing to try cutting edge apis and do not necessarily care about standards
+ - Less community conflict arising from those pursuing stability and those pursuing experimentation
+
+Cons:
+
+ - MicroProfile will see change associated with adapting to package renames
+ 
+# Long-term Effects
+
+Number of projects could become very low at times.
+
+# Open Questions
+
+ - When do we cut over to the `jakarta` version of the specification?
