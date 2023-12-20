@@ -43,6 +43,7 @@ Our preference is to establish a minimalistic Working Group, with low overhead a
 ** Budget must be reviewed at least annually
 ** Mandatory budget items include Strategic Initiatives, Marketing, Legal and G&A
 ** Budget proposed and managed by MicroProfile Working Group members
+** Budget transparence and accountability fully (percentage %) listed directly via MicroProfile Resouce Website 
 * Organization
 ** Consists of Steering, Specification, and Marketing committees
 ** Steering Committee and Specification Committee consists of all Working Group voting members.
